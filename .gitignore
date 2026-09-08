@@ -1,0 +1,34 @@
+# Dépendances
+node_modules/
+
+# Variables d'env
+.env
+.env.local
+.env.*.local
+
+# BDD SQLite
+*.db
+*.sqlite
+*.sqlite3
+data/
+
+# Médias uploadés
+uploads/
+
+# Build
+dist/
+build/
+
+# Tests et couverture
+coverage/
+.nyc_output/
+
+# Logs
+*.log
+npm-debug.log*
+
+# Éditeurs et OS
+.vscode/
+.idea/
+.DS_Store
+Thumbs.db
