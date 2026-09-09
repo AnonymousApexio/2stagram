@@ -2,16 +2,26 @@ import js from '@eslint/js';
 import globals from 'globals';
 import react from 'eslint-plugin-react';
 import reactHooks from 'eslint-plugin-react-hooks';
+import security from 'eslint-plugin-security';
 import prettier from 'eslint-config-prettier';
 
 export default [
   {
-    ignores: ['node_modules/**', 'dist/**', 'build/**', 'coverage/**', 'data/**', 'uploads/**'],
+    ignores: [
+      'node_modules/**',
+      'dist/**',
+      'build/**',
+      'coverage/**',
+      'data/**',
+      'db/**',
+      'media/**',
+      'uploads/**',
+    ],
   },
 
   js.configs.recommended,
 
-  // Règles communes à tout le dépôt
+  // Règles communes
   {
     files: ['**/*.{js,jsx}'],
     languageOptions: {
@@ -31,6 +41,9 @@ export default [
         afterEach: 'readonly',
       },
     },
+    plugins: {
+      security,
+    },
     rules: {
       'no-unused-vars': ['error', { argsIgnorePattern: '^_' }],
       'no-console': ['warn', { allow: ['warn', 'error'] }],
@@ -41,6 +54,23 @@ export default [
       'max-depth': ['warn', 3],
       'max-lines-per-function': ['warn', { max: 50, skipBlankLines: true, skipComments: true }],
       'max-params': ['warn', 4],
+
+      // Détection de motifs dangereux (section 8.4, SAST
+      'security/detect-child-process': 'error',
+      'security/detect-eval-with-expression': 'error',
+      'security/detect-new-buffer': 'error',
+      'security/detect-no-csrf-before-method-override': 'error',
+      'security/detect-non-literal-require': 'error',
+      'security/detect-unsafe-regex': 'error',
+
+      // Avertissements : à confirmer (section 8.6)
+      'security/detect-buffer-noassert': 'warn',
+      'security/detect-disable-mustache-escape': 'warn',
+      'security/detect-non-literal-fs-filename': 'warn',
+      'security/detect-non-literal-regexp': 'warn',
+      'security/detect-object-injection': 'off',
+      'security/detect-possible-timing-attacks': 'warn',
+      'security/detect-pseudoRandomBytes': 'error',
     },
   },
 
