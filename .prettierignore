@@ -1,0 +1,15 @@
+node_modules/
+dist/
+build/
+coverage/
+/db/
+/media/
+docs/api/generated/
+docs-site/.docusaurus/
+docs-site/static/reference/
+docs-site/audit-report.json
+playwright-report/
+test-results/
+package-lock.json
+docs-site/package-lock.json
+.husky/_/

@@ -1,0 +1,16 @@
+.git
+.env
+.env.*
+!.env.example
+**/node_modules
+**/dist
+docs-site
+docs/api/generated
+coverage
+playwright-report
+test-results
+db
+media
+*.log
+**/*.test.ts
+**/*.test.tsx

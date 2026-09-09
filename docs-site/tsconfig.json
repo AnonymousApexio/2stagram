@@ -1,0 +1,5 @@
+{
+  "extends": "@docusaurus/tsconfig",
+  "compilerOptions": { "strict": true },
+  "include": ["*.ts"]
+}

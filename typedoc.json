@@ -1,0 +1,10 @@
+{
+  "tsconfig": "tsconfig.docs.json",
+  "excludeExternals": true,
+  "entryPoints": ["shared/src/index.ts", "backend/src", "frontend/src"],
+  "entryPointStrategy": "expand",
+  "exclude": ["**/*.test.ts", "**/*.test.tsx", "**/node_modules/**"],
+  "out": "docs/api/generated",
+  "readme": "docs/api/README.md",
+  "name": "2stagram — documentation technique"
+}
