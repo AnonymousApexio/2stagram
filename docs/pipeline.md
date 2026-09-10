@@ -124,7 +124,7 @@ npm run lint
 npm test
 ```
 
-Les hooks pré-commit (Husky et lint-staged) exécutent automatiquement le
+Les hooks pré-commit (par ex. Husky et lint-staged), si mis en place, peuvent exécuter automatiquement le
 formatage et le linting sur les fichiers modifiés, ce qui évite la majorité des
 échecs de portes 1 et 2.
 
