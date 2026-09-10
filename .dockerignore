@@ -1,4 +1,5 @@
 .git
+.husky/_
 .env
 .env.*
 !.env.example
@@ -11,6 +12,15 @@ playwright-report
 test-results
 db
 media
+data
+uploads
+**/*.db
+**/*.db-*
+**/*.sqlite
+**/*.sqlite-*
+**/*.sqlite3
+**/*.sqlite3-*
+.nyc_output
 *.log
 **/*.test.ts
 **/*.test.tsx

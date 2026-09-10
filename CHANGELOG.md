@@ -11,6 +11,15 @@
 
 ### Corrigé
 
+- Périmètre du socle relié au plan du projet, sept portes alignées sur la
+  convention et alternatives HTTP explicitées dans l'ADR.
+- Réponses HTTP 415 pour les formats non pris en charge et 400 pour les corps
+  compressés invalides, au lieu d'une erreur serveur 500 générique.
+- Consolidation des PR de configuration sur le squelette TypeScript : anciennes
+  commandes conservées, exclusions SQLite/médias et contrôles ESLint repris.
+- Documentation du pipeline alignée sur les workflows et l'amendement 0001.
+- Docker attend le contrôle qualité ; rapports conservés en cas d'échec,
+  actions épinglées et audit documentaire exécuté sur toutes les PR.
 - Commandes annoncées sans outil installé ou configuration associée.
 - Exclusion Git trop large de `db/`, qui masquait aussi les futurs schémas source.
 - Installation Husky dans un dépôt Git et consignes par périmètre.

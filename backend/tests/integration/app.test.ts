@@ -57,6 +57,40 @@ describe('HTTP bootstrap', () => {
     });
   });
 
+  it.each([
+    ['Content-Type', 'application/json; charset=bogus'],
+    ['Content-Encoding', 'bogus'],
+  ])(
+    'should_reject_unsupported_format_when_%s_is_%s',
+    async (header, value) => {
+      const response = await request(createApp())
+        .post('/api/v1/unknown')
+        .set('Content-Type', 'application/json')
+        .set(header, value)
+        .send('{}');
+      expect(response.status).toBe(415);
+      expect(response.body).toEqual({
+        code: 'UNSUPPORTED_MEDIA_TYPE',
+        message: 'Format de requête non pris en charge.',
+        details: null,
+      });
+    },
+  );
+
+  it('should_reject_invalid_body_when_compressed_json_is_corrupt', async () => {
+    const response = await request(createApp())
+      .post('/api/v1/unknown')
+      .set('Content-Type', 'application/json')
+      .set('Content-Encoding', 'gzip')
+      .send('not-gzip');
+    expect(response.status).toBe(400);
+    expect(response.body).toEqual({
+      code: 'INVALID_BODY',
+      message: 'Corps de requête invalide.',
+      details: null,
+    });
+  });
+
   it('should_send_security_headers_when_request_is_received', async () => {
     const response = await request(createApp()).get('/');
     expect(response.headers['x-content-type-options']).toBe('nosniff');

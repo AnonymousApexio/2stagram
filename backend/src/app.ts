@@ -10,19 +10,46 @@ const handleError: ErrorRequestHandler = (
 ) => {
   if (response.headersSent) return next(error);
   const type = error instanceof Error && 'type' in error ? error.type : '';
-  const isInvalidJson = type === 'entity.parse.failed';
-  const isTooLarge = type === 'entity.too.large';
-  response.status(isInvalidJson ? 400 : isTooLarge ? 413 : 500).json({
-    code: isInvalidJson
-      ? 'INVALID_JSON'
-      : isTooLarge
-        ? 'BODY_TOO_LARGE'
-        : 'INTERNAL_ERROR',
-    message: isInvalidJson
-      ? 'Corps JSON invalide.'
-      : isTooLarge
-        ? 'Corps trop volumineux.'
-        : 'Erreur interne.',
+  let failure = {
+    status: 500,
+    code: 'INTERNAL_ERROR',
+    message: 'Erreur interne.',
+  };
+  if (type === 'entity.parse.failed') {
+    failure = {
+      status: 400,
+      code: 'INVALID_JSON',
+      message: 'Corps JSON invalide.',
+    };
+  } else if (type === 'entity.too.large') {
+    failure = {
+      status: 413,
+      code: 'BODY_TOO_LARGE',
+      message: 'Corps trop volumineux.',
+    };
+  } else if (
+    type === 'charset.unsupported' ||
+    type === 'encoding.unsupported'
+  ) {
+    failure = {
+      status: 415,
+      code: 'UNSUPPORTED_MEDIA_TYPE',
+      message: 'Format de requête non pris en charge.',
+    };
+  } else if (
+    error instanceof Error &&
+    'status' in error &&
+    error.status === 400
+  ) {
+    failure = {
+      status: 400,
+      code: 'INVALID_BODY',
+      message: 'Corps de requête invalide.',
+    };
+  }
+  response.status(failure.status).json({
+    code: failure.code,
+    message: failure.message,
     details: null,
   });
 };

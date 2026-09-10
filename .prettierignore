@@ -2,8 +2,17 @@ node_modules/
 dist/
 build/
 coverage/
+.nyc_output/
 /db/
 /media/
+/data/
+/uploads/
+*.db
+*.db-*
+*.sqlite
+*.sqlite-*
+*.sqlite3
+*.sqlite3-*
 docs/api/generated/
 docs-site/.docusaurus/
 docs-site/static/reference/

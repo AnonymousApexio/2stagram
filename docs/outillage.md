@@ -7,7 +7,9 @@ tests/couverture et build. Les versions sont exactes. Ne pas utiliser
 npm audit fix --force ni remplacer les outils.
 
 ESLint vérifie notamment exports nommés, TypeScript, promesses, hooks React,
-motifs de sécurité backend et garde-fous JSX/HTTP. Prettier vise 80 colonnes.
+motifs de sécurité dans les trois sources applicatives et garde-fous JSX/HTTP.
+Les comparaisons strictes et l'absence de `var` sont aussi vérifiées.
+Prettier vise 80 colonnes.
 Le reste du guide Google, les limites de complexité, la charte et l'accessibilité
 se relisent humainement. Les règles ne prouvent pas la pertinence des tests.
 
@@ -29,11 +31,15 @@ Quality Gate doivent être configurées avant de considérer les portes complèt
 
 - CI : PR et main ; format, lint, types, tests unitaires/intégration, couverture,
   build, audit applicatif, SBOM, commits, images Docker et smoke navigateur.
+  Les étapes de `quality` sont séquentielles ; Docker attend leur réussite.
+  Le smoke navigateur tourne en parallèle. Les actions sont épinglées à des
+  SHA complets et suivies par Dependabot. Voir [le pipeline](./pipeline.md).
 - Parcours E2E : manuel ou label grand-ajout. Inscription, publication, signalement
   uniquement ; la suite vide actuelle échoue, elle n'est pas annoncée validée.
 - Documentation : build manuel hors chemin critique, sans publication ; audit
-  automatique chaque jour et quand ses manifestes, son contrôle ou sa politique
-  changent, aussi disponible manuellement. Le build attend l'audit et sa génération
+  automatique sur toutes les PR, chaque jour et sur main quand ses manifestes,
+  son contrôle ou sa politique changent, aussi disponible manuellement.
+  Le build attend l'audit et sa génération
   est limitée à 10 minutes en CI. Le rapport npm complet est conservé en artefact.
 
 Les hooks Husky activés par npm ci exécutent lint-staged puis commitlint.
@@ -55,7 +61,8 @@ le workflow ne devine pas qu'une modification constitue un grand ajout.
 
 ## Activation dans GitHub
 
-Le dépôt local n'a aucun remote configuré. Les YAML ne créent pas ces réglages :
+Le remote pointe vers GitHub. Les YAML ne créent pas ces réglages, qui restent
+à vérifier dans le dépôt distant :
 
 1. Protéger main : PR obligatoire, interdiction du push direct, checks quality,
    docker et browser-smoke requis, approbations humaines et absence de contournement.
@@ -72,8 +79,9 @@ Le dépôt local n'a aucun remote configuré. Les YAML ne créent pas ces régla
    l'exception datée décrite dans [dependances.md](./dependances.md). L'audit strict
    reste disponible et les failles restent signalées jusqu'à correction.
 
-La revue humaine est la porte 5, les E2E la porte 6, la fusion la porte 7.
-Le dépôt ne les simule pas. Voir [l'audit](./conformite.md).
+La revue humaine, les E2E conditionnels et l'autorisation de fusion ne sont pas
+simulés par le dépôt. Les noms des contrôles et leurs conditions sont décrits
+dans [le pipeline](./pipeline.md). Voir aussi [l'audit](./conformite.md).
 
 ## Docker et modules natifs
 

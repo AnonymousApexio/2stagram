@@ -1,7 +1,7 @@
 import { defineConfig, devices } from '@playwright/test';
 
-// Trois parcours critiques : inscription, publication, signalement.
-// La messagerie reste testée manuellement.
+// Three critical journeys: registration, publication, reporting.
+// Messaging remains covered by manual testing.
 export default defineConfig({
   testDir: './tests/e2e',
   testMatch: '**/*.spec.ts',

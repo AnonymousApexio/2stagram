@@ -13,5 +13,6 @@ Le dépôt contient actuellement un squelette, sans fonctionnalités métier.
 - [Revue de pull request](./revue-pr.md)
 - [Périmètre et éléments attendus](./socle.md)
 - [Outillage et intégration continue](./outillage.md)
+- [Pipeline et conditions de fusion](./pipeline.md)
 - [État des dépendances](./dependances.md)
 - [Contrat et documentation d'API](./api/README.md)

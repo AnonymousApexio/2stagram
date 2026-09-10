@@ -1,5 +1,5 @@
 FROM node:24-bookworm-slim AS native-build
-# Repli de compilation des modules natifs, absent des images finales.
+# Native compilation fallback, excluded from the final images.
 RUN apt-get update && apt-get install -y --no-install-recommends python3 make g++ && rm -rf /var/lib/apt/lists/*
 
 FROM native-build AS dependencies

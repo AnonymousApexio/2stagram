@@ -73,6 +73,32 @@ encore absentes. Aucun résultat de CI distante ou d'approbation n'est inventé.
 - Les règles sont décrites dans le dépôt et les références aux documents
   privés ont été retirées.
 
+## Consolidation et contrôle du projet
+
+Le 10 septembre, les PR initiales ont été rapprochées de la stack v1.6, de la
+convention v1.0 et du plan v2.1. Les 40 versions de paquets listées dans l'annexe
+de la stack correspondent aux manifestes. Le [périmètre du socle](./socle.md)
+relie la livraison aux sections du plan et explicite les divergences documentaires.
+
+- 66 tests passent après correction des formats HTTP non pris en charge
+  (415) et des corps compressés invalides (400), avec tests de régression.
+- Couverture : 100 % des lignes (95/95), 97,27 % des branches (107/110),
+  application et politique d'audit comprises. Le minimum applicatif mesuré
+  par fichier est 100 % des lignes et 94,73 % des branches.
+- La cible initiale `main` ne contient qu'un README, sans source ni rapport
+  de couverture. Tout le code applicatif de cette PR est nouveau : le seuil
+  par fichier couvre donc ici le code ajouté. Une comparaison avant/après
+  chiffrée n'existe pas et n'est pas déclarée stable artificiellement.
+- La numérotation du pipeline suit désormais les sept portes de la convention.
+  Le PNG historique ne fait pas foi. L'ADR HTTP explicite les options écartées.
+- Aucun shebang, script `.sh`, exécutable ou document original n'est prévu
+  dans le diff consolidé. Les hooks source Husky restent sans shebang.
+
+Ce contrôle ne valide ni SonarCloud ni les réglages GitHub. L'exception de taille
+pour la PR unique doit être approuvée par le responsable technique avant fusion.
+La revue du socle concerne ce responsable et DevOps ; le traitement des entrées
+HTTP requiert aussi la revue sécurité du responsable technique et du Scrum Master.
+
 ## Ce qui attend une fonctionnalité
 
 Les fonctionnalités suivantes restent à développer : schéma, sessions, authentification,
@@ -93,8 +119,9 @@ ils ne sont pas encore écrits. La messagerie reste contrôlée manuellement.
 
 ## Ce qui reste externe ou non validé
 
-- Aucun remote GitHub configuré : ni PR, ni exécution distante, ni protection de
-  main, ni personnes désignées dans des règles GitHub n'ont été créés.
+- Remote GitHub configuré et PR existantes récupérées pour la consolidation.
+  Les exécutions distantes, protections de main et relecteurs requis restent
+  à vérifier dans GitHub ; la validation locale ne les atteste pas.
 - Activer les sept portes du pipeline, les approbations requises et SonarCloud.
   Le scan est actuellement conditionnel à sa configuration. Le seuil local ne
   garantit pas 70 % sur les seules lignes changées ni l'absence de baisse globale.

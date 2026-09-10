@@ -15,6 +15,7 @@ shared/dist/
 
 # tests
 coverage/
+.nyc_output/
 test-results/
 playwright-report/
 .playwright/
@@ -25,6 +26,14 @@ docs/api/generated/
 # volumes Docker (jamais versionnés)
 /db/
 /media/
+/data/
+/uploads/
+*.db
+*.db-*
+*.sqlite
+*.sqlite-*
+*.sqlite3
+*.sqlite3-*
 
 # système et éditeurs
 .DS_Store

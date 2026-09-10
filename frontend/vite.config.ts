@@ -5,7 +5,7 @@ import { existsSync, readFileSync } from 'node:fs';
 import { parseEnv } from 'node:util';
 
 export default defineConfig(() => {
-  // Lire le port sans propager NODE_ENV du backend au build React.
+  // Read the port without leaking the backend NODE_ENV into the React build.
   const envPath = fileURLToPath(new URL('../.env', import.meta.url));
   const env = existsSync(envPath)
     ? parseEnv(readFileSync(envPath, 'utf8'))

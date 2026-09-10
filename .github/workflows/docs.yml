@@ -4,13 +4,6 @@ on:
   schedule:
     - cron: '23 7 * * *'
   pull_request:
-    paths:
-      - 'docs-site/package.json'
-      - 'docs-site/package-lock.json'
-      - '.github/workflows/docs.yml'
-      - 'scripts/*audit*.ts'
-      - 'package.json'
-      - 'docs/dependances.md'
   push:
     branches: [main]
     paths:
@@ -29,8 +22,8 @@ jobs:
     runs-on: ubuntu-latest
     timeout-minutes: 15
     steps:
-      - uses: actions/checkout@v4
-      - uses: actions/setup-node@v4
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4
+      - uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020 # v4
         with:
           node-version: '24'
           cache: npm
@@ -41,21 +34,21 @@ jobs:
       - run: npm ci --prefix docs-site
       - run: npm run docs:site
         timeout-minutes: 10
-      - uses: actions/upload-artifact@v4
+      - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4
         with: { name: documentation, path: docs-site/build/ }
   audit:
     runs-on: ubuntu-latest
     timeout-minutes: 5
     steps:
-      - uses: actions/checkout@v4
-      - uses: actions/setup-node@v4
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4
+      - uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020 # v4
         with:
           node-version: '24'
           cache: npm
           cache-dependency-path: docs-site/package-lock.json
       - run: npm ci --prefix docs-site
       - run: npm run audit:docs
-      - uses: actions/upload-artifact@v4
+      - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4
         if: always()
         with:
           name: documentation-audit
