@@ -1,0 +1,27 @@
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  background: var(--color-bg);
+  color: var(--color-text);
+  font-family: var(--font-body);
+  font-size: var(--font-size-base);
+  overflow-wrap: anywhere;
+}
+
+button,
+input,
+textarea,
+select {
+  font: inherit;
+}
+
+img,
+video {
+  max-width: 100%;
+  height: auto;
+}

@@ -1,0 +1,51 @@
+# dépendances
+node_modules/
+
+# secrets
+.env
+.env.*
+!.env.example
+
+# build
+dist/
+build/
+frontend/dist/
+shared/dist/
+*.tsbuildinfo
+
+# tests
+coverage/
+.nyc_output/
+test-results/
+playwright-report/
+.playwright/
+
+# documentation générée
+docs/api/generated/
+
+# volumes Docker (jamais versionnés)
+/db/
+/media/
+/data/
+/uploads/
+*.db
+*.db-*
+*.sqlite
+*.sqlite-*
+*.sqlite3
+*.sqlite3-*
+
+# système et éditeurs
+.DS_Store
+Thumbs.db
+.vscode/
+.idea/
+*.log
+docs-site/node_modules/
+docs-site/build/
+docs-site/.docusaurus/
+docs-site/static/reference/
+docs-site/audit-report.json
+.vitest/
+.husky/_/
+sbom.json

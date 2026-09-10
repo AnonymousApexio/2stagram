@@ -1,0 +1,14 @@
+{
+  "extends": "./tsconfig.base.json",
+  "compilerOptions": {
+    "module": "ESNext",
+    "moduleResolution": "bundler",
+    "allowImportingTsExtensions": true,
+    "jsx": "react-jsx",
+    "lib": ["ES2023", "DOM"],
+    "types": ["node", "vite/client"],
+    "noEmit": true
+  },
+  "include": ["backend/src/**/*.ts", "shared/src/**/*.ts", "frontend/src/**/*"],
+  "exclude": ["**/*.test.ts", "**/*.test.tsx"]
+}

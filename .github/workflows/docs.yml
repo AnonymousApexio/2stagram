@@ -1,0 +1,56 @@
+name: Documentation
+on:
+  workflow_dispatch:
+  schedule:
+    - cron: '23 7 * * *'
+  pull_request:
+  push:
+    branches: [main]
+    paths:
+      - 'docs-site/package.json'
+      - 'docs-site/package-lock.json'
+      - '.github/workflows/docs.yml'
+      - 'scripts/*audit*.ts'
+      - 'package.json'
+      - 'docs/dependances.md'
+permissions:
+  contents: read
+jobs:
+  build:
+    if: github.event_name == 'workflow_dispatch'
+    needs: audit
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+      - uses: actions/setup-node@820762786026740c76f36085b0efc47a31fe5020 # v7.0.0
+        with:
+          node-version: '24'
+          cache: npm
+          cache-dependency-path: |
+            package-lock.json
+            docs-site/package-lock.json
+      - run: npm ci
+      - run: npm ci --prefix docs-site
+      - run: npm run docs:site
+        timeout-minutes: 10
+      - uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7.0.1
+        with: { name: documentation, path: docs-site/build/ }
+  audit:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+      - uses: actions/setup-node@820762786026740c76f36085b0efc47a31fe5020 # v7.0.0
+        with:
+          node-version: '24'
+          cache: npm
+          cache-dependency-path: docs-site/package-lock.json
+      - run: npm ci --prefix docs-site
+      - run: npm run audit:docs
+      - uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7.0.1
+        if: always()
+        with:
+          name: documentation-audit
+          path: docs-site/audit-report.json
+          retention-days: 30
