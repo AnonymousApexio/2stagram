@@ -40,6 +40,9 @@ Le format suit [Keep a Changelog](https://keepachangelog.com/fr/1.1.0/).
 
 ### Sécurité
 
+- Correction de GHSA-67mh-4wv8-2f99 : remplacement ciblé d'esbuild 0.18.20
+  par 0.25.12 dans l'ancien chargeur de Drizzle Kit, avec lockfile et
+  autorisations d'installation alignés. Drizzle Kit reste sur sa version stable.
 - Remplacement de l'action Sonar v5 signalée vulnérable par la version 8.2.1,
   avec retrait de sa dépendance à une action de cache Node 20.
 - Acceptation temporaire des deux avis `image-size` pour la documentation,

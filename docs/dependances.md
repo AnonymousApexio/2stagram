@@ -6,10 +6,52 @@ reproduit les résolutions. Aucun `audit fix --force` n'est appliqué.
 
 ## Application
 
-Au contrôle du 9 septembre 2026, l'audit passe au seuil haut. Les quatre alertes
-modérées restantes proviennent du chargeur esbuild de `drizzle-kit`, exception
-acceptée pour l'outillage de migration. Le CLI de migrations n'est pas exposé comme serveur.
-L'exception documentaire ci-dessous ne s'applique jamais à cet audit.
+Au contrôle du 10 septembre 2026, l'audit applicatif ne signale plus de
+vulnérabilité après la correction ciblée d'esbuild. Les quatre alertes modérées
+précédentes correspondaient à un seul avis et à sa propagation dans cette chaîne :
+
+```text
+drizzle-kit 0.31.10
+  @esbuild-kit/esm-loader 2.6.5
+    @esbuild-kit/core-utils 3.3.2
+      esbuild 0.18.20 -> 0.25.12
+```
+
+L'avis [GHSA-67mh-4wv8-2f99](https://github.com/evanw/esbuild/security/advisories/GHSA-67mh-4wv8-2f99)
+concerne le serveur de développement intégré à esbuild : son CORS permissif
+permettait à une page externe de lire les fichiers servis, y compris sur
+`127.0.0.1`. Écouter seulement sur l'interface locale ne corrige donc pas ce cas.
+Le correctif est publié depuis esbuild 0.25.0.
+
+Un override npm limité à `@esbuild-kit/core-utils@3.3.2` impose esbuild 0.25.12,
+déjà utilisé directement par Drizzle Kit. Le lockfile et les autorisations de
+scripts d'installation suivent cette résolution. Les versions de Drizzle Kit,
+Drizzle ORM, Vite et tsx restent inchangées ; aucun override global d'esbuild,
+retour à une ancienne version de Drizzle ou passage en préversion n'est appliqué.
+
+Le remplacement dépasse la plage déclarée par l'ancien chargeur. Les essais
+locaux de compatibilité ont donc vérifié ses transformations CommonJS/ESM,
+l'await au niveau module et les source maps, puis la génération et l'application
+de deux migrations SQLite dans un répertoire de test ignoré. Une troisième
+génération sans changement de schéma ne crée aucune migration. Aucun schéma
+métier ni migration de l'application n'est ajouté par cette correction.
+
+Un serveur esbuild éphémère, limité à un contenu synthétique, renvoyait
+`Access-Control-Allow-Origin: *` avant le remplacement. Après remplacement,
+la même requête avec une origine externe ne reçoit plus cet en-tête.
+Ce contrôle HTTP n'est pas un test complet de sécurité du navigateur.
+
+Cette vulnérabilité de lecture inter-origines n'est pas corrigée par un jeton
+CSRF ajouté aux routes Express : le serveur concerné est celui d'esbuild.
+Les protections des futures mutations authentifiées restent un sujet distinct,
+décrit par [OWASP CSRF Prevention](https://cheatsheetseries.owasp.org/cheatsheets/Cross-Site_Request_Forgery_Prevention_Cheat_Sheet.html).
+
+Les deux paquets `@esbuild-kit` restent dépréciés en amont, mais leur copie
+d'esbuild vulnérable est remplacée. Retirer l'override lorsqu'une version stable
+de Drizzle Kit supprime cette chaîne ou adopte une version corrigée, puis refaire
+installation, audit et essais de migrations. L'exception d'acceptation de cet
+avis n'est plus nécessaire ; l'exception documentaire ci-dessous est inchangée
+et ne s'applique jamais à l'audit applicatif.
 
 ## Docusaurus : deux avis non corrigés
 
