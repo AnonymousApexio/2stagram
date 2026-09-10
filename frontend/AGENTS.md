@@ -3,16 +3,42 @@
 Lire ../AGENTS.md. Si le contrat partagé change, lire aussi ../shared/AGENTS.md
 et les règles backend.
 
-## À partir d'une demande et d'une capture
+## Transformer une maquette en interface
+
+Une demande peut fournir une capture, un export de design ou un prototype en
+HTML/CSS/JavaScript. Transformer cette référence en une interface fonctionnelle
+dans le projet, avec les composants réutilisables et les interactions du
+périmètre validé. Si la référence est inaccessible, demander une capture ou un
+export ciblé ; ne pas prétendre avoir inspecté son contenu.
+
+Le rendu navigateur est du HTML/CSS/JavaScript, mais les sources du projet
+restent en React/TypeScript : structure HTML sémantique en JSX dans des fichiers
+`.tsx`, styles en `.module.css`, interactions en TypeScript via les événements
+et hooks React. Une demande « convertir la maquette en HTML/CSS/JS » ne change
+pas à elle seule cette stack. Si une livraison autonome hors React est demandée
+explicitement, clarifier sa destination avant de modifier l'application.
+
+Un prototype HTML/CSS/JS fourni est une référence à examiner, pas un script à
+exécuter aveuglément. Adapter son HTML en JSX, ses styles aux CSS Modules et
+aux tokens, et sa logique aux composants/hooks typés. Réutiliser les assets
+fournis compatibles avec le projet ; ne pas importer automatiquement ses
+dépendances, scripts tiers, trackers ou styles globaux.
 
 1. Lire la fiche validée, la maquette, la charte, le contrat et les composants
-   existants. Lister brièvement les composants réutilisés/créés, données et états.
+   existants. Lister brièvement les composants réutilisés/créés, assets, données,
+   états et interactions : navigation, formulaires, menus, modales selon l'écran.
 2. Si le cadrage est déjà validé, intégrer dans ce périmètre. Sinon demander
    seulement le contrat, la maquette ou la décision métier manquante avant le
    code qui en dépend. Ne pas réclamer un accord déjà donné.
-   Les états absents d'une capture suivent les composants validés ; soumettre
+   Les états absents de la maquette suivent les composants validés ; soumettre
    un choix s'il n'existe aucun modèle.
-3. Implémenter, vérifier le rendu quand un navigateur est disponible et corriger.
+3. Intégrer la structure, les styles et les comportements prévus en respectant
+   la hiérarchie visuelle, les espacements, les typographies et les assets.
+   Relier les actions aux services/contrats existants ; signaler une dépendance
+   manquante sans inventer d'API ni simuler une réussite métier.
+4. Comparer le rendu à la maquette dans le navigateur aux trois largeurs de test,
+   vérifier interactions, états et accessibilité, puis corriger les écarts.
+   Si le navigateur n'est pas disponible, indiquer les contrôles non réalisés.
    Fournir les captures disponibles, fichiers modifiés et contrôles réalisés.
    Le développeur et le responsable design conservent la validation visuelle finale.
 

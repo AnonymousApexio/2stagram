@@ -9,14 +9,22 @@ les renvois explicites couvrent les autres périmètres.
 
 ## Frontend
 
-Joindre la capture du responsable design et décrire simplement le résultat attendu :
+Joindre la maquette du responsable design (capture, export de design ou prototype
+HTML/CSS/JavaScript) et décrire simplement le résultat attendu :
 
-> Applique AGENTS.md. Intègre l'écran [nom] d'après cette capture.
+> Applique AGENTS.md. Transforme cette maquette en écran [nom] fonctionnel.
 > La fiche [référence] et la charte sont validées.
 
 Codex doit examiner l'existant, réutiliser les composants, respecter les contrats
 et intégrer les états chargement, vide, erreur et succès. S'il manque une décision,
 il prépare une question ciblée ; il ne crée pas de contrat d'API au hasard.
+
+Le rendu HTML/CSS/JavaScript est implémenté dans la stack du projet : React/TSX,
+CSS Modules et interactions TypeScript. Un prototype fourni est adapté à ces
+conventions, avec ses assets et comportements validés, sans ajouter automatiquement
+ses bibliothèques ou scripts tiers. Les sources ne deviennent pas une application
+HTML/JavaScript séparée. Une référence inaccessible nécessite un export ou une
+capture avant d'en annoncer la conformité visuelle.
 
 Lancer npm run dev, ouvrir le navigateur et vérifier à **360, 768 et 1280 px** :
 

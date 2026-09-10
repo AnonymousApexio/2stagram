@@ -46,6 +46,39 @@ Les hooks Husky activés par npm ci exécutent lint-staged puis commitlint.
 Une archive sans .git reste installable. L'installation dans un dépôt Git utilise
 le binaire Husky réellement fourni. Ne pas confondre hooks locaux et checks requis.
 
+## Runtime des actions GitHub
+
+La version `node-version: '24'` prépare Node pour les commandes du projet.
+Elle ne choisit pas le runtime interne des actions : celui-ci est déclaré par
+`runs.using` dans leur fichier `action.yml` à la révision épinglée.
+
+Depuis le 16 juin 2026, GitHub utilise Node 24 par défaut pour les actions qui
+ciblaient encore Node 20, avec un avertissement de dépréciation. Leur migration
+explicite suit la [recommandation GitHub](https://github.blog/changelog/2025-09-19-deprecation-of-node-20-on-github-actions-runners/).
+
+Révisions vérifiées le 10 septembre 2026, toutes en `runs.using: node24` :
+
+- `actions/checkout` : [v7.0.1](https://github.com/actions/checkout/releases/tag/v7.0.1).
+- `actions/setup-node` : [v7.0.0](https://github.com/actions/setup-node/releases/tag/v7.0.0).
+- `actions/upload-artifact` : [v7.0.1](https://github.com/actions/upload-artifact/releases/tag/v7.0.1).
+- `SonarSource/sonarqube-scan-action` : [v8.2.1](https://github.com/SonarSource/sonarqube-scan-action/releases/tag/v8.2.1).
+
+Les trois workflows conservent les SHA complets, les caches npm explicites et
+les archives de rapports. Le cache npm automatique reste désactivé dans le job
+Docker, qui installe ses dépendances dans les images. L'action Sonar v8 conserve
+la vérification de signature du scanner activée par défaut. Son exécution reste
+conditionnée à la configuration SonarCloud ; cette migration ne valide pas la
+Quality Gate distante.
+
+Lors d'une mise à jour, vérifier le runtime au SHA choisi, les actions appelées
+par les actions composites, les changements de paramètres et les prérequis du
+runner. Les jobs actuels utilisent les runners GitHub `ubuntu-latest`.
+Ne pas masquer une dépréciation en réactivant un runtime obsolète avec
+`ACTIONS_ALLOW_USE_UNSECURE_NODE_VERSION` ni en désactivant les avertissements.
+Mettre à jour l'action concernée, puis relire les logs de sa prochaine exécution,
+y compris le nettoyage final. Dependabot propose les mises à jour ; une PR verte
+ne remplace pas cette vérification.
+
 ## Classification grand ajout
 
 Le responsable et le relecteur indiquent grand-ajout pour une intégration externe,
