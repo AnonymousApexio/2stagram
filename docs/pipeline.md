@@ -93,11 +93,11 @@ d'automatisation d'un flux temps réel n'étant pas justifié à l'échelle du p
 Aucun secret n'est stocké dans le dépôt, y compris dans l'historique Git
 (section 6.7).
 
-- Les valeurs sensibles sont stockées dans GitHub Secrets.
-- Le fichier `.env` est exclu par le `.gitignore`.
-- Le fichier `.env.example` documente les variables attendues sans valeur réelle.
-- Les jobs du workflow utilisent des permissions minimales.
-- Les actions tierces sont épinglées pour éviter la substitution de version.
+- Les valeurs sensibles seront stockées dans GitHub Secrets.
+- Le fichier `.env` devra être exclu via un `.gitignore`.
+- Le fichier `.env.example` devra documenter les variables attendues sans valeur réelle.
+- Les jobs du workflow utiliseront des permissions minimales.
+- Les actions tierces seront épinglées pour éviter la substitution de version.
 
 Références : OWASP CI/CD Security et GitHub Actions Security (section 10.3).
 
