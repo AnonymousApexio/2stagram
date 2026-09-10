@@ -34,7 +34,7 @@ contournement manuel (section 4.4).
 | 1 | Prettier | Formatage uniforme du dépôt | `npm run format:check` | Au moins un fichier n'est pas formaté | `npm run format` |
 | 2 | ESLint | Motifs à risque, complexité, règles de sécurité | `npm run lint` | Une règle de niveau `error` est violée | `npm run lint:fix` |
 | 3 | Vitest | Tests unitaires et couverture de code | `npm run test:cov` | Un test échoue ou le seuil de couverture n'est pas atteint | `npm test` |
-| 4 | SonarCloud | Analyse statique de sécurité et couverture | Action `SonarSource/sonarqube-scan-action` | La quality gate est rouge | Consulter le tableau de bord SonarCloud |
+| 4 | SonarCloud | Analyse statique de sécurité et couverture | Action `SonarSource/sonarcloud-github-action` | La quality gate est rouge | Consulter le tableau de bord SonarCloud |
 | 5 | npm audit | Vulnérabilités des dépendances (SCA) | `npm audit --audit-level=high` | Une faille `high` ou `critical` est détectée | `npm audit` |
 | 6 | Build des images | Images Docker backend et frontend constructibles | `docker build` | Le build échoue | `docker compose build` |
 | 7 | Revue humaine | Pertinence, lisibilité, cohérence, risques métier | Manuel | Aucune approbation d'un relecteur requis | Non applicable |
