@@ -1,4 +1,4 @@
-FROM node:24-bookworm-slim AS native-build
+FROM node:26-bookworm-slim AS native-build
 # Native compilation fallback, excluded from the final images.
 RUN apt-get update && apt-get install -y --no-install-recommends python3 make g++ && rm -rf /var/lib/apt/lists/*
 
@@ -26,7 +26,7 @@ COPY shared/package.json shared/package.json
 COPY scripts/prepare-hooks.ts scripts/prepare-hooks.ts
 RUN npm ci --omit=dev --workspace @2stagram/backend --workspace @2stagram/shared --no-fund
 
-FROM node:24-bookworm-slim AS backend
+FROM node:26-bookworm-slim AS backend
 WORKDIR /app
 ENV NODE_ENV=production HOST=0.0.0.0 PORT=3000
 COPY --from=production-dependencies --chown=node:node /app/node_modules ./node_modules
