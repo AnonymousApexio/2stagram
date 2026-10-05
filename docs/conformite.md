@@ -136,8 +136,8 @@ ils ne sont pas encore écrits. La messagerie reste contrôlée manuellement.
   1er janvier 2027 à 00:00 (heure de Paris) exclu ; le contrôle vérifie chaque cause et refuse les alertes non
   couvertes, les rapports incomplets et l'usage de l'exception après expiration.
   Le rapport complet et l'audit strict restent disponibles. Ce traitement n'est
-  pas un correctif des dépendances. L'application garde 4 alertes modérées Drizzle,
-  exception prévue par la stack. Voir [dependances.md](./dependances.md).
+  pas un correctif des dépendances. L'audit applicatif ne signale plus
+  de vulnérabilité au 5 octobre 2026. Voir [dependances.md](./dependances.md).
 
 ## Règles applicables
 
