@@ -131,13 +131,13 @@ ils ne sont pas encore écrits. La messagerie reste contrôlée manuellement.
   enregistrer dans l'outil de suivi. Ce rapport ne signe pas au nom de l'équipe.
 - TLS, secrets de production, sauvegardes SQLite/WAL, restauration, politique
   d'accès et exploitation restent à préparer avec DevOps/BDD avant déploiement.
-- **Failles Docusaurus toujours présentes** : 17 dépendances affectées par deux
-  avis image-size. L'acceptation technique est limitée au 10 octobre 2026 à
-  00:00 (heure de Paris) exclu ; le contrôle vérifie chaque cause et refuse les alertes non
+- **Faille Docusaurus toujours présente** : 28 dépendances affectées par l'avis
+  braces, sans correctif publié. L'acceptation technique est limitée au
+  1er janvier 2027 à 00:00 (heure de Paris) exclu ; le contrôle vérifie chaque cause et refuse les alertes non
   couvertes, les rapports incomplets et l'usage de l'exception après expiration.
   Le rapport complet et l'audit strict restent disponibles. Ce traitement n'est
-  pas un correctif des dépendances. L'application garde 4 alertes modérées Drizzle,
-  exception prévue par la stack. Voir [dependances.md](./dependances.md).
+  pas un correctif des dépendances. L'audit applicatif ne signale plus
+  de vulnérabilité au 5 octobre 2026. Voir [dependances.md](./dependances.md).
 
 ## Règles applicables
 

@@ -1,14 +1,13 @@
 import { describe, expect, it } from 'vitest';
 import { evaluateDocsAudit } from './docs-audit-policy.ts';
 
-const NOW = Date.parse('2026-09-10T12:00:00Z');
-const ICNS = 'https://github.com/advisories/GHSA-w3rx-r6r6-pgpr';
-const HEIF = 'https://github.com/advisories/GHSA-5p2g-fcmc-qvqq';
+const NOW = Date.parse('2026-10-06T12:00:00Z');
+const BRACES = 'https://github.com/advisories/GHSA-vfj7-8cjw-p6xm';
 
-function advisory(url = ICNS) {
+function advisory(url = BRACES) {
   return {
-    name: 'image-size',
-    dependency: 'image-size',
+    name: 'braces',
+    dependency: 'braces',
     severity: 'high',
     url,
   };
@@ -41,21 +40,21 @@ function report(entries: ReturnType<typeof entry>[] = []) {
 
 function knownReport() {
   return report([
-    entry('image-size', [advisory(), advisory(HEIF)]),
-    entry('@docusaurus/mdx-loader', ['image-size']),
-    entry('@docusaurus/core', ['@docusaurus/mdx-loader']),
+    entry('braces', [advisory()]),
+    entry('micromatch', ['braces']),
+    entry('@docusaurus/utils', ['micromatch']),
   ]);
 }
 
 describe('documentation audit exception', () => {
   it('should_accept_known_causes_when_exception_is_active', () => {
     expect(evaluateDocsAudit(knownReport(), NOW)).toEqual({
-      accepted: ['image-size', '@docusaurus/mdx-loader', '@docusaurus/core'],
+      accepted: ['braces', 'micromatch', '@docusaurus/utils'],
       blocked: [],
     });
   });
 
-  it.each(['2026-09-09T22:00:00Z', '2026-10-09T21:59:59.999Z'])(
+  it.each(['2026-10-04T22:00:00Z', '2026-12-31T22:59:59.999Z'])(
     'should_accept_when_inside_the_approved_period_%s',
     (date) => {
       expect(
@@ -65,9 +64,9 @@ describe('documentation audit exception', () => {
   );
 
   it.each([
-    '2026-09-09T21:59:59.999Z',
-    '2026-10-09T22:00:00Z',
-    '2027-01-01T00:00:00Z',
+    '2026-10-04T21:59:59.999Z',
+    '2026-12-31T23:00:00Z',
+    '2027-06-01T00:00:00Z',
     'invalid',
   ])('should_block_known_causes_when_outside_the_period_%s', (date) => {
     const result = evaluateDocsAudit(knownReport(), Date.parse(date));
@@ -76,7 +75,7 @@ describe('documentation audit exception', () => {
   });
 
   it('should_pass_when_no_vulnerability_remains_after_expiry', () => {
-    expect(evaluateDocsAudit(report(), Date.parse('2027-01-01'))).toEqual({
+    expect(evaluateDocsAudit(report(), Date.parse('2027-01-02'))).toEqual({
       accepted: [],
       blocked: [],
     });
@@ -84,7 +83,7 @@ describe('documentation audit exception', () => {
 
   it('should_block_new_advisories_and_their_dependents_when_mixed_with_known_ones', () => {
     const data = knownReport();
-    data.vulnerabilities['image-size']?.via.push(
+    data.vulnerabilities['braces']?.via.push(
       advisory('https://github.com/advisories/GHSA-new'),
     );
     expect(evaluateDocsAudit(data, NOW).blocked).toHaveLength(3);
@@ -94,7 +93,7 @@ describe('documentation audit exception', () => {
     'should_block_an_unrelated_%s_vulnerability',
     (severity) => {
       const data = report([
-        entry('image-size', [advisory()]),
+        entry('braces', [advisory()]),
         entry(
           'another-package',
           [advisory('https://github.com/advisories/GHSA-new')],
@@ -102,7 +101,7 @@ describe('documentation audit exception', () => {
         ),
       ]);
       expect(evaluateDocsAudit(data, NOW)).toEqual({
-        accepted: ['image-size'],
+        accepted: ['braces'],
         blocked: ['another-package'],
       });
     },
@@ -110,48 +109,54 @@ describe('documentation audit exception', () => {
 
   it('should_block_when_a_known_advisory_becomes_critical', () => {
     const data = report([
-      entry(
-        'image-size',
-        [{ ...advisory(), severity: 'critical' }],
-        'critical',
-      ),
+      entry('braces', [{ ...advisory(), severity: 'critical' }], 'critical'),
     ]);
-    expect(evaluateDocsAudit(data, NOW).blocked).toEqual(['image-size']);
+    expect(evaluateDocsAudit(data, NOW).blocked).toEqual(['braces']);
   });
 
   it.each([
     { ...advisory(), severity: 'critical' },
     { ...advisory(), dependency: 'another-package' },
     { ...advisory(), name: 'another-package' },
-    { ...advisory(), url: `${ICNS}/unexpected` },
+    { ...advisory(), url: `${BRACES}/unexpected` },
     null,
   ])('should_block_when_advisory_details_do_not_match_%j', (cause) => {
     expect(
-      evaluateDocsAudit(report([entry('image-size', [cause])]), NOW).blocked,
-    ).toEqual(['image-size']);
+      evaluateDocsAudit(report([entry('braces', [cause])]), NOW).blocked,
+    ).toEqual(['braces']);
   });
 
   it('should_block_when_a_fix_becomes_available', () => {
     const data = knownReport();
-    const image = data.vulnerabilities['image-size'];
-    if (!image) throw new Error('Missing fixture');
-    image.fixAvailable = true;
+    const root = data.vulnerabilities['braces'];
+    if (!root) throw new Error('Missing fixture');
+    root.fixAvailable = true;
     expect(evaluateDocsAudit(data, NOW).blocked).toHaveLength(3);
   });
 
   it.each([
     entry('@docusaurus/core', ['missing-package']),
     entry('@docusaurus/core', ['@docusaurus/core']),
-    entry('another-package', ['image-size']),
-  ])('should_block_unresolved_or_out_of_scope_chains_%j', (item) => {
-    const data = report([entry('image-size', [advisory()]), item]);
+  ])('should_block_unresolved_or_cyclic_chains_%j', (item) => {
+    const data = report([entry('braces', [advisory()]), item]);
     expect(evaluateDocsAudit(data, NOW).blocked).toEqual([item.name]);
+  });
+
+  it('should_accept_any_dependent_when_its_only_cause_is_the_advisory', () => {
+    const data = report([
+      entry('braces', [advisory()]),
+      entry('another-package', ['braces']),
+    ]);
+    expect(evaluateDocsAudit(data, NOW)).toEqual({
+      accepted: ['braces', 'another-package'],
+      blocked: [],
+    });
   });
 
   it('should_block_when_only_one_branch_of_a_dependency_is_accepted', () => {
     const data = report([
-      entry('image-size', [advisory()]),
-      entry('@docusaurus/core', ['image-size', 'missing-package']),
+      entry('braces', [advisory()]),
+      entry('@docusaurus/core', ['braces', 'missing-package']),
     ]);
     expect(evaluateDocsAudit(data, NOW).blocked).toEqual(['@docusaurus/core']);
   });
@@ -171,9 +176,9 @@ describe('documentation audit exception', () => {
     { ...report(), metadata: {} },
     { ...report(), vulnerabilities: null },
     { ...report(), metadata: { vulnerabilities: { high: 1 } } },
-    { ...report(), vulnerabilities: { 'image-size': {} } },
-    report([entry('image-size', [])]),
-    report([entry('image-size', [advisory()], 'unknown')]),
+    { ...report(), vulnerabilities: { braces: {} } },
+    report([entry('braces', [])]),
+    report([entry('braces', [advisory()], 'unknown')]),
   ])('should_reject_when_the_report_is_invalid_or_incomplete_%j', (data) => {
     expect(() => evaluateDocsAudit(data, NOW)).toThrow();
   });
