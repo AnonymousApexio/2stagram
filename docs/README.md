@@ -9,6 +9,7 @@ Le dépôt contient actuellement un squelette, sans fonctionnalités métier.
 - [Workflow de l'équipe avec Codex](./equipe.md)
 - [Audit du squelette](./conformite.md)
 - [Règles applicables — amendement 0001](./amendement-0001.md)
+- [Avis braces de la documentation — amendement 0002](./amendement-0002.md)
 - [Fiche de tâche](./gabarit-tache.md)
 - [Revue de pull request](./revue-pr.md)
 - [Périmètre et éléments attendus](./socle.md)

@@ -49,11 +49,13 @@ Le format suit [Keep a Changelog](https://keepachangelog.com/fr/1.1.0/).
   fast-uri et ip-address pour l'application ; image-size 2.0.4,
   serialize-javascript 7.1.2, brace-expansion, fast-uri et
   http-cache-semantics pour la documentation. L'avis `braces`, sans correctif
-  publié, laisse l'audit documentaire en échec ; voir le
-  [suivi des dépendances](docs/dependances.md).
+  publié, est accepté temporairement ; voir plus bas.
 - Acceptation temporaire des deux avis `image-size` pour la documentation,
   jusqu'au 2026-10-10 à 00:00 (heure de Paris, borne exclue), avec contrôle des
-  causes, expiration automatique, tests et rapport npm complet. Les
-  vulnérabilités restent présentes ; voir le [suivi des dépendances](docs/dependances.md).
+  causes, expiration automatique, tests et rapport npm complet. Ces avis sont
+  corrigés ; l'acceptation est remplacée par celle de l'avis `braces`, sans
+  correctif publié, jusqu'au 2027-01-01 à 00:00 (heure de Paris, borne exclue)
+  par l'[amendement 0002](docs/amendement-0002.md). Les vulnérabilités restent
+  présentes ; voir le [suivi des dépendances](docs/dependances.md).
 
 [Unreleased]: https://github.com/AnonymousApexio/2stagram/compare/main...fix/consolider-prs

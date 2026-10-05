@@ -63,7 +63,7 @@ et ne s'applique jamais à l'audit applicatif.
 ## Docusaurus : un avis sans correctif
 
 Contrôle du 10 septembre 2026 : 17 dépendances affectées transitivement par
-deux avis de niveau haut sur `image-size`. Une image malformée peut bloquer
+deux avis de niveau haut sur `image-size`. Une image malformée pouvait bloquer
 le processus Node qui analyse les images lors de la génération :
 
 - [GHSA-w3rx-r6r6-pgpr — ICNS](https://github.com/advisories/GHSA-w3rx-r6r6-pgpr)
@@ -71,29 +71,30 @@ le processus Node qui analyse les images lors de la génération :
 
 Contrôle du 5 octobre 2026 : le correctif existe depuis `image-size` 2.0.3. Le
 verrou documentaire installe la 2.0.4, que Docusaurus 3.10.2 accepte (plage
-`^2.0.2`). Les deux avis ne sont plus signalés et l'exception ci-dessous n'a
-plus d'objet pour eux. `brace-expansion` 1.1.21, `fast-uri` 3.1.8 et
-`http-cache-semantics` 4.3.0 sont aussi installés. Le build du site, la
-vérification de types et la comparaison avant/après n'ont montré aucun écart.
+`^2.0.2`). Les deux avis ne sont plus signalés. `brace-expansion` 1.1.21,
+`fast-uri` 3.1.8 et `http-cache-semantics` 4.3.0 sont aussi installés. Le build
+du site, la vérification de types et la comparaison avant/après n'ont montré
+aucun écart.
 
 Il reste 28 alertes hautes, toutes issues d'un seul avis :
 [GHSA-vfj7-8cjw-p6xm — braces](https://github.com/advisories/GHSA-vfj7-8cjw-p6xm),
 affectant `braces` jusqu'à la 3.0.3, dernière version publiée. Aucun correctif
-n'existe, et il remonte jusqu'à `@docusaurus/utils` par `micromatch`.
-`audit:docs` et `audit:docs:strict` restent donc en échec. L'exception de
-l'amendement 0001 ne couvre que `image-size` : elle ne s'applique pas à cet avis.
-Son traitement attend une décision explicite du responsable technique.
+n'existe, et il remonte jusqu'à `@docusaurus/utils` par `micromatch`. Il est
+accepté temporairement par l'[amendement 0002](./amendement-0002.md) ;
+`audit:docs:strict` reste en échec tant qu'il subsiste. L'acceptation n'est
+pas une correction et ne supprime pas les alertes.
 
 Les correctifs publiés de `serialize-javascript` (7.1.2), `qs` et `uuid` sont
 épinglés dans les overrides documentaires, avec build vérifié. Retirer ces
 overrides lorsque les dépendances amont adoptent les versions corrigées.
 
-## Acceptation temporaire — amendement 0001
+## Acceptation temporaire — amendement 0002
 
-Décision adoptée par le responsable technique le 10 septembre 2026, pour la
+Décision adoptée par le responsable technique le 5 octobre 2026, pour la
 génération documentaire uniquement. Responsable du suivi : responsable technique.
-Période : **du 10 septembre 2026 à 00:00 (heure de Paris) au 10 octobre 2026 à 00:00 (heure de Paris) exclu**.
-La reconduction n'est pas automatique.
+Période : **du 5 octobre 2026 à 00:00 (heure de Paris) au 1er janvier 2027 à 00:00 (heure de Paris) exclu**.
+La reconduction n'est pas automatique. Elle remplace l'acceptation des deux avis
+`image-size` de l'amendement 0001, désormais corrigés.
 
 Mesures applicables :
 
@@ -107,15 +108,15 @@ Mesures applicables :
   politique, et à la demande. Le rapport npm intégral est conservé en artefact
   pendant 30 jours, y compris lorsque le contrôle échoue.
 
-`scripts/docs-audit-policy.ts` applique cette décision : chaque alerte haute
-doit remonter exclusivement aux deux avis identifiés, dans `image-size` ou sa
-chaîne `@docusaurus/`. Une autre cause, une alerte critique, un correctif signalé
-comme disponible ou une référence de dépendance inconnue bloque le contrôle.
-Un cycle non résolu ou un rapport incomplet ne vaut jamais validation.
-À l'expiration, les alertes encore présentes redeviennent bloquantes.
+`scripts/docs-audit-policy.ts` applique cette décision : une alerte haute n'est
+acceptée que si chacune de ses causes, suivie dans la chaîne de dépendances,
+aboutit à l'avis `braces` identifié. Une autre cause, une alerte critique, un
+correctif signalé comme disponible ou une référence de dépendance inconnue
+bloque le contrôle. Un cycle non résolu ou un rapport incomplet ne vaut jamais
+validation. À l'expiration, les alertes encore présentes redeviennent bloquantes.
 
 Cette politique est testée avec Vitest, notamment avant/après l'échéance et
-avec de nouvelles alertes mélangées aux causes connues. Elle est spécifique à
+avec de nouvelles alertes mélangées à la cause connue. Elle est spécifique à
 la commande documentaire ; aucun seuil applicatif n'est assoupli.
 
 ## Commandes et suivi
@@ -137,7 +138,7 @@ et reste en échec tant que ces alertes subsistent.
 Dependabot surveille les deux lockfiles. À la publication d'un correctif, faire
 approuver la mise à jour ciblée, régénérer le lockfile documentaire, exécuter
 `npm run docs:site` et les deux audits documentaires, puis vérifier navigation
-et images. Supprimer l'exception lorsque l'audit strict passe. Réexaminer la
+et images. Supprimer l'exception lorsque l'audit strict passe, par exemple si `braces` publie un correctif. Réexaminer la
 situation avant l'échéance ; toute extension exige une nouvelle décision explicite.
 
 Pour rédiger et consulter localement : modifier `docs/`, puis lancer

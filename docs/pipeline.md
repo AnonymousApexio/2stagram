@@ -113,8 +113,8 @@ requis sans rester en attente à cause d'un filtre de chemins. Le build manuel
 du site dépend de cet audit et sa génération est limitée à dix minutes.
 
 L'audit applicatif bloque à partir de `high`. L'audit documentaire applique
-uniquement l'exception temporaire des deux avis `image-size`, jusqu'au
-10 octobre 2026 à 00:00, heure de Paris, borne exclue. Les vulnérabilités restent
+uniquement l'exception temporaire de l'avis `braces`, jusqu'au
+1er janvier 2027 à 00:00, heure de Paris, borne exclue. Les vulnérabilités restent
 présentes ; voir [le suivi des dépendances](./dependances.md).
 
 ## 7. Secrets et actions

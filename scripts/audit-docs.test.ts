@@ -26,16 +26,16 @@ const CLEAN = JSON.stringify({
 const KNOWN = JSON.stringify({
   auditReportVersion: 2,
   vulnerabilities: {
-    'image-size': {
-      name: 'image-size',
+    braces: {
+      name: 'braces',
       severity: 'high',
       fixAvailable: false,
       via: [
         {
-          name: 'image-size',
-          dependency: 'image-size',
+          name: 'braces',
+          dependency: 'braces',
           severity: 'high',
-          url: 'https://github.com/advisories/GHSA-w3rx-r6r6-pgpr',
+          url: 'https://github.com/advisories/GHSA-vfj7-8cjw-p6xm',
         },
       ],
     },
@@ -56,7 +56,7 @@ beforeEach(() => {
   vi.resetModules();
   vi.clearAllMocks();
   vi.stubEnv('npm_execpath', '/test/npm-cli.cjs');
-  vi.spyOn(Date, 'now').mockReturnValue(Date.parse('2026-09-11T00:00:00Z'));
+  vi.spyOn(Date, 'now').mockReturnValue(Date.parse('2026-10-06T00:00:00Z'));
   vi.spyOn(process.stdout, 'write').mockReturnValue(true);
   vi.spyOn(process.stderr, 'write').mockReturnValue(true);
   vi.spyOn(console, 'log').mockImplementation(() => {});
@@ -86,7 +86,7 @@ describe('documentation audit command', () => {
     expect(writeReport).toHaveBeenCalledWith(expect.any(URL), KNOWN);
     expect(process.stdout.write).toHaveBeenCalledWith(KNOWN);
     expect(console.warn).toHaveBeenCalledWith(
-      expect.stringContaining('2026-10-10T00:00:00+02:00'),
+      expect.stringContaining('2027-01-01T00:00:00+01:00'),
     );
     expect(runNpm).toHaveBeenCalledWith(
       process.execPath,
@@ -138,7 +138,7 @@ describe('documentation audit command', () => {
     },
     { status: 1, stdout: '{invalid' },
     { status: 1, stdout: JSON.stringify({ error: { code: 'ENETUNREACH' } }) },
-    { status: 1, stdout: KNOWN.replace('GHSA-w3rx-r6r6-pgpr', 'GHSA-new') },
+    { status: 1, stdout: KNOWN.replace('GHSA-vfj7-8cjw-p6xm', 'GHSA-new') },
   ])('should_fail_closed_when_npm_or_the_policy_rejects_%j', async (result) => {
     runNpm.mockReturnValue({ signal: null, stderr: '', ...result });
     await import('./audit-docs.ts');

@@ -29,8 +29,8 @@ revue seule est en lecture seule, sauf correction explicitement demandée.
 - Checks exécutés, couverture >=70 % lignes/branches sur le code changé et
   couverture globale stable/en hausse. Les exclusions ne cachent pas du métier.
 - Dépendances auditées, documentation/contrat/ADR/changelog à jour.
-- Documentation : rapport npm complet joint ; seules les deux causes image-size
-  approuvées peuvent être acceptées avant l'échéance de l'amendement 0001.
+- Documentation : rapport npm complet joint ; seule la cause braces
+  approuvée peut être acceptée avant l'échéance de l'amendement 0002.
 - Taille de PR raisonnable (400 lignes de code hors généré/lockfiles) ou exception.
 - Grand ajout évalué selon l'impact, sans déclenchement par la seule création
   d'une route ; E2E requis exécutés et tests HTTP adaptés présents.
