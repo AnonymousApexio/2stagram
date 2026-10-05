@@ -1,11 +1,8 @@
 const SEVERITIES = ['info', 'low', 'moderate', 'high', 'critical'];
-const APPROVED_AT = Date.parse('2026-09-10T00:00:00+02:00');
+const APPROVED_AT = Date.parse('2026-10-05T00:00:00+02:00');
 /** Exclusive deadline of the approved, non-renewing documentation exception. */
-export const DOCS_AUDIT_EXPIRES_AT = '2026-10-10T00:00:00+02:00';
-const ADVISORIES = new Set([
-  'https://github.com/advisories/GHSA-w3rx-r6r6-pgpr',
-  'https://github.com/advisories/GHSA-5p2g-fcmc-qvqq',
-]);
+export const DOCS_AUDIT_EXPIRES_AT = '2027-01-01T00:00:00+01:00';
+const ADVISORY = 'https://github.com/advisories/GHSA-vfj7-8cjw-p6xm';
 
 interface Vulnerability {
   severity: string;
@@ -56,6 +53,10 @@ function readVulnerabilities(report: unknown): Map<string, Vulnerability> {
   return entries;
 }
 
+/**
+ * A finding is accepted only when no fix exists and every cause, followed
+ * through the dependency chain, ends at the single approved advisory.
+ */
 function isAccepted(
   name: string,
   entries: Map<string, Vulnerability>,
@@ -66,21 +67,19 @@ function isAccepted(
     !entry ||
     path.has(name) ||
     entry.severity !== 'high' ||
-    entry.fixAvailable !== false ||
-    (name !== 'image-size' && !name.startsWith('@docusaurus/'))
+    entry.fixAvailable !== false
   )
     return false;
   const nextPath = new Set([...path, name]);
   return entry.via.every((cause) => {
     if (typeof cause === 'string') return isAccepted(cause, entries, nextPath);
     return (
-      name === 'image-size' &&
+      name === 'braces' &&
       isRecord(cause) &&
-      cause.name === 'image-size' &&
-      cause.dependency === 'image-size' &&
+      cause.name === 'braces' &&
+      cause.dependency === 'braces' &&
       cause.severity === 'high' &&
-      typeof cause.url === 'string' &&
-      ADVISORIES.has(cause.url)
+      cause.url === ADVISORY
     );
   });
 }

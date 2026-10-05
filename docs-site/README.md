@@ -12,8 +12,8 @@ npm run docs:dev
 Le build produit `docs-site/build/`. La navigation inclut la référence TypeDoc,
 copiée depuis la sortie générée, et les pages rédigées dans `docs/`.
 Le site fonctionne pour rédiger et consulter la documentation localement.
-Les deux avis image-size restent présents. `npm run audit:docs` applique
-l'acceptation limitée au 10 octobre 2026 à 00:00 (heure de Paris) exclu, avec rapport complet
+L'avis braces reste présent. `npm run audit:docs` applique
+l'acceptation limitée au 1er janvier 2027 à 00:00 (heure de Paris) exclu, avec rapport complet
 et blocage de toute autre alerte haute/critique. `npm run audit:docs:strict`
 conserve le contrôle sans exception. Utiliser uniquement les contenus revus
 du dépôt ; aucun upload de l'application n'alimente la documentation.

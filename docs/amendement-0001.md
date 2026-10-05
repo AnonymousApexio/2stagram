@@ -46,6 +46,9 @@ conserve son interdiction générale des styles inline tant que l'éditeur est a
 
 ## 4. Exception documentaire temporaire
 
+> Remplacée le 5 octobre 2026 par l'[amendement 0002](./amendement-0002.md).
+> Les deux avis `image-size` ci-dessous sont corrigés. Texte conservé pour mémoire.
+
 Le responsable technique accepte temporairement les deux avis `image-size`
 identifiés dans le [suivi des dépendances](./dependances.md), exclusivement dans
 la génération Docusaurus. L'acceptation commence le 10 septembre 2026 à 00:00 (heure de Paris)
