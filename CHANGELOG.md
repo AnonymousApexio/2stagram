@@ -45,6 +45,12 @@ Le format suit [Keep a Changelog](https://keepachangelog.com/fr/1.1.0/).
   autorisations d'installation alignés. Drizzle Kit reste sur sa version stable.
 - Remplacement de l'action Sonar v5 signalée vulnérable par la version 8.2.1,
   avec retrait de sa dépendance à une action de cache Node 20.
+- Mise à jour des dépendances vulnérables : multer 2.4.0, brace-expansion,
+  fast-uri et ip-address pour l'application ; image-size 2.0.4,
+  serialize-javascript 7.1.2, brace-expansion, fast-uri et
+  http-cache-semantics pour la documentation. L'avis `braces`, sans correctif
+  publié, laisse l'audit documentaire en échec ; voir le
+  [suivi des dépendances](docs/dependances.md).
 - Acceptation temporaire des deux avis `image-size` pour la documentation,
   jusqu'au 2026-10-10 à 00:00 (heure de Paris, borne exclue), avec contrôle des
   causes, expiration automatique, tests et rapport npm complet. Les

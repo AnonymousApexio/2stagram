@@ -46,6 +46,13 @@ CSRF ajouté aux routes Express : le serveur concerné est celui d'esbuild.
 Les protections des futures mutations authentifiées restent un sujet distinct,
 décrit par [OWASP CSRF Prevention](https://cheatsheetseries.owasp.org/cheatsheets/Cross-Site_Request_Forgery_Prevention_Cheat_Sheet.html).
 
+Contrôle du 5 octobre 2026 : de nouveaux avis étaient apparus sur `multer`,
+`brace-expansion`, `fast-uri` et `ip-address`. Les correctifs publiés sont
+installés (multer 2.4.0, brace-expansion 5.0.12, fast-uri 3.1.8,
+ip-address 10.7.3) et l'audit applicatif ne signale plus de vulnérabilité.
+Aucune route d'upload n'existe encore, donc le comportement de multer n'est
+pas exercé en conditions réelles.
+
 Les deux paquets `@esbuild-kit` restent dépréciés en amont, mais leur copie
 d'esbuild vulnérable est remplacée. Retirer l'override lorsqu'une version stable
 de Drizzle Kit supprime cette chaîne ou adopte une version corrigée, puis refaire
@@ -53,7 +60,7 @@ installation, audit et essais de migrations. L'exception d'acceptation de cet
 avis n'est plus nécessaire ; l'exception documentaire ci-dessous est inchangée
 et ne s'applique jamais à l'audit applicatif.
 
-## Docusaurus : deux avis non corrigés
+## Docusaurus : un avis sans correctif
 
 Contrôle du 10 septembre 2026 : 17 dépendances affectées transitivement par
 deux avis de niveau haut sur `image-size`. Une image malformée peut bloquer
@@ -62,13 +69,24 @@ le processus Node qui analyse les images lors de la génération :
 - [GHSA-w3rx-r6r6-pgpr — ICNS](https://github.com/advisories/GHSA-w3rx-r6r6-pgpr)
 - [GHSA-5p2g-fcmc-qvqq — JXL et HEIF](https://github.com/advisories/GHSA-5p2g-fcmc-qvqq)
 
-Docusaurus 3.10.2 et image-size 2.0.2 restent les dernières versions du registre
-au contrôle. Les avis n'indiquent aucun correctif publié. L'acceptation du risque
-n'est pas une correction et ne supprime pas les alertes.
+Contrôle du 5 octobre 2026 : le correctif existe depuis `image-size` 2.0.3. Le
+verrou documentaire installe la 2.0.4, que Docusaurus 3.10.2 accepte (plage
+`^2.0.2`). Les deux avis ne sont plus signalés et l'exception ci-dessous n'a
+plus d'objet pour eux. `brace-expansion` 1.1.21, `fast-uri` 3.1.8 et
+`http-cache-semantics` 4.3.0 sont aussi installés. Le build du site, la
+vérification de types et la comparaison avant/après n'ont montré aucun écart.
 
-Les correctifs publiés de `serialize-javascript`, `qs` et `uuid` sont épinglés
-dans les overrides documentaires, avec build vérifié. Retirer ces overrides
-lorsque les dépendances amont adoptent les versions corrigées.
+Il reste 28 alertes hautes, toutes issues d'un seul avis :
+[GHSA-vfj7-8cjw-p6xm — braces](https://github.com/advisories/GHSA-vfj7-8cjw-p6xm),
+affectant `braces` jusqu'à la 3.0.3, dernière version publiée. Aucun correctif
+n'existe, et il remonte jusqu'à `@docusaurus/utils` par `micromatch`.
+`audit:docs` et `audit:docs:strict` restent donc en échec. L'exception de
+l'amendement 0001 ne couvre que `image-size` : elle ne s'applique pas à cet avis.
+Son traitement attend une décision explicite du responsable technique.
+
+Les correctifs publiés de `serialize-javascript` (7.1.2), `qs` et `uuid` sont
+épinglés dans les overrides documentaires, avec build vérifié. Retirer ces
+overrides lorsque les dépendances amont adoptent les versions corrigées.
 
 ## Acceptation temporaire — amendement 0001
 
