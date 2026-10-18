@@ -5,7 +5,8 @@ Le périmètre actuel est décrit dans [docs/socle.md](docs/socle.md).
 
 Pour contribuer avec Codex : [guide équipe](docs/equipe.md).
 Pour les contrôles et limites : [audit du squelette](docs/conformite.md).
-Pour les arbitrages applicables : [amendement 0001](docs/amendement-0001.md).
+Pour les arbitrages applicables : [amendement 0001](docs/amendement-0001.md) et
+[amendement 0002](docs/amendement-0002.md).
 
 ## Démarrer en développement
 
@@ -78,7 +79,7 @@ La documentation OpenAPI sera générée depuis les futurs schémas Zod, une foi
 les contrats disponibles. Le squelette ne publie pas d'API de démonstration.
 
 `npm run audit:docs` conserve le rapport complet et applique l'exception limitée
-aux deux avis image-size jusqu'au 10 octobre 2026 à 00:00 (heure de Paris) exclu. Les nouvelles
+à l'avis braces jusqu'au 1er janvier 2027 à 00:00 (heure de Paris) exclu. Les nouvelles
 alertes hautes/critiques et l'expiration restent bloquantes. `npm run audit:docs:strict`
 exécute le contrôle sans exception. Voir [le suivi](docs/dependances.md).
 

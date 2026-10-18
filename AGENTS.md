@@ -77,9 +77,10 @@ Les corrections et travaux de socle déjà autorisés peuvent avancer.
   explicite et validation BDD (le responsable BDD).
 - Ne jamais désactiver un test, assouplir une assertion ou une règle pour faire
   passer une implémentation. Corriger la cause ou expliquer le désaccord.
-- Seule exception SCA documentaire autorisée : les deux avis image-size,
-  jusqu'au 10 octobre 2026 à 00:00 (heure de Paris) exclu, selon docs/dependances.md.
-  Ne pas étendre le périmètre ni prolonger l'échéance sans nouvel accord explicite.
+- Seule exception SCA documentaire autorisée : l'avis braces (GHSA-vfj7-8cjw-p6xm),
+  jusqu'au 1er janvier 2027 à 00:00 (heure de Paris) exclu, selon docs/amendement-0002.md
+  et docs/dependances.md. Ne pas étendre le périmètre ni prolonger l'échéance
+  sans nouvel accord explicite.
 - Consulter les fiches OWASP applicables au changement. Les contrôles frontend
   ne remplacent pas les permissions et validations backend.
 - Signaler les blocages tôt. Ne pas envoyer de message ou publier au nom de
