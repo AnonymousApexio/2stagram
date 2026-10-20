@@ -1,6 +1,6 @@
 # Décisions — 2stagram
 
-**Version 4.7 — 29 septembre 2026.** Un fichier sur deux — la carte est dans [`Readme.md`](Readme.md).
+**Version 4.8 — 1er octobre 2026.** Un fichier sur deux — la carte est dans [`Readme.md`](Readme.md).
 
 > **Sections portées par ce fichier : §0.** La numérotation est **commune aux deux fichiers** : un renvoi tel que `§4.3` désigne toujours la même section, et les sections §1 à §8 et §10 sont dans `tables-et-contraintes.md`. Les renvois sont textuels, pas cliquables — on les suit par une recherche dans le fichier.
 
@@ -112,7 +112,8 @@ de chaque correction vit dans sa section, pas ici.
 
 | Version | Ce qui a changé |
 |---|---|
-| **v4.7** | Fichiers renommés pour dire leur contenu : `tables-et-contraintes.md`, `decisions-de-conception.md`, `Readme.md`. Tous les renvois suivent |
+| **v4.8** | Relecture de la PR : `ck_media_dimensions` acceptait une largeur sans hauteur (un `CHECK` qui vaut `NULL` passe), corrigée par des `IS NOT NULL` explicites ; la règle « exactement une cible » d'une notification précise l'exception de `friend_request` et `friend_accepted` |
+| v4.7 | Fichiers renommés pour dire leur contenu : `tables-et-contraintes.md`, `decisions-de-conception.md`, `Readme.md`. Tous les renvois suivent |
 | v4.6 | **La liste de livraison et les tests à écrire sortent de la documentation partagée** : ce sont des outils de travail de l'Admin BDD. Les dépendances passent dans le `README`, le point ouvert renvoie au récapitulatif |
 | v4.5 | Dernières traces des relectures externes retirées : plus aucune adresse nominative, plus de renvoi vers un numéro de ligne, et les identifiants `DB-01`, `LOG-01`, `[Cn]` et `[Tn]` — jamais définis ici — sont remplacés par la règle qu'ils désignaient |
 | v4.4 | Adresses nominatives retirées de `tables-et-contraintes.md` §4.3 et du `README`. Les règles restent, la comparaison disparaît |

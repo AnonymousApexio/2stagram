@@ -1,6 +1,6 @@
 # Schéma de base de données — 2stagram
 
-**Version 4.7 — 29 septembre 2026.** Validée par Nat. **Référence pour les
+**Version 4.8 — 1er octobre 2026.** **Référence pour les
 autres documents du projet.**
 
 La documentation tient en **deux fichiers, plus cette carte**. Ils forment un
@@ -80,4 +80,3 @@ Outils dont le schéma dépend, en plus de la stack du projet.
 |---|---|
 | Décisions prises | 64 sur 64 |
 | Points ouverts | 1 — la réinitialisation du mot de passe par SMS (récapitulatif, « Décisions ouvertes ») |
-| Relecture | Validée par Nat le 28/09 |

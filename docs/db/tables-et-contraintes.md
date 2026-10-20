@@ -3,9 +3,8 @@
 **Projet** : 2stagram — SAÉ 5.02
 **Responsable** : Kleiton Kitani (Admin BDD)
 **SGBD** : SQLite via `better-sqlite3`, ORM Drizzle
-**Version** : 4.7 — 29 septembre 2026
-**Statut** : **validé par Nat le 28 septembre 2026.** 23 tables, 64 décisions,
-aucune en suspens. Le récapitulatif fonctionnel est aligné en version 2 (§0.2).
+**Version** : 4.8 — 1er octobre 2026
+23 tables, 64 décisions, aucune en suspens. Le récapitulatif fonctionnel est aligné en version 2 (§0.2).
 Reste un point ouvert, la réinitialisation du mot de passe par SMS
 (récapitulatif, « Décisions ouvertes »).
 
@@ -507,7 +506,7 @@ masse. Voici pourquoi.
 **Le coût du modèle dérivé** est double, et la v2.9 n'en voyait qu'un :
 
 1. **une jointure vers `users`** à la lecture, déjà nécessaire pour
-   `deleted_at` et le bannissement — négligeable ;*
+   `deleted_at` et le bannissement — négligeable ;
 2. **[D58] aucun ETag n'est invalidé alors qu'il devrait l'être** — voir
    ci-dessous. C'est le défaut symétrique de celui reproché au modèle
    matérialisé, et il est plus sournois.
@@ -1599,7 +1598,7 @@ directement**, à chaque niveau, à chaque requête.
 
 | Règle | Pourquoi |
 |---|---|
-| **Exactement une cible à la création** d'un signalement ou d'une notification | Le `CHECK` n'impose qu'« au plus une », volontairement |
+| **Exactement une cible à la création** d'un signalement ou d'une notification — **sauf `friend_request` et `friend_accepted`, qui n'en ont aucune** (§4.16) | Le `CHECK` n'impose qu'« au plus une », volontairement : une cible peut disparaître après coup (`SET NULL`, §5.2) |
 | **Ne pas notifier si le cadre n'est pas visible du destinataire** **[D59]** | La notification révélerait ce que D53 masque |
 | Ne pas notifier quand un blocage existe **[D48]** | Porte sur une autre table |
 | Vérifier chaque maillon public avant de créer un repartage **[D33]** | Porte sur d'autres lignes |
@@ -1769,9 +1768,12 @@ CHECK ((media_type = 'photo' AND file_format IN ('jpg','jpeg','png','webp','gif'
 CHECK (duration_seconds IS NULL
     OR (media_type = 'video' AND duration_seconds > 0))                  -- ck_*_duration_seconds
 
--- ck_media_dimensions  [D61]
+-- ck_media_dimensions  (et ck_message_attachments_dimensions, identique)  [D61]
+-- Les IS NOT NULL sont indispensables : sans eux, width = 800 et height NULL
+-- donnent « vrai ET NULL », soit NULL, et un CHECK qui vaut NULL est accepté.
 CHECK ((width IS NULL AND height IS NULL)
-    OR (width > 0 AND height > 0))
+    OR (width IS NOT NULL AND height IS NOT NULL
+        AND width > 0 AND height > 0))
 
 -- posts
 CHECK (source_post_id IS NULL OR source_post_id <> id)
