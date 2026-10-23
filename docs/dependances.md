@@ -53,6 +53,16 @@ ip-address 10.7.3) et l'audit applicatif ne signale plus de vulnérabilité.
 Aucune route d'upload n'existe encore, donc le comportement de multer n'est
 pas exercé en conditions réelles.
 
+Contrôle du 23 octobre 2026 : de nouveaux avis touchaient `proxy-addr`
+(critique, utilisé par Express), `sharp` et sa bibliothèque libvips, `vite`,
+`markdown-it` et `source-map-js` (hauts), ainsi que `vitest` et `ip-address`
+(modérés). Les correctifs publiés sont installés sans changement de version
+majeure : vitest et @vitest/coverage-v8 5.0.5, sharp 0.35.5, vite 8.3.5,
+proxy-addr 2.0.8, markdown-it 14.3.3, source-map-js 1.2.2 et ip-address 10.7.4.
+L'audit applicatif ne signale plus de vulnérabilité. `npm run check`, le
+contrôle navigateur aux trois largeurs, la construction des images Docker et
+le chargement de sharp dans l'image backend passent.
+
 Les deux paquets `@esbuild-kit` restent dépréciés en amont, mais leur copie
 d'esbuild vulnérable est remplacée. Retirer l'override lorsqu'une version stable
 de Drizzle Kit supprime cette chaîne ou adopte une version corrigée, puis refaire
@@ -60,7 +70,7 @@ installation, audit et essais de migrations. L'exception d'acceptation de cet
 avis n'est plus nécessaire ; l'exception documentaire ci-dessous est inchangée
 et ne s'applique jamais à l'audit applicatif.
 
-## Docusaurus : un avis sans correctif
+## Docusaurus
 
 Contrôle du 10 septembre 2026 : 17 dépendances affectées transitivement par
 deux avis de niveau haut sur `image-size`. Une image malformée pouvait bloquer
@@ -76,17 +86,32 @@ verrou documentaire installe la 2.0.4, que Docusaurus 3.10.2 accepte (plage
 du site, la vérification de types et la comparaison avant/après n'ont montré
 aucun écart.
 
-Il reste 28 alertes hautes, toutes issues d'un seul avis :
+Il restait alors 28 alertes hautes, toutes issues d'un seul avis :
 [GHSA-vfj7-8cjw-p6xm — braces](https://github.com/advisories/GHSA-vfj7-8cjw-p6xm),
-affectant `braces` jusqu'à la 3.0.3, dernière version publiée. Aucun correctif
-n'existe, et il remonte jusqu'à `@docusaurus/utils` par `micromatch`. Il est
-accepté temporairement par l'[amendement 0002](./amendement-0002.md) ;
-`audit:docs:strict` reste en échec tant qu'il subsiste. L'acceptation n'est
-pas une correction et ne supprime pas les alertes.
+affectant `braces` jusqu'à la 3.0.3, sans correctif publié. Il a été accepté
+temporairement par l'[amendement 0002](./amendement-0002.md). GitHub a retiré
+cet avis le 23 octobre 2026 et npm ne le signale plus : l'exception n'est plus
+utilisée par l'audit. Sa suppression du contrôle, des consignes et de
+l'amendement fera l'objet d'un changement distinct.
+
+Contrôle du 23 octobre 2026 : de nouveaux avis touchaient `compression`,
+`follow-redirects`, `joi`, `launch-editor`, `proxy-addr`, `shell-quote` et
+`source-map-js`. Leurs correctifs publiés, compatibles avec Docusaurus 3.10.2,
+sont installés. Deux avis restaient sans version compatible : `tinypool`
+(critique), que `@docusaurus/core` 3.10.2 demande en version 1, et
+`postcss-selector-parser` (modéré), que les préréglages cssnano 6 demandent en
+version 6. Aucune version de Docusaurus ne les corrige. Les overrides
+documentaires imposent donc `tinypool` 2.2.0 et `postcss-selector-parser`
+7.1.7 : deux changements de version majeure, acceptés par le responsable
+technique le 23 octobre 2026. Le build du site, la consultation des pages dans
+un navigateur et les deux audits documentaires, strict compris, passent.
 
 Les correctifs publiés de `serialize-javascript` (7.1.2), `qs` et `uuid` sont
 épinglés dans les overrides documentaires, avec build vérifié. Retirer ces
-overrides lorsque les dépendances amont adoptent les versions corrigées.
+overrides lorsque les dépendances amont adoptent les versions corrigées. Pour
+`tinypool` et `postcss-selector-parser`, retirer l'override dès qu'une version
+de Docusaurus adopte une version corrigée, puis refaire le build et vérifier
+les pages.
 
 ## Acceptation temporaire — amendement 0002
 
@@ -94,7 +119,9 @@ Décision adoptée par le responsable technique le 5 octobre 2026, pour la
 génération documentaire uniquement. Responsable du suivi : responsable technique.
 Période : **du 5 octobre 2026 à 00:00 (heure de Paris) au 1er janvier 2027 à 00:00 (heure de Paris) exclu**.
 La reconduction n'est pas automatique. Elle remplace l'acceptation des deux avis
-`image-size` de l'amendement 0001, désormais corrigés.
+`image-size` de l'amendement 0001, désormais corrigés. L'avis visé a été retiré
+le 23 octobre 2026 : cette acceptation n'est plus appliquée par l'audit, en
+attendant sa suppression.
 
 Mesures applicables :
 
@@ -133,7 +160,7 @@ npm run audit:docs:strict
 `docs-site/audit-report.json` (ignoré par Git) et indique les exceptions et blocages.
 La récupération du rapport est limitée à une minute ; erreur npm ou JSON invalide
 font échouer le contrôle. `audit:docs:strict` applique le seuil haut sans exception
-et reste en échec tant que ces alertes subsistent.
+et passe depuis le 23 octobre 2026.
 
 Dependabot surveille les deux lockfiles. À la publication d'un correctif, faire
 approuver la mise à jour ciblée, régénérer le lockfile documentaire, exécuter

@@ -32,6 +32,9 @@ Le format suit [Keep a Changelog](https://keepachangelog.com/fr/1.1.0/).
 
 ### Corrigé
 
+- Dépendances vulnérables du 23 octobre 2026 mises à jour (proxy-addr, sharp,
+  vite, vitest, markdown-it) et overrides documentaires `tinypool` et
+  `postcss-selector-parser`, faute de correctif dans Docusaurus.
 - Réponses HTTP 415 pour les formats non pris en charge et 400 pour les corps
   compressés invalides, au lieu d'une erreur serveur 500 générique.
 - Commandes annoncées sans outil installé ou configuration associée.

@@ -131,13 +131,13 @@ ils ne sont pas encore écrits. La messagerie reste contrôlée manuellement.
   enregistrer dans l'outil de suivi. Ce rapport ne signe pas au nom de l'équipe.
 - TLS, secrets de production, sauvegardes SQLite/WAL, restauration, politique
   d'accès et exploitation restent à préparer avec DevOps/BDD avant déploiement.
-- **Faille Docusaurus toujours présente** : 28 dépendances affectées par l'avis
-  braces, sans correctif publié. L'acceptation technique est limitée au
-  1er janvier 2027 à 00:00 (heure de Paris) exclu ; le contrôle vérifie chaque cause et refuse les alertes non
-  couvertes, les rapports incomplets et l'usage de l'exception après expiration.
-  Le rapport complet et l'audit strict restent disponibles. Ce traitement n'est
-  pas un correctif des dépendances. L'audit applicatif ne signale plus
-  de vulnérabilité au 5 octobre 2026. Voir [dependances.md](./dependances.md).
+- **Dépendances au 23 octobre 2026** : l'audit applicatif et les deux audits
+  documentaires, strict compris, ne signalent plus de vulnérabilité. Le site
+  documentaire dépend de deux overrides de version majeure (`tinypool` et
+  `postcss-selector-parser`), à retirer quand Docusaurus adoptera des versions
+  corrigées. L'avis braces a été retiré par GitHub : l'exception de
+  l'amendement 0002 n'est plus utilisée et reste à supprimer du contrôle.
+  Voir [dependances.md](./dependances.md).
 
 ## Règles applicables
 
