@@ -15,11 +15,11 @@ Reste un point ouvert, la réinitialisation du mot de passe par SMS
 
 > **Marqueurs.**
 >
-> | Marqueur | Signification |
-> |---|---|
-> | **`[récap]`** | Règle du récapitulatif fonctionnel |
-> | **`[Dn]`** | Arbitrage, **acquis**. Table complète en §0.1, dans `decisions-de-conception.md` |
-> | **`[à livrer]`** | Pas encore dans `shared/src/db/schema.ts` |
+> | Marqueur         | Signification                                                                    |
+> | ---------------- | -------------------------------------------------------------------------------- |
+> | **`[récap]`**    | Règle du récapitulatif fonctionnel                                               |
+> | **`[Dn]`**       | Arbitrage, **acquis**. Table complète en §0.1, dans `decisions-de-conception.md` |
+> | **`[à livrer]`** | Pas encore dans `shared/src/db/schema.ts`                                        |
 >
 > **Le SQL de toutes les contraintes est en §10**, à la fin de ce fichier.
 
@@ -33,38 +33,38 @@ Un fichier sur deux — la carte est dans [`Readme.md`](Readme.md).
 
 23 tables réparties en dix domaines.
 
-| Domaine | Tables |
-|---|---|
-| Authentification | `sessions`, `password_reset_tokens` |
-| Utilisateurs | `users`, `user_sanctions`, `blocks` |
-| Publications | `posts`, `media`, `saved_posts` |
-| Idempotence | `idempotency_reservations`, `media_staging` |
-| Interactions | `comments`, `post_reactions`, `comment_reactions` |
-| Hashtags | `hashtags`, `post_hashtags`, `hashtag_trends` |
-| Relations | `friendships` |
-| Messagerie | `conversations`, `conversation_members`, `messages`, `message_attachments` |
-| Modération | `reports` |
-| Notifications | `notifications` |
+| Domaine          | Tables                                                                     |
+| ---------------- | -------------------------------------------------------------------------- |
+| Authentification | `sessions`, `password_reset_tokens`                                        |
+| Utilisateurs     | `users`, `user_sanctions`, `blocks`                                        |
+| Publications     | `posts`, `media`, `saved_posts`                                            |
+| Idempotence      | `idempotency_reservations`, `media_staging`                                |
+| Interactions     | `comments`, `post_reactions`, `comment_reactions`                          |
+| Hashtags         | `hashtags`, `post_hashtags`, `hashtag_trends`                              |
+| Relations        | `friendships`                                                              |
+| Messagerie       | `conversations`, `conversation_members`, `messages`, `message_attachments` |
+| Modération       | `reports`                                                                  |
+| Notifications    | `notifications`                                                            |
 
 Le schéma est défini dans `shared/src/db/schema.ts` (Drizzle). **C'est le seul
 fichier à modifier.**
 
 ### Documents liés
 
-| Document | Auteur | Interface |
-|---|---|---|
-| Récapitulatif fonctionnel | Kleiton | **Fait foi.** Version 2, alignée (§0.2) |
-| Authentification | Louis | `users`, `sessions`, `password_reset_tokens` |
-| Publication | Erin | `posts`, `media`, `comments`, idempotence |
+| Document                  | Auteur  | Interface                                    |
+| ------------------------- | ------- | -------------------------------------------- |
+| Récapitulatif fonctionnel | Kleiton | **Fait foi.** Version 2, alignée (§0.2)      |
+| Authentification          | Louis   | `users`, `sessions`, `password_reset_tokens` |
+| Publication               | Erin    | `posts`, `media`, `comments`, idempotence    |
 
 ### Vocabulaire
 
-| Récapitulatif | Ce document | Colonne |
-|---|---|---|
-| « Avec un commentaire, 2200 caractères » | **description** | `posts.caption` |
-| Section « Commentaires » | **commentaire** | `comments.body` |
-| — | **cadre** d'un repartage | la ligne `posts` du repartage |
-| — | **contenu** d'un repartage | le média et la description de la **racine** |
+| Récapitulatif                            | Ce document                | Colonne                                     |
+| ---------------------------------------- | -------------------------- | ------------------------------------------- |
+| « Avec un commentaire, 2200 caractères » | **description**            | `posts.caption`                             |
+| Section « Commentaires »                 | **commentaire**            | `comments.body`                             |
+| —                                        | **cadre** d'un repartage   | la ligne `posts` du repartage               |
+| —                                        | **contenu** d'un repartage | le média et la description de la **racine** |
 
 ---
 
@@ -72,25 +72,25 @@ fichier à modifier.**
 
 ### 2.1 Renvois
 
-| Écriture | Désigne |
-|---|---|
-| §4.6 | Une section de ce document |
-| §10 | L'annexe SQL |
-| D18 | Un arbitrage, table en **§0.1** |
+| Écriture | Désigne                         |
+| -------- | ------------------------------- |
+| §4.6     | Une section de ce document      |
+| §10      | L'annexe SQL                    |
+| D18      | Un arbitrage, table en **§0.1** |
 
 ### 2.2 Nommage
 
-| Élément | Convention | Exemple |
-|---|---|---|
-| Table | snake_case, pluriel | `users`, `post_reactions` |
-| Colonne | snake_case, singulier | `password_hash`, `created_at` |
-| Clé primaire | `id` | `id` |
-| Clé étrangère — **[D27]** | `<rôle>_id` | `user_id`, `blocker_id` |
-| Index | `idx_<table>_<colonnes>` | `idx_posts_user_id_published_at_id` |
-| Contrainte unique | `uq_<table>_<colonnes>` | `uq_users_email` |
-| `CHECK` sur **une** colonne | `ck_<table>_<colonne>` | `ck_users_role` |
-| `CHECK` **entre** colonnes | `ck_<table>_<sujet>` | `ck_media_type_format` |
-| Clé primaire composite | `pk_<table>` | `pk_conversation_members` |
+| Élément                     | Convention               | Exemple                             |
+| --------------------------- | ------------------------ | ----------------------------------- |
+| Table                       | snake_case, pluriel      | `users`, `post_reactions`           |
+| Colonne                     | snake_case, singulier    | `password_hash`, `created_at`       |
+| Clé primaire                | `id`                     | `id`                                |
+| Clé étrangère — **[D27]**   | `<rôle>_id`              | `user_id`, `blocker_id`             |
+| Index                       | `idx_<table>_<colonnes>` | `idx_posts_user_id_published_at_id` |
+| Contrainte unique           | `uq_<table>_<colonnes>`  | `uq_users_email`                    |
+| `CHECK` sur **une** colonne | `ck_<table>_<colonne>`   | `ck_users_role`                     |
+| `CHECK` **entre** colonnes  | `ck_<table>_<sujet>`     | `ck_media_type_format`              |
+| Clé primaire composite      | `pk_<table>`             | `pk_conversation_members`           |
 
 > **Les noms `pk_<table>` et `uq_<table>_…` sont documentaires.** SQLite
 > ne les expose pas : une violation de clé primaire composite remonte
@@ -102,34 +102,34 @@ fichier à modifier.**
 
 ### 2.3 Notation
 
-| Abréviation | Signification |
-|---|---|
-| `PK` | Fait partie de la clé primaire |
-| `FK` | Clé étrangère |
-| `NN` | `NOT NULL` |
-| *(rien)* | Facultative |
+| Abréviation | Signification                  |
+| ----------- | ------------------------------ |
+| `PK`        | Fait partie de la clé primaire |
+| `FK`        | Clé étrangère                  |
+| `NN`        | `NOT NULL`                     |
+| _(rien)_    | Facultative                    |
 
 ### 2.4 Les trois familles de CHECK
 
 **Famille 1 — énumérations. Toute colonne à valeurs fermées porte un
 `ck_<table>_<colonne>` : 19 contraintes**, SQL en §10.1.
 
-| Contrainte | Valeurs |
-|---|---|
-| `ck_users_role` | `user`, `moderator`, `admin` |
-| `ck_users_post_visibility`, `ck_users_group_invite_policy` | `public`, `friends` |
-| `ck_media_media_type`, `ck_message_attachments_media_type` | `photo`, `video` |
-| `ck_media_file_format`, `ck_message_attachments_file_format` | les huit formats |
-| `ck_post_reactions_reaction_type`, `ck_comment_reactions_reaction_type` | `like`, `dislike` |
-| `ck_user_sanctions_sanction_type` | `warning`, `ban` |
-| `ck_reports_target_type` | `post`, `comment`, `user` |
-| `ck_reports_reason` | `spam`, `harassment`, `offensive_content`, `other` |
-| `ck_reports_status` | `pending`, `resolved`, `dismissed` |
-| `ck_friendships_status` | `pending`, `accepted` |
-| `ck_notifications_notification_type` | les huit types |
-| `ck_hashtag_trends_period` | `7d` |
-| `ck_media_staging_state` | `staged`, `orphaned` |
-| `ck_conversations_is_group`, `ck_notifications_is_read` | `0`, `1` |
+| Contrainte                                                              | Valeurs                                            |
+| ----------------------------------------------------------------------- | -------------------------------------------------- |
+| `ck_users_role`                                                         | `user`, `moderator`, `admin`                       |
+| `ck_users_post_visibility`, `ck_users_group_invite_policy`              | `public`, `friends`                                |
+| `ck_media_media_type`, `ck_message_attachments_media_type`              | `photo`, `video`                                   |
+| `ck_media_file_format`, `ck_message_attachments_file_format`            | les huit formats                                   |
+| `ck_post_reactions_reaction_type`, `ck_comment_reactions_reaction_type` | `like`, `dislike`                                  |
+| `ck_user_sanctions_sanction_type`                                       | `warning`, `ban`                                   |
+| `ck_reports_target_type`                                                | `post`, `comment`, `user`                          |
+| `ck_reports_reason`                                                     | `spam`, `harassment`, `offensive_content`, `other` |
+| `ck_reports_status`                                                     | `pending`, `resolved`, `dismissed`                 |
+| `ck_friendships_status`                                                 | `pending`, `accepted`                              |
+| `ck_notifications_notification_type`                                    | les huit types                                     |
+| `ck_hashtag_trends_period`                                              | `7d`                                               |
+| `ck_media_staging_state`                                                | `staged`, `orphaned`                               |
+| `ck_conversations_is_group`, `ck_notifications_is_read`                 | `0`, `1`                                           |
 
 > **Sans elles, la base accepte `role = 'superadmin'`** sans un mot.
 
@@ -149,11 +149,11 @@ pouvoir être référencée indépendamment de ses autres attributs. Une clé
 composite est retenue lorsque la ligne n'a pas d'existence propre hors de la
 relation qu'elle exprime, et qu'aucune table ne la référence.**
 
-| Forme | Nombre | Tables |
-|---|---|---|
-| `id INTEGER` | 13 | Cas général |
-| `sid TEXT` | 1 | `sessions` |
-| Composite | 9 | `post_hashtags`, `blocks`, `saved_posts`, `conversation_members`, `hashtag_trends`, `idempotency_reservations`, `friendships`, **`post_reactions`**, **`comment_reactions`** |
+| Forme        | Nombre | Tables                                                                                                                                                                       |
+| ------------ | ------ | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `id INTEGER` | 13     | Cas général                                                                                                                                                                  |
+| `sid TEXT`   | 1      | `sessions`                                                                                                                                                                   |
+| Composite    | 9      | `post_hashtags`, `blocks`, `saved_posts`, `conversation_members`, `hashtag_trends`, `idempotency_reservations`, `friendships`, **`post_reactions`**, **`comment_reactions`** |
 
 > **[D63] Les réactions passent en clé composite.** La v2.9 leur gardait un
 > `id` en invoquant qu'« une notification pourrait les référencer ». Deux
@@ -186,11 +186,11 @@ minuscules par le code, jamais par la base** (D56).
 
 ### 3.1 Pragmas
 
-| Pragma | Portée | Rôle |
-|---|---|---|
-| `foreign_keys` | par connexion | Sans lui, clés étrangères et cascades inactives, **sans erreur** |
-| `journal_mode = WAL` | persistant | Lectures possibles pendant une écriture |
-| `busy_timeout` | par connexion | Une écriture concurrente attend au lieu d'échouer |
+| Pragma               | Portée        | Rôle                                                             |
+| -------------------- | ------------- | ---------------------------------------------------------------- |
+| `foreign_keys`       | par connexion | Sans lui, clés étrangères et cascades inactives, **sans erreur** |
+| `journal_mode = WAL` | persistant    | Lectures possibles pendant une écriture                          |
+| `busy_timeout`       | par connexion | Une écriture concurrente attend au lieu d'échouer                |
 
 **Toute connexion applicative doit passer par `openDatabase()`.**
 
@@ -199,7 +199,7 @@ minuscules par le code, jamais par la base** (D56).
 >
 > **`foreign_keys` doit être désactivé pendant la séquence, parce que le
 > `DROP TABLE` déclenche les suppressions implicites, donc les `ON DELETE
-> CASCADE` des enfants.** La variante qui renomme l'ancienne table de côté a
+CASCADE` des enfants.** La variante qui renomme l'ancienne table de côté a
 > un piège distinct : avec `legacy_alter_table = OFF`, le `RENAME` réécrit les
 > clauses `REFERENCES` des enfants.
 >
@@ -256,10 +256,10 @@ Même piège pour un **index d'expression**.
 
 ### 3.6 Casse, jokers et normalisation
 
-| Comparaison | Résultat |
-|---|---|
-| `'Kleiton' = 'kleiton'` | faux |
-| `'Kleiton' GLOB 'kleiton'` | faux |
+| Comparaison                | Résultat |
+| -------------------------- | -------- |
+| `'Kleiton' = 'kleiton'`    | faux     |
+| `'Kleiton' GLOB 'kleiton'` | faux     |
 | `'Kleiton' LIKE 'kleiton'` | **vrai** |
 
 > **`_` est un joker dans `LIKE`.** `ck_users_username` utilise `GLOB` pour
@@ -294,11 +294,11 @@ point est **littéral** en `GLOB`, donc `…00X500Z` est bien refusé.
 
 ### 3.8 Un CHECK n'a pas de portée temporelle
 
-| Contrainte | Opération qui aurait échoué |
-|---|---|
-| `ck_users_contact` | Anonymisation, qui vide mail et téléphone (D52) |
-| `ck_comments_body` | Suppression logique, qui vide le texte (D30-a) |
-| `ck_reports_target` | Retrait du lien vers la cible (D31) |
+| Contrainte          | Opération qui aurait échoué                     |
+| ------------------- | ----------------------------------------------- |
+| `ck_users_contact`  | Anonymisation, qui vide mail et téléphone (D52) |
+| `ck_comments_body`  | Suppression logique, qui vide le texte (D30-a)  |
+| `ck_reports_target` | Retrait du lien vers la cible (D31)             |
 
 > **C'est aussi ce qui autorise les équivalences strictes** de
 > `ck_user_sanctions_lifted` et `ck_posts_deleted_by` : sûres **parce que les
@@ -316,17 +316,17 @@ elles que l'audit `ON DELETE` doit couvrir toutes les FK** (D62).
 
 ### 4.1 `sessions`
 
-| Colonne | Type | Rôle |
-|---|---|---|
-| `sid` | `TEXT` PK NN | Identifiant généré par la bibliothèque |
-| `data` | `TEXT` NN | Session sérialisée : cookie, `userId`, `role` |
-| `expires_at` | `TEXT` NN | Date d'expiration |
+| Colonne      | Type         | Rôle                                          |
+| ------------ | ------------ | --------------------------------------------- |
+| `sid`        | `TEXT` PK NN | Identifiant généré par la bibliothèque        |
+| `data`       | `TEXT` NN    | Session sérialisée : cookie, `userId`, `role` |
+| `expires_at` | `TEXT` NN    | Date d'expiration                             |
 
-| Index et contraintes | Rôle |
-|---|---|
-| `idx_sessions_expires_at` | Accélère `purgeExpired()` |
-| `idx_sessions_user_id` | Index d'expression — **[à livrer]** |
-| `ck_sessions_expires_at_format` | Format de date — **[à livrer]** |
+| Index et contraintes            | Rôle                                |
+| ------------------------------- | ----------------------------------- |
+| `idx_sessions_expires_at`       | Accélère `purgeExpired()`           |
+| `idx_sessions_user_id`          | Index d'expression — **[à livrer]** |
+| `ck_sessions_expires_at_format` | Format de date — **[à livrer]**     |
 
 **Pas de clé étrangère vers `users`** : l'`userId` est dans le blob JSON.
 **C'est la raison technique du choix `express-session` plutôt que JWT.**
@@ -370,7 +370,7 @@ d'express-session.
 
 **[D13]** Le rôle est relu en base sur toute route exigeant un rôle autre que
 `user` ; la copie en session ne sert qu'à l'affichage. **L'état du compte est
-vérifié sur *toutes* les routes authentifiées** (§10.6). Zéro ligne → session
+vérifié sur _toutes_ les routes authentifiées** (§10.6). Zéro ligne → session
 détruite, requête refusée.
 
 > **`expires_at` est `NOT NULL`, pas `session.cookie.expires`.** Un cookie
@@ -380,20 +380,20 @@ détruite, requête refusée.
 
 ### 4.2 `password_reset_tokens`
 
-| Colonne | Type | Rôle |
-|---|---|---|
-| `id` | `INTEGER` PK NN | Identifiant |
-| `user_id` | `INTEGER` FK NN | Compte concerné |
-| `token_hash` | `TEXT` NN | **Hash SHA-256** du token |
-| `expires_at` | `TEXT` NN | Expiration : **10 minutes** — **[récap]** |
-| `used_at` | `TEXT` | `NULL` tant que non utilisé |
-| `created_at` | `TEXT` NN | Date d'émission |
+| Colonne      | Type            | Rôle                                      |
+| ------------ | --------------- | ----------------------------------------- |
+| `id`         | `INTEGER` PK NN | Identifiant                               |
+| `user_id`    | `INTEGER` FK NN | Compte concerné                           |
+| `token_hash` | `TEXT` NN       | **Hash SHA-256** du token                 |
+| `expires_at` | `TEXT` NN       | Expiration : **10 minutes** — **[récap]** |
+| `used_at`    | `TEXT`          | `NULL` tant que non utilisé               |
+| `created_at` | `TEXT` NN       | Date d'émission                           |
 
-| Index et contraintes | Rôle |
-|---|---|
-| `uq_password_reset_tokens_token_hash` | Un token n'existe qu'une fois |
-| `idx_password_reset_tokens_user_id`, `_expires_at` | Recherche, purge |
-| `ck_password_reset_tokens_*_format` | Trois dates — **[à livrer]** |
+| Index et contraintes                               | Rôle                          |
+| -------------------------------------------------- | ----------------------------- |
+| `uq_password_reset_tokens_token_hash`              | Un token n'existe qu'une fois |
+| `idx_password_reset_tokens_user_id`, `_expires_at` | Recherche, purge              |
+| `ck_password_reset_tokens_*_format`                | Trois dates — **[à livrer]**  |
 
 **Le token en clair n'est jamais stocké.** **[récap]** Le lien part sur ce qui
 est renseigné ; si les deux le sont, l'utilisateur choisit. Réinitialiser
@@ -406,34 +406,34 @@ déconnecte toutes les sessions.
 
 ### 4.3 `users`
 
-| Colonne | Type | Rôle |
-|---|---|---|
-| `id` | `INTEGER` PK NN | Identifiant interne |
-| `username` | `TEXT` NN | Pseudo public. **Casse conservée** |
-| `email` | `TEXT` | Contact et connexion, **en minuscules** |
-| `phone` | `TEXT` | Contact et connexion, E.164 |
-| `password_hash` | `TEXT` NN | Chaîne PHC argon2id, **sel inclus** |
-| `bio` | `TEXT` | 500 caractères maximum |
-| `avatar_path` | `TEXT` | Chemin, 512 caractères maximum — **[D61]** |
-| `role` | `TEXT` NN | `user`, `moderator` ou `admin` |
-| `post_visibility` | `TEXT` NN | **Visibilité de tout ce qu'il publie**. Défaut `public` |
-| `group_invite_policy` | `TEXT` NN | Qui peut m'ajouter à un groupe |
-| `deleted_at` | `TEXT` | Date d'anonymisation |
-| `created_at` | `TEXT` NN | Date d'inscription |
+| Colonne               | Type            | Rôle                                                    |
+| --------------------- | --------------- | ------------------------------------------------------- |
+| `id`                  | `INTEGER` PK NN | Identifiant interne                                     |
+| `username`            | `TEXT` NN       | Pseudo public. **Casse conservée**                      |
+| `email`               | `TEXT`          | Contact et connexion, **en minuscules**                 |
+| `phone`               | `TEXT`          | Contact et connexion, E.164                             |
+| `password_hash`       | `TEXT` NN       | Chaîne PHC argon2id, **sel inclus**                     |
+| `bio`                 | `TEXT`          | 500 caractères maximum                                  |
+| `avatar_path`         | `TEXT`          | Chemin, 512 caractères maximum — **[D61]**              |
+| `role`                | `TEXT` NN       | `user`, `moderator` ou `admin`                          |
+| `post_visibility`     | `TEXT` NN       | **Visibilité de tout ce qu'il publie**. Défaut `public` |
+| `group_invite_policy` | `TEXT` NN       | Qui peut m'ajouter à un groupe                          |
+| `deleted_at`          | `TEXT`          | Date d'anonymisation                                    |
+| `created_at`          | `TEXT` NN       | Date d'inscription                                      |
 
-| Index et contraintes | Rôle |
-|---|---|
-| `uq_users_username` | `COLLATE NOCASE`. **Non partiel** |
-| `uq_users_email`, `uq_users_phone` | Partiels |
-| `ck_users_username` | Longueur, jeu, **au moins une lettre**, préfixe réservé |
-| `ck_users_email` | Casse **ASCII**, longueur, forme, un seul `@` |
-| `ck_users_phone` | Format E.164 |
-| `ck_users_contact` | **Un mail ou un téléphone**, sauf compte anonymisé — **[D52]** |
-| `ck_users_bio`, `ck_users_avatar_path` | Longueurs — **[D61]** |
-| `ck_users_role`, `_post_visibility`, `_group_invite_policy` | Énumérations |
-| `ck_users_*_format` | Deux dates |
+| Index et contraintes                                        | Rôle                                                           |
+| ----------------------------------------------------------- | -------------------------------------------------------------- |
+| `uq_users_username`                                         | `COLLATE NOCASE`. **Non partiel**                              |
+| `uq_users_email`, `uq_users_phone`                          | Partiels                                                       |
+| `ck_users_username`                                         | Longueur, jeu, **au moins une lettre**, préfixe réservé        |
+| `ck_users_email`                                            | Casse **ASCII**, longueur, forme, un seul `@`                  |
+| `ck_users_phone`                                            | Format E.164                                                   |
+| `ck_users_contact`                                          | **Un mail ou un téléphone**, sauf compte anonymisé — **[D52]** |
+| `ck_users_bio`, `ck_users_avatar_path`                      | Longueurs — **[D61]**                                          |
+| `ck_users_role`, `_post_visibility`, `_group_invite_policy` | Énumérations                                                   |
+| `ck_users_*_format`                                         | Deux dates                                                     |
 
-*(Tout est `[à livrer]` ; SQL en §10.)*
+_(Tout est `[à livrer]` ; SQL en §10.)_
 
 #### Le contact obligatoire — **[D52]**
 
@@ -456,11 +456,11 @@ comptes anonymisés. Casse conservée, unicité `NOCASE`.
 Le `CHECK` vérifie la casse, la longueur, l'unicité du `@` et l'absence
 d'espace. **Trois limites, toutes assumées :**
 
-| Limite | Détail |
-|---|---|
-| **La casse n'est garantie que sur l'ASCII** | `email = lower(email)` **accepte `École@test.fr`** : aucune majuscule ASCII à replier (§3.6) |
-| La forme est grossière | `a@b..c` passe. Une expression régulière stricte en base rejetterait des adresses valides, et ne se corrige pas sans reconstruire la table |
-| **L'espace n'est que l'espace** | `NOT GLOB '* *'` ne voit ni tabulation, ni retour ligne, ni espace insécable |
+| Limite                                      | Détail                                                                                                                                     |
+| ------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------ |
+| **La casse n'est garantie que sur l'ASCII** | `email = lower(email)` **accepte `École@test.fr`** : aucune majuscule ASCII à replier (§3.6)                                               |
+| La forme est grossière                      | `a@b..c` passe. Une expression régulière stricte en base rejetterait des adresses valides, et ne se corrige pas sans reconstruire la table |
+| **L'espace n'est que l'espace**             | `NOT GLOB '* *'` ne voit ni tabulation, ni retour ligne, ni espace insécable                                                               |
 
 **La conséquence de la première est la plus sérieuse.** `uq_users_email` est
 un index **binaire** : `École@test.fr` et `école@test.fr` sont **deux comptes
@@ -468,7 +468,7 @@ distincts pour une seule boîte réelle**. L'utilisateur qui demande une
 réinitialisation la reçoit pour un compte qu'il ne croit pas avoir créé.
 
 **La garantie repose donc entièrement sur le `.normalize('NFC').toLowerCase()`
-de Zod, appelé à l'inscription *et* au changement d'adresse** (§8). C'est le
+de Zod, appelé à l'inscription _et_ au changement d'adresse** (§8). C'est le
 même défaut, la même parade et la même exigence de test que pour les hashtags
 (§4.12) — d'où une décision unique, D56.
 
@@ -492,16 +492,16 @@ masse. Voici pourquoi.
 
 **Un compte à un million de publications bascule de `public` à `friends` :**
 
-| | Modèle dérivé (retenu) | Modèle matérialisé |
-|---|---|---|
-| Écritures | **1 ligne** | **1 000 000** |
-| Durée | microsecondes | secondes à minutes |
-| Verrou | imperceptible | **exclusif** : plus personne ne publie ni n'écrit (§3.2) |
-| `busy_timeout` | sans objet | dépassé → **erreurs visibles** |
-| WAL | inchangé | gonfle d'un million de pages |
-| `version` | inchangée | **un million d'incréments** |
-| Clients | voir D58 | **tout ETag obsolète** → 412 au prochain `PATCH` |
-| Reprise sur panne | atomique | à rejouer |
+|                   | Modèle dérivé (retenu) | Modèle matérialisé                                       |
+| ----------------- | ---------------------- | -------------------------------------------------------- |
+| Écritures         | **1 ligne**            | **1 000 000**                                            |
+| Durée             | microsecondes          | secondes à minutes                                       |
+| Verrou            | imperceptible          | **exclusif** : plus personne ne publie ni n'écrit (§3.2) |
+| `busy_timeout`    | sans objet             | dépassé → **erreurs visibles**                           |
+| WAL               | inchangé               | gonfle d'un million de pages                             |
+| `version`         | inchangée              | **un million d'incréments**                              |
+| Clients           | voir D58               | **tout ETag obsolète** → 412 au prochain `PATCH`         |
+| Reprise sur panne | atomique               | à rejouer                                                |
 
 **Le coût du modèle dérivé** est double, et la v2.9 n'en voyait qu'un :
 
@@ -562,24 +562,24 @@ authentifiée.
 
 ### 4.4 `user_sanctions`
 
-| Colonne | Type | Rôle |
-|---|---|---|
-| `id` | `INTEGER` PK NN | Identifiant |
-| `user_id` | `INTEGER` FK NN | Utilisateur sanctionné |
-| `moderator_id` | `INTEGER` FK NN | Qui a prononcé |
-| `sanction_type` | `TEXT` NN | `warning` ou `ban` |
-| `reason` | `TEXT` NN | Motif **libre**, 200 caractères — **[D61]** |
-| `details` | `TEXT` | 2000 caractères — **[D61]** |
-| `lifted_at` | `TEXT` | Date de levée. `NULL` tant que la sanction est active |
-| `lifted_by_id` | `INTEGER` FK | Qui a levé — modérateur ou administrateur |
-| `created_at` | `TEXT` NN | Date de prise d'effet |
+| Colonne         | Type            | Rôle                                                  |
+| --------------- | --------------- | ----------------------------------------------------- |
+| `id`            | `INTEGER` PK NN | Identifiant                                           |
+| `user_id`       | `INTEGER` FK NN | Utilisateur sanctionné                                |
+| `moderator_id`  | `INTEGER` FK NN | Qui a prononcé                                        |
+| `sanction_type` | `TEXT` NN       | `warning` ou `ban`                                    |
+| `reason`        | `TEXT` NN       | Motif **libre**, 200 caractères — **[D61]**           |
+| `details`       | `TEXT`          | 2000 caractères — **[D61]**                           |
+| `lifted_at`     | `TEXT`          | Date de levée. `NULL` tant que la sanction est active |
+| `lifted_by_id`  | `INTEGER` FK    | Qui a levé — modérateur ou administrateur             |
+| `created_at`    | `TEXT` NN       | Date de prise d'effet                                 |
 
-| Index et contraintes | Rôle |
-|---|---|
-| `idx_user_sanctions_user_id` | Recherche de la sanction active |
-| `ck_user_sanctions_sanction_type` | Énumération |
-| `ck_user_sanctions_lifted` | `(lifted_at IS NULL) = (lifted_by_id IS NULL)` |
-| `ck_user_sanctions_self`, `_reason`, `_details`, `_*_format` | — |
+| Index et contraintes                                         | Rôle                                           |
+| ------------------------------------------------------------ | ---------------------------------------------- |
+| `idx_user_sanctions_user_id`                                 | Recherche de la sanction active                |
+| `ck_user_sanctions_sanction_type`                            | Énumération                                    |
+| `ck_user_sanctions_lifted`                                   | `(lifted_at IS NULL) = (lifted_by_id IS NULL)` |
+| `ck_user_sanctions_self`, `_reason`, `_details`, `_*_format` | —                                              |
 
 #### Le bannissement est réversible — **[D24]**
 
@@ -596,11 +596,11 @@ peut annuler un avertissement prononcé par erreur. `lifted_at` et
 **Une sanction réversible ne détruit rien.** C'est ce qui décide du sort des
 contenus :
 
-| Contenu d'un compte banni | Traitement |
-|---|---|
-| Publications | **masquées** tant que la sanction est active |
-| Commentaires, messages | conservés et masqués de la même façon |
-| Profil public | « compte inexistant » |
+| Contenu d'un compte banni | Traitement                                   |
+| ------------------------- | -------------------------------------------- |
+| Publications              | **masquées** tant que la sanction est active |
+| Commentaires, messages    | conservés et masqués de la même façon        |
+| Profil public             | « compte inexistant »                        |
 
 Le masquage **n'est pas un mécanisme nouveau** : `postVisible()` exclut déjà
 les contenus d'un auteur banni (§6.3). Lever la sanction les fait donc
@@ -629,51 +629,51 @@ consultable, pas l'absence de session.
 
 ### 4.5 `blocks` — **[D48]** **[D54]** **[D60]**
 
-| Colonne | Type | Rôle |
-|---|---|---|
-| `blocker_id` | `INTEGER` PK FK NN | Qui a bloqué |
+| Colonne      | Type               | Rôle           |
+| ------------ | ------------------ | -------------- |
+| `blocker_id` | `INTEGER` PK FK NN | Qui a bloqué   |
 | `blocked_id` | `INTEGER` PK FK NN | Qui est bloqué |
-| `created_at` | `TEXT` NN | Date |
+| `created_at` | `TEXT` NN          | Date           |
 
-| Index et contraintes | Rôle |
-|---|---|
-| `pk_blocks` | Clé composite |
-| `idx_blocks_blocked_id` | **Indispensable** : la lecture est symétrique |
-| `ck_blocks_self`, `ck_blocks_created_at_format` | — |
+| Index et contraintes                            | Rôle                                          |
+| ----------------------------------------------- | --------------------------------------------- |
+| `pk_blocks`                                     | Clé composite                                 |
+| `idx_blocks_blocked_id`                         | **Indispensable** : la lecture est symétrique |
+| `ck_blocks_self`, `ck_blocks_created_at_format` | —                                             |
 
 #### Bidirectionnel — **[D48]**
 
-| | A ↔ B |
-|---|---|
-| Profil, publications, commentaires, réactions | **invisibles des deux côtés** |
-| Recherche | chacun disparaît des résultats de l'autre |
-| **Conversation privée** : ouvrir, envoyer | **impossible des deux côtés** |
-| Messages privés antérieurs | « message indisponible » pour les deux |
-| Demande d'ami | impossible |
-| Liker, commenter, repartager, enregistrer | impossible |
-| Notification | jamais créée, dans aucun sens |
+|                                               | A ↔ B                                     |
+| --------------------------------------------- | ----------------------------------------- |
+| Profil, publications, commentaires, réactions | **invisibles des deux côtés**             |
+| Recherche                                     | chacun disparaît des résultats de l'autre |
+| **Conversation privée** : ouvrir, envoyer     | **impossible des deux côtés**             |
+| Messages privés antérieurs                    | « message indisponible » pour les deux    |
+| Demande d'ami                                 | impossible                                |
+| Liker, commenter, repartager, enregistrer     | impossible                                |
+| Notification                                  | jamais créée, dans aucun sens             |
 
 #### Les groupes, et le contournement par un tiers — **[D54]** **[D60]**
 
 Les interdictions portent sur la **relation directe**. Une conversation de
 groupe appartient à ses membres, pas à la paire :
 
-| En groupe où A et B sont membres | |
-|---|---|
-| Rester membre, lire, écrire | **oui, pour les deux** |
-| Voir les messages de l'autre | **non** : « message indisponible », des deux côtés |
-| Ce que voient les autres | **tout, normalement** |
+| En groupe où A et B sont membres |                                                    |
+| -------------------------------- | -------------------------------------------------- |
+| Rester membre, lire, écrire      | **oui, pour les deux**                             |
+| Voir les messages de l'autre     | **non** : « message indisponible », des deux côtés |
+| Ce que voient les autres         | **tout, normalement**                              |
 
 **[D60] Trois règles d'ajout, et non plus une.** La v2.9 n'interdisait que
 l'ajout direct, ce qui laissait un contournement complet : **C pouvait ajouter
 B à un groupe où A était déjà**, après le blocage. Pour une fonction dont la
 raison d'être est le harcèlement, c'était le scénario à fermer.
 
-| Règle | Portée |
-|---|---|
-| A ne peut pas ajouter B, ni B ajouter A | relation directe (v2.9) |
-| **Personne ne peut ajouter quelqu'un à un groupe où se trouve une personne avec qui il a un blocage**, dans un sens ou l'autre | **nouveau** — ferme le contournement |
-| Une adhésion **antérieure** au blocage n'est pas rompue | bloquer n'expulse pas d'un groupe où des tiers ont invité |
+| Règle                                                                                                                          | Portée                                                    |
+| ------------------------------------------------------------------------------------------------------------------------------ | --------------------------------------------------------- |
+| A ne peut pas ajouter B, ni B ajouter A                                                                                        | relation directe (v2.9)                                   |
+| **Personne ne peut ajouter quelqu'un à un groupe où se trouve une personne avec qui il a un blocage**, dans un sens ou l'autre | **nouveau** — ferme le contournement                      |
+| Une adhésion **antérieure** au blocage n'est pas rompue                                                                        | bloquer n'expulse pas d'un groupe où des tiers ont invité |
 
 La troisième règle laisse subsister le cas des groupes déjà partagés : la
 sortie est **« quitter le groupe »**, qui doit rester accessible en un geste.
@@ -691,7 +691,7 @@ sortie est **« quitter le groupe »**, qui doit rester accessible en un geste.
   « signaler avant de bloquer ».
 
 > **Ce que le blocage ne couvre pas, et n'a pas à couvrir.** Dans un groupe
-> partagé, B peut continuer d'écrire *sur* A sans que A le voie. Ce n'est pas
+> partagé, B peut continuer d'écrire _sur_ A sans que A le voie. Ce n'est pas
 > une faille du blocage : celui-ci coupe la **relation** entre deux personnes,
 > pas ce qui se dit ailleurs. Ce qui circule dans le groupe relève de la
 > modération du groupe, et les autres membres — qui, eux, voient les
@@ -703,18 +703,18 @@ sortie est **« quitter le groupe »**, qui doit rester accessible en un geste.
 
 ### 4.6 `posts`
 
-| Colonne | Type | Rôle |
-|---|---|---|
-| `id` | `INTEGER` PK NN | Identifiant |
-| `user_id` | `INTEGER` FK NN | Auteur |
-| `caption` | `TEXT` | Description, **1 à 2200 caractères** |
-| `source_post_id` | `INTEGER` FK | Le post effectivement repartagé |
-| `root_post_id` | `INTEGER` FK | **Racine de la chaîne** |
-| `version` | `INTEGER` NN | Compteur d'ETag. Défaut 1 |
-| `published_at` | `TEXT` NN | **Date de publication** |
-| `updated_at` | `TEXT` | Dernière modification |
-| `deleted_at` | `TEXT` | Suppression logique |
-| `deleted_by_id` | `INTEGER` FK | **Toujours renseigné si `deleted_at` l'est** |
+| Colonne          | Type            | Rôle                                         |
+| ---------------- | --------------- | -------------------------------------------- |
+| `id`             | `INTEGER` PK NN | Identifiant                                  |
+| `user_id`        | `INTEGER` FK NN | Auteur                                       |
+| `caption`        | `TEXT`          | Description, **1 à 2200 caractères**         |
+| `source_post_id` | `INTEGER` FK    | Le post effectivement repartagé              |
+| `root_post_id`   | `INTEGER` FK    | **Racine de la chaîne**                      |
+| `version`        | `INTEGER` NN    | Compteur d'ETag. Défaut 1                    |
+| `published_at`   | `TEXT` NN       | **Date de publication**                      |
+| `updated_at`     | `TEXT`          | Dernière modification                        |
+| `deleted_at`     | `TEXT`          | Suppression logique                          |
+| `deleted_by_id`  | `INTEGER` FK    | **Toujours renseigné si `deleted_at` l'est** |
 
 > **Pourquoi `published_at` et non `created_at`** : c'est la seule table dont
 > la date porte une notion **métier** — affichée, triée, paginée, filtrée par
@@ -725,14 +725,14 @@ sortie est **« quitter le groupe »**, qui doit rester accessible en un geste.
 > l'autre — `NULL` dit « pas de description » (repartage nu). Zod applique un
 > `trim()` avant validation.
 
-| Index et contraintes | Rôle |
-|---|---|
-| `idx_posts_published_at_id` | Fil global, **partiel** |
-| `idx_posts_user_id_published_at_id` | Fil d'un profil, **partiel** |
-| `idx_posts_source_post_id`, `idx_posts_root_post_id` | Repartages, compteur |
-| `uq_posts_user_id_source_post_id` | Partiel — **[D7]** |
-| `ck_posts_source_post_id`, `ck_posts_root`, `ck_posts_deleted_by` | Cohérence |
-| `ck_posts_caption`, `ck_posts_version`, `ck_posts_*_format` | Formats |
+| Index et contraintes                                              | Rôle                         |
+| ----------------------------------------------------------------- | ---------------------------- |
+| `idx_posts_published_at_id`                                       | Fil global, **partiel**      |
+| `idx_posts_user_id_published_at_id`                               | Fil d'un profil, **partiel** |
+| `idx_posts_source_post_id`, `idx_posts_root_post_id`              | Repartages, compteur         |
+| `uq_posts_user_id_source_post_id`                                 | Partiel — **[D7]**           |
+| `ck_posts_source_post_id`, `ck_posts_root`, `ck_posts_deleted_by` | Cohérence                    |
+| `ck_posts_caption`, `ck_posts_version`, `ck_posts_*_format`       | Formats                      |
 
 #### Les deux index du fil — **[D46]**
 
@@ -784,18 +784,18 @@ id | user_id | caption            | source_post_id | root_post_id
 25 |    C    | NULL               | 19             | 12
 ```
 
-| Objet | Ce que c'est | Qui en gouverne la visibilité |
-|---|---|---|
-| **Le cadre** | La ligne `posts` du repartage | **Son auteur** (D20) |
+| Objet          | Ce que c'est                                | Qui en gouverne la visibilité  |
+| -------------- | ------------------------------------------- | ------------------------------ |
+| **Le cadre**   | La ligne `posts` du repartage               | **Son auteur** (D20)           |
 | **Le contenu** | Le média et la description de la **racine** | **L'auteur de la racine** (D8) |
 
 B, compte en `friends`, repartage un post **public** de A :
 
-| Lecteur | Cadre | Contenu | Résultat |
-|---|---|---|---|
-| Ami de B, ami de A | oui | oui | tout |
-| Ami de B, **pas** ami de A | oui | oui — le post de A est public | tout |
-| **Pas** ami de B | **non** | sans objet | le repartage n'apparaît pas |
+| Lecteur                    | Cadre   | Contenu                       | Résultat                    |
+| -------------------------- | ------- | ----------------------------- | --------------------------- |
+| Ami de B, ami de A         | oui     | oui                           | tout                        |
+| Ami de B, **pas** ami de A | oui     | oui — le post de A est public | tout                        |
+| **Pas** ami de B           | **non** | sans objet                    | le repartage n'apparaît pas |
 
 Si A bascule ensuite en `friends`, la deuxième ligne devient « cadre + contenu
 indisponible ». **Aucune fuite**, **aucune contradiction avec D20**.
@@ -812,36 +812,36 @@ seule racine laissait passer le cas indirect.
 
 ### 4.7 `media`
 
-| Colonne | Type | Rôle |
-|---|---|---|
-| `id` | `INTEGER` PK NN | Identifiant |
-| `post_id` | `INTEGER` FK NN | Post porteur. **Unique** |
-| `media_type`, `file_format` | `TEXT` NN | Type et extension |
-| `sanitized_path` | `TEXT` NN | **Version de référence, assainie** — 512 car. |
-| `display_path` | `TEXT` NN | Version retouchée, = `sanitized_path` si intacte |
-| `transform_params` | `TEXT` | Paramètres, 2000 caractères — **[D61]** |
-| `size_bytes` | `INTEGER` NN | **25 Mio maximum** |
-| `width` / `height` | `INTEGER` | **Strictement positifs** — **[D61]** |
-| `duration_seconds` | `INTEGER` | Réservée aux vidéos |
-| `created_at` | `TEXT` NN | Date d'ajout |
+| Colonne                     | Type            | Rôle                                             |
+| --------------------------- | --------------- | ------------------------------------------------ |
+| `id`                        | `INTEGER` PK NN | Identifiant                                      |
+| `post_id`                   | `INTEGER` FK NN | Post porteur. **Unique**                         |
+| `media_type`, `file_format` | `TEXT` NN       | Type et extension                                |
+| `sanitized_path`            | `TEXT` NN       | **Version de référence, assainie** — 512 car.    |
+| `display_path`              | `TEXT` NN       | Version retouchée, = `sanitized_path` si intacte |
+| `transform_params`          | `TEXT`          | Paramètres, 2000 caractères — **[D61]**          |
+| `size_bytes`                | `INTEGER` NN    | **25 Mio maximum**                               |
+| `width` / `height`          | `INTEGER`       | **Strictement positifs** — **[D61]**             |
+| `duration_seconds`          | `INTEGER`       | Réservée aux vidéos                              |
+| `created_at`                | `TEXT` NN       | Date d'ajout                                     |
 
-| Index et contraintes | Rôle |
-|---|---|
-| `uq_media_post_id` | Un seul média par post |
-| `ck_media_media_type`, `ck_media_file_format` | Énumérations |
-| `ck_media_type_format` | **Cohérence** type / format — §10.3 |
-| `ck_media_size_bytes`, `ck_media_duration_seconds` | Bornes |
-| **`ck_media_dimensions`** | `width` et `height` renseignés ensemble et positifs — **[D61]** |
-| `ck_media_*_path`, `ck_media_created_at_format` | Longueurs, date |
+| Index et contraintes                               | Rôle                                                            |
+| -------------------------------------------------- | --------------------------------------------------------------- |
+| `uq_media_post_id`                                 | Un seul média par post                                          |
+| `ck_media_media_type`, `ck_media_file_format`      | Énumérations                                                    |
+| `ck_media_type_format`                             | **Cohérence** type / format — §10.3                             |
+| `ck_media_size_bytes`, `ck_media_duration_seconds` | Bornes                                                          |
+| **`ck_media_dimensions`**                          | `width` et `height` renseignés ensemble et positifs — **[D61]** |
+| `ck_media_*_path`, `ck_media_created_at_format`    | Longueurs, date                                                 |
 
 > `width` et `height` acceptaient `0`, `-1` ou une chaîne, alors que
 > `size_bytes` et `duration_seconds` étaient bornés. Le principe affiché est
 > « la base refuse ce que le code oublie » : une ligne de plus le tient.
 
-| Catégorie | `media_type` | Formats |
-|---|---|---|
-| Images | `photo` | `jpg`, `jpeg`, `png`, `webp`, `gif`, `svg` |
-| Vidéos | `video` | `mp4`, `webm` |
+| Catégorie | `media_type` | Formats                                    |
+| --------- | ------------ | ------------------------------------------ |
+| Images    | `photo`      | `jpg`, `jpeg`, `png`, `webp`, `gif`, `svg` |
+| Vidéos    | `video`      | `mp4`, `webm`                              |
 
 **Le format réel est vérifié à la réception**, la taille **avant et après
 traitement**, et la valeur est définie **à un seul endroit du code**.
@@ -851,11 +851,11 @@ traitement**, et la valeur est définie **à un seul endroit du code**.
 
 #### Chaîne d'assainissement — **[D9]** **[D29]** **[D43]**
 
-| Type | Traitement |
-|---|---|
-| Image bitmap | Ré-encodage sharp, **EXIF supprimé** |
-| SVG | Assainissement, **métadonnées XML supprimées** |
-| Vidéo | **exiftool en remux**, sans recompression |
+| Type         | Traitement                                     |
+| ------------ | ---------------------------------------------- |
+| Image bitmap | Ré-encodage sharp, **EXIF supprimé**           |
+| SVG          | Assainissement, **métadonnées XML supprimées** |
+| Vidéo        | **exiftool en remux**, sans recompression      |
 
 Elle s'applique aux **médias, aux pièces jointes et aux avatars**. L'upload
 brut est supprimé après traitement.
@@ -870,11 +870,11 @@ l'`unlink` **tolère `ENOENT`**.
 
 ### 4.8 `saved_posts`
 
-| Colonne | Type | Rôle |
-|---|---|---|
-| `user_id` | `INTEGER` PK FK NN | Qui enregistre |
-| `post_id` | `INTEGER` PK FK NN | Publication enregistrée |
-| `saved_at` | `TEXT` NN | Date |
+| Colonne    | Type               | Rôle                    |
+| ---------- | ------------------ | ----------------------- |
+| `user_id`  | `INTEGER` PK FK NN | Qui enregistre          |
+| `post_id`  | `INTEGER` PK FK NN | Publication enregistrée |
+| `saved_at` | `TEXT` NN          | Date                    |
 
 `pk_saved_posts`, `idx_saved_posts_user_id_saved_at`,
 `ck_saved_posts_saved_at_format`.
@@ -885,16 +885,16 @@ l'`unlink` **tolère `ENOENT`**.
 
 ### 4.9 `comments`
 
-| Colonne | Type | Rôle |
-|---|---|---|
-| `id` | `INTEGER` PK NN | Identifiant |
-| `post_id` | `INTEGER` FK NN | Post commenté |
-| `user_id` | `INTEGER` FK NN | Auteur |
-| `parent_comment_id` | `INTEGER` FK | **Une racine du même post** — **[D42]** |
-| `body` | `TEXT` | Texte. **Nullable**, 1 à 2200 caractères |
-| `created_at` | `TEXT` NN | Date |
-| `updated_at`, `deleted_at` | `TEXT` | Modification, suppression |
-| `deleted_by_id` | `INTEGER` FK | Qui a supprimé |
+| Colonne                    | Type            | Rôle                                     |
+| -------------------------- | --------------- | ---------------------------------------- |
+| `id`                       | `INTEGER` PK NN | Identifiant                              |
+| `post_id`                  | `INTEGER` FK NN | Post commenté                            |
+| `user_id`                  | `INTEGER` FK NN | Auteur                                   |
+| `parent_comment_id`        | `INTEGER` FK    | **Une racine du même post** — **[D42]**  |
+| `body`                     | `TEXT`          | Texte. **Nullable**, 1 à 2200 caractères |
+| `created_at`               | `TEXT` NN       | Date                                     |
+| `updated_at`, `deleted_at` | `TEXT`          | Modification, suppression                |
+| `deleted_by_id`            | `INTEGER` FK    | Qui a supprimé                           |
 
 `idx_comments_post_id_created_at`, `idx_comments_user_id`,
 `idx_comments_parent_comment_id`, `ck_comments_body`,
@@ -911,10 +911,10 @@ base.
 > calculer, et une mention `@pseudo` préremplie dans le corps indique à qui la
 > réponse s'adresse — c'est du texte, pas une colonne.
 >
-> | Contrôle | Nature | Sinon |
-> |---|---|---|
-> | Le parent désigne une réponse | **Normalisation** : on prend sa racine | — |
-> | Le parent appartient à un autre `post_id` | **Refus** | **422** |
+> | Contrôle                                  | Nature                                 | Sinon   |
+> | ----------------------------------------- | -------------------------------------- | ------- |
+> | Le parent désigne une réponse             | **Normalisation** : on prend sa racine | —       |
+> | Le parent appartient à un autre `post_id` | **Refus**                              | **422** |
 >
 > Le second reste un refus et non une correction : greffer une réponse sur le
 > commentaire d'une autre publication révèle l'existence d'un commentaire sur
@@ -937,15 +937,15 @@ particulier pas l'auteur de la publication.
 
 #### `idempotency_reservations` — **[D23]**
 
-| Colonne | Type | Rôle |
-|---|---|---|
-| `user_id` | `INTEGER` PK FK NN | Propriétaire |
-| `key` | `TEXT` PK NN | `Idempotency-Key`, 1 à 128 caractères |
-| `request_hash` | `TEXT` NN | SHA-256 |
-| `post_id` | `INTEGER` FK | Post créé. `NULL` tant que la réservation est en cours |
-| `created_at` | `TEXT` NN | **Immuable** |
-| `heartbeat_at` | `TEXT` NN | **Preuve de vie** |
-| `expires_at` | `TEXT` NN | 24 h après `created_at`. **Immuable** |
+| Colonne        | Type               | Rôle                                                   |
+| -------------- | ------------------ | ------------------------------------------------------ |
+| `user_id`      | `INTEGER` PK FK NN | Propriétaire                                           |
+| `key`          | `TEXT` PK NN       | `Idempotency-Key`, 1 à 128 caractères                  |
+| `request_hash` | `TEXT` NN          | SHA-256                                                |
+| `post_id`      | `INTEGER` FK       | Post créé. `NULL` tant que la réservation est en cours |
+| `created_at`   | `TEXT` NN          | **Immuable**                                           |
+| `heartbeat_at` | `TEXT` NN          | **Preuve de vie**                                      |
+| `expires_at`   | `TEXT` NN          | 24 h après `created_at`. **Immuable**                  |
 
 **Quatre écritures, toutes conditionnelles** (§10.6) :
 
@@ -968,12 +968,12 @@ particulier pas l'auteur de la publication.
 
 #### `media_staging` — **[D22]** **[D44]**
 
-| Colonne | Type | Rôle |
-|---|---|---|
-| `id` | `INTEGER` PK NN | Identifiant |
-| `file_path` | `TEXT` NN | Chemin. Unique, 512 caractères |
-| `state` | `TEXT` NN | `staged` ou `orphaned` |
-| `created_at` | `TEXT` NN | Date |
+| Colonne      | Type            | Rôle                           |
+| ------------ | --------------- | ------------------------------ |
+| `id`         | `INTEGER` PK NN | Identifiant                    |
+| `file_path`  | `TEXT` NN       | Chemin. Unique, 512 caractères |
+| `state`      | `TEXT` NN       | `staged` ou `orphaned`         |
+| `created_at` | `TEXT` NN       | Date                           |
 
 **Portée** : médias, pièces jointes, avatars, **et rendus retouchés
 remplacés**.
@@ -984,9 +984,9 @@ remplacés**.
    `orphaned` (§10.6)
 4. Le fichier est effacé après le commit : **optimisation, pas garantie**
 
-| État | Critère | Action du balayeur |
-|---|---|---|
-| `staged` | plus d'une heure | Effacer le fichier, puis la ligne |
+| État       | Critère             | Action du balayeur                            |
+| ---------- | ------------------- | --------------------------------------------- |
+| `staged`   | plus d'une heure    | Effacer le fichier, puis la ligne             |
 | `orphaned` | quel que soit l'âge | Effacer le fichier s'il existe, puis la ligne |
 
 > **Les deux `unlink` tolèrent `ENOENT`.**
@@ -995,25 +995,25 @@ remplacés**.
 
 ### 4.11 `post_reactions` et `comment_reactions` — **[D63]**
 
-| Colonne | Type | Rôle |
-|---|---|---|
-| `user_id` | `INTEGER` **PK** FK NN | Qui réagit |
-| `post_id` / `comment_id` | `INTEGER` **PK** FK NN | À quoi |
-| `reaction_type` | `TEXT` NN | `like` ou `dislike` |
-| `created_at` | `TEXT` NN | Date du **premier** vote |
+| Colonne                  | Type                   | Rôle                     |
+| ------------------------ | ---------------------- | ------------------------ |
+| `user_id`                | `INTEGER` **PK** FK NN | Qui réagit               |
+| `post_id` / `comment_id` | `INTEGER` **PK** FK NN | À quoi                   |
+| `reaction_type`          | `TEXT` NN              | `like` ou `dislike`      |
+| `created_at`             | `TEXT` NN              | Date du **premier** vote |
 
-| Index et contraintes | Rôle |
-|---|---|
-| `pk_post_reactions` | **Clé composite** — remplace `id` et l'ancien `uq_` — **[D63]** |
-| `idx_post_reactions_post_id` | Compter les réactions |
-| `ck_post_reactions_reaction_type`, `_created_at_format` | — |
+| Index et contraintes                                    | Rôle                                                            |
+| ------------------------------------------------------- | --------------------------------------------------------------- |
+| `pk_post_reactions`                                     | **Clé composite** — remplace `id` et l'ancien `uq_` — **[D63]** |
+| `idx_post_reactions_post_id`                            | Compter les réactions                                           |
+| `ck_post_reactions_reaction_type`, `_created_at_format` | —                                                               |
 
 L'upsert de D26 est inchangé : le `ON CONFLICT (user_id, post_id)` vise
 désormais la clé primaire. `created_at` n'est **pas** écrasé ; retirer son
 vote reste un `DELETE`.
 
 > **Les compteurs doivent être `COALESCE`és.** `SUM(reaction_type =
-> 'like')` sur un contenu **sans aucune réaction** renvoie `NULL`, pas `0` :
+'like')` sur un contenu **sans aucune réaction** renvoie `NULL`, pas `0` :
 > le front recevrait `null` pour tout contenu neuf. La requête de référence
 > (§10.6) applique `COALESCE(…, 0)` aux deux colonnes.
 
@@ -1023,11 +1023,11 @@ vote reste un `DELETE`.
 
 #### `hashtags` — **[D47]** **[D56]**
 
-| Colonne | Type | Rôle |
-|---|---|---|
-| `id` | `INTEGER` PK NN | Identifiant |
-| `name` | `TEXT` NN | **Minuscules, NFC, sans le `#`**, 1 à 100 caractères |
-| `created_at` | `TEXT` NN | Première apparition |
+| Colonne      | Type            | Rôle                                                 |
+| ------------ | --------------- | ---------------------------------------------------- |
+| `id`         | `INTEGER` PK NN | Identifiant                                          |
+| `name`       | `TEXT` NN       | **Minuscules, NFC, sans le `#`**, 1 à 100 caractères |
+| `created_at` | `TEXT` NN       | Première apparition                                  |
 
 `uq_hashtags_name` (comparaison **exacte**), `ck_hashtags_name`,
 `ck_hashtags_created_at_format`.
@@ -1041,13 +1041,13 @@ const name = raw.normalize('NFC').toLowerCase();
 > une majuscule ASCII**, et accepte celles dont les majuscules sont **toutes**
 > non-ASCII.
 >
-> | Saisie | `lower()` réel | `CHECK` | Effet |
-> |---|---|---|---|
-> | `VACANCES` | `vacances` | refuse | protégé |
-> | `Paris`, `NOËL`, `Noël` | replie au moins une lettre | refuse | protégé |
-> | `ÉTÉ` | `ÉtÉ` — **le `T` est ASCII** | refuse | protégé |
-> | **`Été`** | `Été` | **accepte** | **doublon avec `été`** |
-> | **`École`, `Ça`, `Île`** | inchangé | **accepte** | **doublon** |
+> | Saisie                   | `lower()` réel               | `CHECK`     | Effet                  |
+> | ------------------------ | ---------------------------- | ----------- | ---------------------- |
+> | `VACANCES`               | `vacances`                   | refuse      | protégé                |
+> | `Paris`, `NOËL`, `Noël`  | replie au moins une lettre   | refuse      | protégé                |
+> | `ÉTÉ`                    | `ÉtÉ` — **le `T` est ASCII** | refuse      | protégé                |
+> | **`Été`**                | `Été`                        | **accepte** | **doublon avec `été`** |
+> | **`École`, `Ça`, `Île`** | inchangé                     | **accepte** | **doublon**            |
 >
 > **Ce qui passe est donc le mot capitalisé ordinaire** — la forme la plus
 > courante d'un hashtag français — et non le cas rare des capitales
@@ -1065,9 +1065,9 @@ const name = raw.normalize('NFC').toLowerCase();
 
 #### `post_hashtags`
 
-| Colonne | Type | Rôle |
-|---|---|---|
-| `post_id` | `INTEGER` PK FK NN | Post |
+| Colonne      | Type               | Rôle    |
+| ------------ | ------------------ | ------- |
+| `post_id`    | `INTEGER` PK FK NN | Post    |
 | `hashtag_id` | `INTEGER` PK FK NN | Hashtag |
 
 `idx_post_hashtags_hashtag_id` est **indispensable**. **[D38]**
@@ -1075,12 +1075,12 @@ Re-synchronisée à chaque modification de description, **originaux seulement**.
 
 #### `hashtag_trends`
 
-| Colonne | Type | Rôle |
-|---|---|---|
-| `hashtag_id` | `INTEGER` PK FK NN | Hashtag |
-| `period` | `TEXT` PK NN | **`7d`** |
-| `post_count` | `INTEGER` NN | Positif ou nul |
-| `computed_at` | `TEXT` NN | Date du calcul |
+| Colonne       | Type               | Rôle           |
+| ------------- | ------------------ | -------------- |
+| `hashtag_id`  | `INTEGER` PK FK NN | Hashtag        |
+| `period`      | `TEXT` PK NN       | **`7d`**       |
+| `post_count`  | `INTEGER` NN       | Positif ou nul |
+| `computed_at` | `TEXT` NN          | Date du calcul |
 
 Le recalcul (§10.6) **tient dans une transaction**, ouverte par
 `db.transaction()`, **jamais par un `BEGIN` préparé**.
@@ -1092,27 +1092,27 @@ Le recalcul (§10.6) **tient dans une transaction**, ouverte par
 
 ### 4.13 `friendships` — **[D37]** **[D49]**
 
-| Colonne | Type | Rôle |
-|---|---|---|
-| `low_user_id` | `INTEGER` PK FK NN | Le plus **petit** identifiant |
-| `high_user_id` | `INTEGER` PK FK NN | Le plus **grand** |
-| `requester_id` | `INTEGER` FK NN | Qui a envoyé la demande |
-| `status` | `TEXT` NN | `pending` ou `accepted` |
-| `requested_at` | `TEXT` NN | Date |
+| Colonne        | Type               | Rôle                          |
+| -------------- | ------------------ | ----------------------------- |
+| `low_user_id`  | `INTEGER` PK FK NN | Le plus **petit** identifiant |
+| `high_user_id` | `INTEGER` PK FK NN | Le plus **grand**             |
+| `requester_id` | `INTEGER` FK NN    | Qui a envoyé la demande       |
+| `status`       | `TEXT` NN          | `pending` ou `accepted`       |
+| `requested_at` | `TEXT` NN          | Date                          |
 
 `pk_friendships`, `idx_friendships_high_user_id`, `ck_friendships_order`,
 `ck_friendships_requester`, `ck_friendships_status`, un `_format`.
 
 #### Trois états, six opérations — **[D49]**
 
-| Opération | Précondition | Effet |
-|---|---|---|
-| Envoyer une demande | aucune ligne | `INSERT`, `pending` |
-| Annuler | `pending`, on est le demandeur | **`DELETE`** |
-| **Refuser** | `pending`, on est le destinataire | **`DELETE`** |
-| Accepter | `pending`, on est le destinataire | `UPDATE status = 'accepted'` |
-| **Supprimer un ami** | `accepted` | **`DELETE`** |
-| Bloquer | n'importe lequel | **`DELETE`** (D48) |
+| Opération            | Précondition                      | Effet                        |
+| -------------------- | --------------------------------- | ---------------------------- |
+| Envoyer une demande  | aucune ligne                      | `INSERT`, `pending`          |
+| Annuler              | `pending`, on est le demandeur    | **`DELETE`**                 |
+| **Refuser**          | `pending`, on est le destinataire | **`DELETE`**                 |
+| Accepter             | `pending`, on est le destinataire | `UPDATE status = 'accepted'` |
+| **Supprimer un ami** | `accepted`                        | **`DELETE`**                 |
+| Bloquer              | n'importe lequel                  | **`DELETE`** (D48)           |
 
 **Refuser et supprimer un ami sont la même opération en base** : seule la
 précondition diffère, et le backend doit la vérifier.
@@ -1141,13 +1141,13 @@ qui peut accepter.
 
 #### `conversations`
 
-| Colonne | Type | Rôle |
-|---|---|---|
-| `id` | `INTEGER` PK NN | Identifiant |
-| `name` | `TEXT` | `NULL` pour une conversation à deux, **1 à 100 caractères** sinon — **[D61]** |
-| `is_group` | `INTEGER` NN | 0 ou 1 |
-| `created_by_id` | `INTEGER` FK NN | Créateur |
-| `created_at` | `TEXT` NN | Date |
+| Colonne         | Type            | Rôle                                                                          |
+| --------------- | --------------- | ----------------------------------------------------------------------------- |
+| `id`            | `INTEGER` PK NN | Identifiant                                                                   |
+| `name`          | `TEXT`          | `NULL` pour une conversation à deux, **1 à 100 caractères** sinon — **[D61]** |
+| `is_group`      | `INTEGER` NN    | 0 ou 1                                                                        |
+| `created_by_id` | `INTEGER` FK NN | Créateur                                                                      |
+| `created_at`    | `TEXT` NN       | Date                                                                          |
 
 `ck_conversations_is_group`, `ck_conversations_name`, un `_format`.
 
@@ -1156,13 +1156,13 @@ qui peut accepter.
 
 #### `conversation_members`
 
-| Colonne | Type | Rôle |
-|---|---|---|
-| `conversation_id` | `INTEGER` PK FK NN | Conversation |
-| `user_id` | `INTEGER` PK FK NN | Membre |
-| `added_by_id` | `INTEGER` FK NN | Qui l'a ajouté |
-| `added_at` | `TEXT` NN | Date d'ajout |
-| `last_read_at` | `TEXT` | Dernier message lu |
+| Colonne           | Type               | Rôle               |
+| ----------------- | ------------------ | ------------------ |
+| `conversation_id` | `INTEGER` PK FK NN | Conversation       |
+| `user_id`         | `INTEGER` PK FK NN | Membre             |
+| `added_by_id`     | `INTEGER` FK NN    | Qui l'a ajouté     |
+| `added_at`        | `TEXT` NN          | Date d'ajout       |
+| `last_read_at`    | `TEXT`             | Dernier message lu |
 
 `pk_conversation_members`, `idx_conversation_members_user_id`, deux `_format`.
 
@@ -1174,14 +1174,14 @@ la même requête **sans `GROUP BY`**.
 
 #### `messages`
 
-| Colonne | Type | Rôle |
-|---|---|---|
-| `id` | `INTEGER` PK NN | Identifiant |
-| `conversation_id` | `INTEGER` FK NN | Conversation |
-| `author_id` | `INTEGER` FK NN | Expéditeur |
-| `body` | `TEXT` | Texte. Facultatif, **1 à 5000 caractères** — **[D61]** |
-| `sent_at` | `TEXT` NN | Date d'envoi |
-| `deleted_at` | `TEXT` | Suppression logique |
+| Colonne           | Type            | Rôle                                                   |
+| ----------------- | --------------- | ------------------------------------------------------ |
+| `id`              | `INTEGER` PK NN | Identifiant                                            |
+| `conversation_id` | `INTEGER` FK NN | Conversation                                           |
+| `author_id`       | `INTEGER` FK NN | Expéditeur                                             |
+| `body`            | `TEXT`          | Texte. Facultatif, **1 à 5000 caractères** — **[D61]** |
+| `sent_at`         | `TEXT` NN       | Date d'envoi                                           |
+| `deleted_at`      | `TEXT`          | Suppression logique                                    |
 
 `idx_messages_conversation_id_sent_at_id`, **`ck_messages_body`**, deux
 `_format`.
@@ -1203,15 +1203,15 @@ la même requête **sans `GROUP BY`**.
 
 #### `message_attachments` — **[D10]** **[D36]** **[D43]**
 
-| Colonne | Type | Rôle |
-|---|---|---|
-| `id` | `INTEGER` PK NN | Identifiant |
-| `message_id` | `INTEGER` FK NN | Message porteur. **Unique** |
-| `media_type`, `file_format` | `TEXT` NN | Type et extension |
-| `file_path` | `TEXT` NN | **Version assainie**, 512 caractères |
-| `size_bytes` | `INTEGER` NN | **25 Mio maximum** |
-| `width` / `height` / `duration_seconds` | `INTEGER` | Dimensions, durée |
-| `created_at` | `TEXT` NN | Date |
+| Colonne                                 | Type            | Rôle                                 |
+| --------------------------------------- | --------------- | ------------------------------------ |
+| `id`                                    | `INTEGER` PK NN | Identifiant                          |
+| `message_id`                            | `INTEGER` FK NN | Message porteur. **Unique**          |
+| `media_type`, `file_format`             | `TEXT` NN       | Type et extension                    |
+| `file_path`                             | `TEXT` NN       | **Version assainie**, 512 caractères |
+| `size_bytes`                            | `INTEGER` NN    | **25 Mio maximum**                   |
+| `width` / `height` / `duration_seconds` | `INTEGER`       | Dimensions, durée                    |
+| `created_at`                            | `TEXT` NN       | Date                                 |
 
 `uq_message_attachments_message_id`, les deux énumérations,
 `ck_message_attachments_type_format`, `_size_bytes`, `_dimensions`, un
@@ -1223,31 +1223,31 @@ la même requête **sans `GROUP BY`**.
 
 ### 4.15 `reports`
 
-| Colonne | Type | Rôle |
-|---|---|---|
-| `id` | `INTEGER` PK NN | Identifiant |
-| `reporter_id` | `INTEGER` FK NN | Qui signale |
-| `target_type` | `TEXT` NN | `post`, `comment` ou `user` |
-| `post_id` / `comment_id` / `reported_user_id` | `INTEGER` FK | Cible, **vidée à la suppression** |
-| `target_snapshot` | `TEXT` | **Instantané JSON figé**, nullable |
-| `reason` | `TEXT` NN | Motif fermé |
-| `details` | `TEXT` | Obligatoire si `other`, 2000 caractères — **[D61]** |
-| `status` | `TEXT` NN | `pending`, `resolved` ou `dismissed` |
-| `moderator_id` | `INTEGER` FK | Qui a traité |
-| **`reported_at`** | `TEXT` **NN** | Date du signalement |
-| `resolved_at` | `TEXT` | Date de traitement |
+| Colonne                                       | Type            | Rôle                                                |
+| --------------------------------------------- | --------------- | --------------------------------------------------- |
+| `id`                                          | `INTEGER` PK NN | Identifiant                                         |
+| `reporter_id`                                 | `INTEGER` FK NN | Qui signale                                         |
+| `target_type`                                 | `TEXT` NN       | `post`, `comment` ou `user`                         |
+| `post_id` / `comment_id` / `reported_user_id` | `INTEGER` FK    | Cible, **vidée à la suppression**                   |
+| `target_snapshot`                             | `TEXT`          | **Instantané JSON figé**, nullable                  |
+| `reason`                                      | `TEXT` NN       | Motif fermé                                         |
+| `details`                                     | `TEXT`          | Obligatoire si `other`, 2000 caractères — **[D61]** |
+| `status`                                      | `TEXT` NN       | `pending`, `resolved` ou `dismissed`                |
+| `moderator_id`                                | `INTEGER` FK    | Qui a traité                                        |
+| **`reported_at`**                             | `TEXT` **NN**   | Date du signalement                                 |
+| `resolved_at`                                 | `TEXT`          | Date de traitement                                  |
 
 > `reported_at` était déclarée sans `NN` en §4.15 et traitée comme
 > obligatoire en §10.2. C'est la seconde lecture qui est juste :
 > `ck_reports_resolution` la présuppose.
 
-| Index et contraintes | Rôle |
-|---|---|
-| `idx_reports_status_reported_at` | File des signalements en attente |
-| `idx_reports_post_id` / `_comment_id` / `_reported_user_id` | Partiels |
-| `uq_reports_reporter_id_*` | Un signalement par personne et par cible |
-| `ck_reports_target_type`, `_reason`, `_status` | Énumérations |
-| `ck_reports_target`, `_resolution`, `_self`, `_details` | Cohérence, longueur |
+| Index et contraintes                                        | Rôle                                     |
+| ----------------------------------------------------------- | ---------------------------------------- |
+| `idx_reports_status_reported_at`                            | File des signalements en attente         |
+| `idx_reports_post_id` / `_comment_id` / `_reported_user_id` | Partiels                                 |
+| `uq_reports_reporter_id_*`                                  | Un signalement par personne et par cible |
+| `ck_reports_target_type`, `_reason`, `_status`              | Énumérations                             |
+| `ck_reports_target`, `_resolution`, `_self`, `_details`     | Cohérence, longueur                      |
 
 > **Un message ne peut pas être signalé — et c'est cohérent.** `target_type`
 > ne connaît que `post`, `comment` et `user` : c'est le périmètre du
@@ -1277,12 +1277,12 @@ signalements traités **purgés au-delà de 12 mois**. **[D40]**
 
 #### Traitement d'un signalement — **[D32]** **[D39]** **[D45]**
 
-| Décision | Sur le signalement | Sur la cible |
-|---|---|---|
-| Ignorer | `dismissed`, `moderator_id`, `resolved_at` | rien |
-| **Supprimer le contenu** | `resolved`, `moderator_id`, `resolved_at` | `deleted_at` et **`deleted_by_id` = le modérateur** |
-| Avertir | `resolved`, … | ligne dans `user_sanctions` |
-| Bannir | idem | ligne `ban` ; les contenus sont **masqués**, pas supprimés (§4.4) |
+| Décision                 | Sur le signalement                         | Sur la cible                                                      |
+| ------------------------ | ------------------------------------------ | ----------------------------------------------------------------- |
+| Ignorer                  | `dismissed`, `moderator_id`, `resolved_at` | rien                                                              |
+| **Supprimer le contenu** | `resolved`, `moderator_id`, `resolved_at`  | `deleted_at` et **`deleted_by_id` = le modérateur**               |
+| Avertir                  | `resolved`, …                              | ligne dans `user_sanctions`                                       |
+| Bannir                   | idem                                       | ligne `ban` ; les contenus sont **masqués**, pas supprimés (§4.4) |
 
 #### Accès de modération — **[D39]**
 
@@ -1296,38 +1296,38 @@ blocage.
 
 ### 4.16 `notifications`
 
-| Colonne | Type | Rôle |
-|---|---|---|
-| `id` | `INTEGER` PK NN | Identifiant |
-| `recipient_id` | `INTEGER` FK NN | Destinataire |
-| `actor_id` | `INTEGER` FK | Qui a déclenché. `NULL` si système |
-| `notification_type` | `TEXT` NN | Huit valeurs |
-| `post_id` / `comment_id` / `message_id` | `INTEGER` FK | Cible |
-| `report_id` / `sanction_id` | `INTEGER` FK | Cible, **`SET NULL`** |
-| `is_read` | `INTEGER` NN | 0 ou 1 |
-| `created_at` | `TEXT` NN | Date |
+| Colonne                                 | Type            | Rôle                               |
+| --------------------------------------- | --------------- | ---------------------------------- |
+| `id`                                    | `INTEGER` PK NN | Identifiant                        |
+| `recipient_id`                          | `INTEGER` FK NN | Destinataire                       |
+| `actor_id`                              | `INTEGER` FK    | Qui a déclenché. `NULL` si système |
+| `notification_type`                     | `TEXT` NN       | Huit valeurs                       |
+| `post_id` / `comment_id` / `message_id` | `INTEGER` FK    | Cible                              |
+| `report_id` / `sanction_id`             | `INTEGER` FK    | Cible, **`SET NULL`**              |
+| `is_read`                               | `INTEGER` NN    | 0 ou 1                             |
+| `created_at`                            | `TEXT` NN       | Date                               |
 
-| Index et contraintes | Rôle |
-|---|---|
-| `idx_notifications_recipient_id_is_read_created_at` | **Compteur de non lues** |
-| `idx_notifications_recipient_id_created_at` | **Page dédiée** |
-| `ck_notifications_target` | Au plus une cible, cohérente — §10.3 |
-| `ck_notifications_self`, `_notification_type`, `_is_read`, `_format` | — |
+| Index et contraintes                                                 | Rôle                                 |
+| -------------------------------------------------------------------- | ------------------------------------ |
+| `idx_notifications_recipient_id_is_read_created_at`                  | **Compteur de non lues**             |
+| `idx_notifications_recipient_id_created_at`                          | **Page dédiée**                      |
+| `ck_notifications_target`                                            | Au plus une cible, cohérente — §10.3 |
+| `ck_notifications_self`, `_notification_type`, `_is_read`, `_format` | —                                    |
 
 > Le premier index ne sert **pas** la page dédiée : celle-ci liste les deux
 > valeurs de `is_read` triées par date, et SQLite trierait en mémoire.
 
 #### Table de correspondance — **[D21]** **[D57]**
 
-| Type | Cible | `actor_id` |
-|---|---|---|
-| `like` | **`post_id` ou `comment_id`** — **[D57]** | l'auteur de l'action |
-| `reshare` | `post_id` (le repartage) | idem |
-| `comment`, `reply` | `comment_id` | idem |
-| `message` | `message_id` | idem |
-| `moderation`, au signaleur | `report_id` | **`NULL`** |
-| `moderation`, au sanctionné | `sanction_id` | **`NULL`** |
-| `friend_request`, `friend_accepted` | aucune | l'auteur de l'action |
+| Type                                | Cible                                     | `actor_id`           |
+| ----------------------------------- | ----------------------------------------- | -------------------- |
+| `like`                              | **`post_id` ou `comment_id`** — **[D57]** | l'auteur de l'action |
+| `reshare`                           | `post_id` (le repartage)                  | idem                 |
+| `comment`, `reply`                  | `comment_id`                              | idem                 |
+| `message`                           | `message_id`                              | idem                 |
+| `moderation`, au signaleur          | `report_id`                               | **`NULL`**           |
+| `moderation`, au sanctionné         | `sanction_id`                             | **`NULL`**           |
+| `friend_request`, `friend_accepted` | aucune                                    | l'auteur de l'action |
 
 > **[D57] Aimer un commentaire ne produisait aucune notification utilisable.**
 > `comment_reactions` existe, avec son énumération, mais
@@ -1363,23 +1363,23 @@ l'autre. **[D41]** Les notifications lues sont purgées au-delà de 6 mois.
 > « **Le contenu est bien supprimé** — c'est ce qui garantit qu'il ne circule
 > plus — seul le cadre reste. »
 
-| Contenu supprimé | Ce qui est effacé | Ce qui reste |
-|---|---|---|
-| **Publication** | `caption` → `NULL` ; ligne `media` et fichiers ; `post_hashtags` ; `post_reactions` ; `saved_posts` | Ligne `posts`, **et ses commentaires avec leur texte** (D34) |
-| **Commentaire** | `body` → `NULL` ; `comment_reactions` | Ligne `comments`, arborescence |
-| **Message** | `body` → `NULL` ; pièce jointe et fichier | Ligne `messages` |
-| **Compte** | Identifiants, bio, avatar, pseudo remplacé ; amitiés, blocages, tokens, réactions, `saved_posts` ; sessions ; `target_snapshot` traités ; puis ses contenus | Ligne `users` |
+| Contenu supprimé | Ce qui est effacé                                                                                                                                           | Ce qui reste                                                 |
+| ---------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------ |
+| **Publication**  | `caption` → `NULL` ; ligne `media` et fichiers ; `post_hashtags` ; `post_reactions` ; `saved_posts`                                                         | Ligne `posts`, **et ses commentaires avec leur texte** (D34) |
+| **Commentaire**  | `body` → `NULL` ; `comment_reactions`                                                                                                                       | Ligne `comments`, arborescence                               |
+| **Message**      | `body` → `NULL` ; pièce jointe et fichier                                                                                                                   | Ligne `messages`                                             |
+| **Compte**       | Identifiants, bio, avatar, pseudo remplacé ; amitiés, blocages, tokens, réactions, `saved_posts` ; sessions ; `target_snapshot` traités ; puis ses contenus | Ligne `users`                                                |
 
 Tout se fait **dans une transaction** ; l'effacement disque intervient après
 le commit, avec `media_staging` comme filet.
 
-| Situation | Affichage |
-|---|---|
-| Publication d'origine d'un repartage supprimée | « publication indisponible » |
-| Message supprimé | « message indisponible » |
-| Message échangé avec une personne bloquée, des deux côtés | « message indisponible » |
-| Contenu d'une notification supprimé | « contenu indisponible » |
-| Profil d'un compte supprimé, ou banni **tant que la sanction est active** | « compte inexistant » |
+| Situation                                                                 | Affichage                    |
+| ------------------------------------------------------------------------- | ---------------------------- |
+| Publication d'origine d'un repartage supprimée                            | « publication indisponible » |
+| Message supprimé                                                          | « message indisponible »     |
+| Message échangé avec une personne bloquée, des deux côtés                 | « message indisponible »     |
+| Contenu d'une notification supprimé                                       | « contenu indisponible »     |
+| Profil d'un compte supprimé, ou banni **tant que la sanction est active** | « compte inexistant »        |
 
 Quand `deleted_by_id <> user_id` : « contenu retiré par la modération ».
 
@@ -1412,24 +1412,24 @@ l'intention et conditionnent les équivalences strictes (§3.8).
 
 **Hors `users` — nouveau :**
 
-| Clause | Colonnes | Motif |
-|---|---|---|
-| `CASCADE` | `media.post_id`, `saved_posts.post_id`, `post_hashtags.post_id` et `.hashtag_id`, `hashtag_trends.hashtag_id`, `comments.post_id`, `post_reactions.post_id`, `comment_reactions.comment_id`, `message_attachments.message_id`, `messages.conversation_id`, `conversation_members.conversation_id` | Données sans existence hors de leur porteur |
-| `SET NULL` | `notifications.post_id`, `_comment_id`, `_message_id`, `_report_id`, `_sanction_id` | Cohérent avec D40 et « au plus une cible » : la notification survit, affiche « contenu indisponible » |
-| **`NO ACTION`** | `posts.source_post_id`, `posts.root_post_id` | **Un repartage survit à la suppression de sa source** : c'est le principe même de §5.1 |
-| **`NO ACTION`** | `comments.parent_comment_id` | Les réponses survivent au parent (D30-a) |
-| **`NO ACTION`** | `reports.post_id`, `_comment_id` | Vidées **explicitement** par D31, jamais en cascade |
-| **`NO ACTION`** | `idempotency_reservations.post_id` | La reprise idempotente exige un **404 rendu par test applicatif** (§4.10), pas une cible qui s'évapore |
+| Clause          | Colonnes                                                                                                                                                                                                                                                                                          | Motif                                                                                                  |
+| --------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------ |
+| `CASCADE`       | `media.post_id`, `saved_posts.post_id`, `post_hashtags.post_id` et `.hashtag_id`, `hashtag_trends.hashtag_id`, `comments.post_id`, `post_reactions.post_id`, `comment_reactions.comment_id`, `message_attachments.message_id`, `messages.conversation_id`, `conversation_members.conversation_id` | Données sans existence hors de leur porteur                                                            |
+| `SET NULL`      | `notifications.post_id`, `_comment_id`, `_message_id`, `_report_id`, `_sanction_id`                                                                                                                                                                                                               | Cohérent avec D40 et « au plus une cible » : la notification survit, affiche « contenu indisponible »  |
+| **`NO ACTION`** | `posts.source_post_id`, `posts.root_post_id`                                                                                                                                                                                                                                                      | **Un repartage survit à la suppression de sa source** : c'est le principe même de §5.1                 |
+| **`NO ACTION`** | `comments.parent_comment_id`                                                                                                                                                                                                                                                                      | Les réponses survivent au parent (D30-a)                                                               |
+| **`NO ACTION`** | `reports.post_id`, `_comment_id`                                                                                                                                                                                                                                                                  | Vidées **explicitement** par D31, jamais en cascade                                                    |
+| **`NO ACTION`** | `idempotency_reservations.post_id`                                                                                                                                                                                                                                                                | La reprise idempotente exige un **404 rendu par test applicatif** (§4.10), pas une cible qui s'évapore |
 
 ### 5.3 Ce que ça coûte
 
-| Index | Partiel ? | Pourquoi |
-|---|---|---|
-| `uq_posts_user_id_source_post_id` | **Oui** — **[D7]** | Republier après suppression est légitime |
-| `idx_posts_published_at_id` | **Oui** — **[D46]** | Ne pas parcourir des lignes destinées au rejet |
-| `idx_posts_user_id_published_at_id` | **Oui** — **[D46]** | Même usage, même filtre |
-| `uq_users_email`, `uq_users_phone` | **Oui**, mais pour une autre raison | **Optimisation de taille, pas garantie** : un index unique non partiel accepte déjà plusieurs `NULL` (§3.4). Le `WHERE` n'indexe pas les lignes sans mail |
-| `uq_users_username` | **Non** — **[D2]** | Réutiliser un pseudo anonymisé serait une usurpation |
+| Index                               | Partiel ?                           | Pourquoi                                                                                                                                                  |
+| ----------------------------------- | ----------------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `uq_posts_user_id_source_post_id`   | **Oui** — **[D7]**                  | Republier après suppression est légitime                                                                                                                  |
+| `idx_posts_published_at_id`         | **Oui** — **[D46]**                 | Ne pas parcourir des lignes destinées au rejet                                                                                                            |
+| `idx_posts_user_id_published_at_id` | **Oui** — **[D46]**                 | Même usage, même filtre                                                                                                                                   |
+| `uq_users_email`, `uq_users_phone`  | **Oui**, mais pour une autre raison | **Optimisation de taille, pas garantie** : un index unique non partiel accepte déjà plusieurs `NULL` (§3.4). Le `WHERE` n'indexe pas les lignes sans mail |
+| `uq_users_username`                 | **Non** — **[D2]**                  | Réutiliser un pseudo anonymisé serait une usurpation                                                                                                      |
 
 > Tous portent le même motif technique. **Ne pas « uniformiser ».** Et les
 > requêtes écrivent la clause **littéralement** (§3.5).
@@ -1439,17 +1439,17 @@ l'intention et conditionnent les équivalences strictes (§3.8).
 **Aucun `ON DELETE CASCADE` ne se déclenche jamais dans le fonctionnement
 normal.** Tout ce tableau décrit des `DELETE` **explicites**.
 
-| Table | Supprimée par le code lors de |
-|---|---|
-| `post_reactions`, `comment_reactions` | Suppression du contenu, anonymisation |
-| `post_hashtags` | Suppression de la publication, re-synchronisation |
-| `saved_posts` | Suppression de la publication, anonymisation |
-| `media`, `message_attachments` | Suppression du contenu porteur |
-| `friendships`, `blocks`, `password_reset_tokens` | Anonymisation |
-| `sessions` | Aucune FK — purge **synchrone dans la transaction** (D64) |
-| `idempotency_reservations` | **Purge réelle** : expirée **et** sans heartbeat récent |
-| `reports` | **Purge réelle** : traités de plus de 12 mois |
-| `notifications` | **Purge réelle** : lues de plus de 6 mois |
+| Table                                            | Supprimée par le code lors de                             |
+| ------------------------------------------------ | --------------------------------------------------------- |
+| `post_reactions`, `comment_reactions`            | Suppression du contenu, anonymisation                     |
+| `post_hashtags`                                  | Suppression de la publication, re-synchronisation         |
+| `saved_posts`                                    | Suppression de la publication, anonymisation              |
+| `media`, `message_attachments`                   | Suppression du contenu porteur                            |
+| `friendships`, `blocks`, `password_reset_tokens` | Anonymisation                                             |
+| `sessions`                                       | Aucune FK — purge **synchrone dans la transaction** (D64) |
+| `idempotency_reservations`                       | **Purge réelle** : expirée **et** sans heartbeat récent   |
+| `reports`                                        | **Purge réelle** : traités de plus de 12 mois             |
+| `notifications`                                  | **Purge réelle** : lues de plus de 6 mois                 |
 
 ---
 
@@ -1467,28 +1467,28 @@ Chaîne PHC argon2id complète, **sel inclus**. `m=19456 / t=2 / p=1`.
 
 ### 6.3 Contrôle d'accès
 
-| État | Source | Effet |
-|---|---|---|
-| Visibilité du compte auteur | `users.post_visibility` | Tout ce qu'il publie, **cadre compris** |
-| Visibilité de la racine | son auteur | Le **contenu** d'un repartage |
-| Amitié **acceptée** | `friendships.status` | Une demande en attente n'ouvre rien |
-| Blocage | `blocks` | **Bidirectionnel**, sauf en groupe (D48, D54, D60) |
-| Bannissement **actif** | `user_sanctions`, `lifted_at IS NULL` | Connexion refusée, contenus masqués — levée possible (D24) |
-| Rôle | `users.role`, **relu en base** | Modération |
-| Suppression logique | `deleted_at` | Contenu remplacé par un cadre |
-| **Cache HTTP** | **[D58]** | **Le contrôle passe avant la comparaison d'ETag** |
+| État                        | Source                                | Effet                                                      |
+| --------------------------- | ------------------------------------- | ---------------------------------------------------------- |
+| Visibilité du compte auteur | `users.post_visibility`               | Tout ce qu'il publie, **cadre compris**                    |
+| Visibilité de la racine     | son auteur                            | Le **contenu** d'un repartage                              |
+| Amitié **acceptée**         | `friendships.status`                  | Une demande en attente n'ouvre rien                        |
+| Blocage                     | `blocks`                              | **Bidirectionnel**, sauf en groupe (D48, D54, D60)         |
+| Bannissement **actif**      | `user_sanctions`, `lifted_at IS NULL` | Connexion refusée, contenus masqués — levée possible (D24) |
+| Rôle                        | `users.role`, **relu en base**        | Modération                                                 |
+| Suppression logique         | `deleted_at`                          | Contenu remplacé par un cadre                              |
+| **Cache HTTP**              | **[D58]**                             | **Le contrôle passe avant la comparaison d'ETag**          |
 
 #### Les fonctions de référence — **[D17]**
 
-| Fonction | Ce qu'elle vérifie |
-|---|---|
-| `postVisible(lecteur, post)` | Non supprimé ; auteur actif et **sans bannissement actif** ; `public`, **ou** amitié `accepted`, **ou lecteur = auteur** |
-| `estBloque(a, b)` | **Symétrique** (D48) |
-| `repartageAffichable(lecteur, post)` | `postVisible` sur le **cadre**, chaque **maillon**, puis la **racine** (D53) |
-| `accesModeration(lecteur, ressource)` | Rôle relu, **et** cible d'un signalement ou son contexte |
-| `commentairesLisibles(lecteur, …)` | Joint `posts`, filtre `p.deleted_at IS NULL` (D34) |
-| `filActif(…)` | Écrit `deleted_at IS NULL` littéralement (D46) |
-| **`peutNotifier(acteur, destinataire, cible)`** | Blocage dans les deux sens (D48) **et** visibilité du cadre (D59) |
+| Fonction                                        | Ce qu'elle vérifie                                                                                                       |
+| ----------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------ |
+| `postVisible(lecteur, post)`                    | Non supprimé ; auteur actif et **sans bannissement actif** ; `public`, **ou** amitié `accepted`, **ou lecteur = auteur** |
+| `estBloque(a, b)`                               | **Symétrique** (D48)                                                                                                     |
+| `repartageAffichable(lecteur, post)`            | `postVisible` sur le **cadre**, chaque **maillon**, puis la **racine** (D53)                                             |
+| `accesModeration(lecteur, ressource)`           | Rôle relu, **et** cible d'un signalement ou son contexte                                                                 |
+| `commentairesLisibles(lecteur, …)`              | Joint `posts`, filtre `p.deleted_at IS NULL` (D34)                                                                       |
+| `filActif(…)`                                   | Écrit `deleted_at IS NULL` littéralement (D46)                                                                           |
+| **`peutNotifier(acteur, destinataire, cible)`** | Blocage dans les deux sens (D48) **et** visibilité du cadre (D59)                                                        |
 
 **Au plus trois maillons plus la racine sont rendus.**
 
@@ -1503,20 +1503,20 @@ await db.backup(`/backups/app-${Date.now()}.db`);
 Sans l'`await`, la sauvegarde échoue silencieusement. L'appel produit **un
 seul fichier cohérent**, WAL rejoué dedans.
 
-| Fichier | Volume Docker | Sauvegarde |
-|---|---|---|
-| `2stagram.db` | oui | via `db.backup()` |
-| `2stagram.db-wal` | oui | non — rejoué dans le fichier produit |
-| `2stagram.db-shm` | oui | **non** — mémoire partagée transitoire |
+| Fichier           | Volume Docker | Sauvegarde                             |
+| ----------------- | ------------- | -------------------------------------- |
+| `2stagram.db`     | oui           | via `db.backup()`                      |
+| `2stagram.db-wal` | oui           | non — rejoué dans le fichier produit   |
+| `2stagram.db-shm` | oui           | **non** — mémoire partagée transitoire |
 
 ### 6.5 Accès aux fichiers — **[D10]** **[D39]**
 
 **Aucun dossier d'uploads n'est servi statiquement.**
 
-| Route | Vérifie |
-|---|---|
-| Médias de publications | `postVisible()`, **ou `accesModeration()`** |
-| Pièces jointes | **L'appartenance à la conversation**, et le blocage |
+| Route                  | Vérifie                                             |
+| ---------------------- | --------------------------------------------------- |
+| Médias de publications | `postVisible()`, **ou `accesModeration()`**         |
+| Pièces jointes         | **L'appartenance à la conversation**, et le blocage |
 
 Les deux portent la **CSP restrictive** exigée par le SVG, ne servent que des
 fichiers assainis (§4.7), et suivent **D58** : contrôle d'accès avant toute
@@ -1535,11 +1535,11 @@ réponse conditionnelle.
 
 L'affichage lit **toujours la visibilité actuelle**, à chaque niveau :
 
-| Niveau | Décide de | Gouverné par |
-|---|---|---|
-| Le post lu | l'affichage du **cadre** | son auteur (D53) |
-| Chaque maillon intermédiaire | l'affichage de **sa description** | son auteur (D33) |
-| La racine | l'affichage du **contenu** | l'auteur de la racine (D8) |
+| Niveau                       | Décide de                         | Gouverné par               |
+| ---------------------------- | --------------------------------- | -------------------------- |
+| Le post lu                   | l'affichage du **cadre**          | son auteur (D53)           |
+| Chaque maillon intermédiaire | l'affichage de **sa description** | son auteur (D33)           |
+| La racine                    | l'affichage du **contenu**        | l'auteur de la racine (D8) |
 
 **À la création**, les mêmes maillons sont vérifiés publics.
 
@@ -1558,100 +1558,100 @@ directement**, à chaque niveau, à chaque requête.
 
 ### Authentification
 
-| Règle | Pourquoi |
-|---|---|
-| Résoudre l'identifiant dans l'ordre pseudo → email → téléphone **[D12]** | Règle applicative |
-| Vérifier `deleted_at` et l'absence de ban **à chaque requête authentifiée** | Rattrape une purge de sessions manquée |
-| Relire `users.role` sur toute route de modération **[D13]** | La session est figée |
-| **Purger les sessions par `destroyByUserIdSync()`, dans la transaction** **[D64]** | `db.transaction()` est synchrone |
-| **Lier `userId` avec le bon type dans l'index d'expression** | Un plan correct peut rendre zéro ligne |
-| Fabriquer une échéance de repli pour un cookie sans `expires` | `expires_at` est `NOT NULL` |
-| Réserver la promotion en modérateur à l'administrateur **[récap]** | Porte sur le rôle de l'appelant |
+| Règle                                                                              | Pourquoi                               |
+| ---------------------------------------------------------------------------------- | -------------------------------------- |
+| Résoudre l'identifiant dans l'ordre pseudo → email → téléphone **[D12]**           | Règle applicative                      |
+| Vérifier `deleted_at` et l'absence de ban **à chaque requête authentifiée**        | Rattrape une purge de sessions manquée |
+| Relire `users.role` sur toute route de modération **[D13]**                        | La session est figée                   |
+| **Purger les sessions par `destroyByUserIdSync()`, dans la transaction** **[D64]** | `db.transaction()` est synchrone       |
+| **Lier `userId` avec le bon type dans l'index d'expression**                       | Un plan correct peut rendre zéro ligne |
+| Fabriquer une échéance de repli pour un cookie sans `expires`                      | `expires_at` est `NOT NULL`            |
+| Réserver la promotion en modérateur à l'administrateur **[récap]**                 | Porte sur le rôle de l'appelant        |
 
 ### Normalisation et validation d'entrée
 
-| Règle | Pourquoi |
-|---|---|
-| **`normalize('NFC').toLowerCase()` sur l'adresse mail, aux deux chemins** **[D56]** | **Le `CHECK` accepte `École@test.fr`** (§4.3) |
-| **Idem sur les hashtags** **[D56]** | **Le `CHECK` accepte `Été` et `École`** (§4.12) |
-| Valider le pseudo à l'inscription **et** au changement **[D2]** **[D55]** | Idem |
-| Téléphone en E.164, FR par défaut **[D12]** | Le `CHECK` refuse, il ne corrige pas |
-| `trim()` avant validation des textes | La base ne distingue pas une chaîne d'espaces |
+| Règle                                                                               | Pourquoi                                        |
+| ----------------------------------------------------------------------------------- | ----------------------------------------------- |
+| **`normalize('NFC').toLowerCase()` sur l'adresse mail, aux deux chemins** **[D56]** | **Le `CHECK` accepte `École@test.fr`** (§4.3)   |
+| **Idem sur les hashtags** **[D56]**                                                 | **Le `CHECK` accepte `Été` et `École`** (§4.12) |
+| Valider le pseudo à l'inscription **et** au changement **[D2]** **[D55]**           | Idem                                            |
+| Téléphone en E.164, FR par défaut **[D12]**                                         | Le `CHECK` refuse, il ne corrige pas            |
+| `trim()` avant validation des textes                                                | La base ne distingue pas une chaîne d'espaces   |
 
 ### Visibilité, cache et accès
 
-| Règle | Pourquoi |
-|---|---|
-| **Évaluer l'accès avant de répondre `304`** **[D58]** | Sinon un ETag valide réaffiche un contenu privé |
+| Règle                                                                                    | Pourquoi                                           |
+| ---------------------------------------------------------------------------------------- | -------------------------------------------------- |
+| **Évaluer l'accès avant de répondre `304`** **[D58]**                                    | Sinon un ETag valide réaffiche un contenu privé    |
 | **`Cache-Control: private, no-cache` sur tout ce qui dépend de la visibilité** **[D58]** | Un cache partagé servirait la ressource à un tiers |
-| Composer les fonctions de §6.3 **[D17]** | Une variante réécrite sera fausse |
-| Distinguer cadre et contenu d'un repartage **[D53]** | Deux visibilités sur une même ligne |
-| Vérifier le blocage dans les deux sens, partout **[D48]** | La table est asymétrique, la règle ne l'est pas |
-| **Filtrer l'ajout en groupe par les blocages présents** **[D60]** | Sinon un tiers réintroduit un bloqué |
-| Ne pas appliquer le blocage aux messages de groupe **[D54]** | Il porte sur la relation directe |
-| Contrôler chaque maillon, à l'affichage et à la création **[D33]** | §7 |
-| Écrire `deleted_at IS NULL` littéralement **[D46]** | Sinon l'index partiel est ignoré |
-| Filtrer `posts.deleted_at` en listant des commentaires **[D34]** | Leur texte survit |
-| Ne jamais matérialiser la visibilité sur `posts` **[D50]** | Une écriture de masse bloque le moteur |
+| Composer les fonctions de §6.3 **[D17]**                                                 | Une variante réécrite sera fausse                  |
+| Distinguer cadre et contenu d'un repartage **[D53]**                                     | Deux visibilités sur une même ligne                |
+| Vérifier le blocage dans les deux sens, partout **[D48]**                                | La table est asymétrique, la règle ne l'est pas    |
+| **Filtrer l'ajout en groupe par les blocages présents** **[D60]**                        | Sinon un tiers réintroduit un bloqué               |
+| Ne pas appliquer le blocage aux messages de groupe **[D54]**                             | Il porte sur la relation directe                   |
+| Contrôler chaque maillon, à l'affichage et à la création **[D33]**                       | §7                                                 |
+| Écrire `deleted_at IS NULL` littéralement **[D46]**                                      | Sinon l'index partiel est ignoré                   |
+| Filtrer `posts.deleted_at` en listant des commentaires **[D34]**                         | Leur texte survit                                  |
+| Ne jamais matérialiser la visibilité sur `posts` **[D50]**                               | Une écriture de masse bloque le moteur             |
 
 ### Intégrité
 
-| Règle | Pourquoi |
-|---|---|
+| Règle                                                                                                                                                       | Pourquoi                                                                                                          |
+| ----------------------------------------------------------------------------------------------------------------------------------------------------------- | ----------------------------------------------------------------------------------------------------------------- |
 | **Exactement une cible à la création** d'un signalement ou d'une notification — **sauf `friend_request` et `friend_accepted`, qui n'en ont aucune** (§4.16) | Le `CHECK` n'impose qu'« au plus une », volontairement : une cible peut disparaître après coup (`SET NULL`, §5.2) |
-| **Ne pas notifier si le cadre n'est pas visible du destinataire** **[D59]** | La notification révélerait ce que D53 masque |
-| Ne pas notifier quand un blocage existe **[D48]** | Porte sur une autre table |
-| Vérifier chaque maillon public avant de créer un repartage **[D33]** | Porte sur d'autres lignes |
-| Interdire le repartage de soi-même à chaque maillon **[D18]** | Le cas indirect |
-| Un post original : exactement un média ; un repartage : aucun **[D19]** | Porte sur une autre table |
-| Renseigner `root_post_id` à l'insertion | Calcul applicatif |
-| Filtrer `deleted_at` dans l'`UPDATE` de `version`, distinguer 404 de 412 | La ligne survit |
-| Re-synchroniser `post_hashtags`, originaux seulement **[D38]** | Les `#` d'un repartage ne comptent pas |
-| `parent_comment_id` : même `post_id`, parent forcément racine **[D42]** | Deux niveaux |
-| Un commentaire n'est supprimable que par son auteur ou un modérateur **[D45]** | La déduction en dépend |
-| Vérifier la précondition d'une opération d'amitié **[D49]** | Refus et suppression sont le même `DELETE` |
-| `actor_id = NULL` sur les notifications de modération | Protège le modérateur |
-| Figer, vider et purger `target_snapshot` **[D35]** | Données personnelles |
-| Retirer le lien d'un signalement quand son contenu est supprimé **[D31]** | Aucune cascade |
-| `details` obligatoire si `reason = 'other'` | Règle métier |
-| Retrouver le fil existant ; `is_group = 0` ⇒ deux membres | Les membres sont ailleurs |
-| Un message : texte **ou** une pièce jointe **[D36]** | Les pièces jointes sont ailleurs |
-| Trier les identifiants avant d'insérer une amitié | Le `CHECK` refuse, il ne corrige pas |
-| Ne vider les commentaires que sur suppression par la modération **[D34]** | §5.1 |
-| Renseigner `deleted_by_id` à chaque suppression **[D32]** | `NULL` signifiait deux choses |
-| Heartbeat conditionnel, arrêté avant l'écriture finale **[D23]** | Sinon la requête se déposséde elle-même |
-| Ne pas purger une réservation au heartbeat récent **[D23]** | Elle est en cours |
-| Ouvrir la transaction de création après le traitement du fichier | Un traitement long bloque tout |
+| **Ne pas notifier si le cadre n'est pas visible du destinataire** **[D59]**                                                                                 | La notification révélerait ce que D53 masque                                                                      |
+| Ne pas notifier quand un blocage existe **[D48]**                                                                                                           | Porte sur une autre table                                                                                         |
+| Vérifier chaque maillon public avant de créer un repartage **[D33]**                                                                                        | Porte sur d'autres lignes                                                                                         |
+| Interdire le repartage de soi-même à chaque maillon **[D18]**                                                                                               | Le cas indirect                                                                                                   |
+| Un post original : exactement un média ; un repartage : aucun **[D19]**                                                                                     | Porte sur une autre table                                                                                         |
+| Renseigner `root_post_id` à l'insertion                                                                                                                     | Calcul applicatif                                                                                                 |
+| Filtrer `deleted_at` dans l'`UPDATE` de `version`, distinguer 404 de 412                                                                                    | La ligne survit                                                                                                   |
+| Re-synchroniser `post_hashtags`, originaux seulement **[D38]**                                                                                              | Les `#` d'un repartage ne comptent pas                                                                            |
+| `parent_comment_id` : même `post_id`, parent forcément racine **[D42]**                                                                                     | Deux niveaux                                                                                                      |
+| Un commentaire n'est supprimable que par son auteur ou un modérateur **[D45]**                                                                              | La déduction en dépend                                                                                            |
+| Vérifier la précondition d'une opération d'amitié **[D49]**                                                                                                 | Refus et suppression sont le même `DELETE`                                                                        |
+| `actor_id = NULL` sur les notifications de modération                                                                                                       | Protège le modérateur                                                                                             |
+| Figer, vider et purger `target_snapshot` **[D35]**                                                                                                          | Données personnelles                                                                                              |
+| Retirer le lien d'un signalement quand son contenu est supprimé **[D31]**                                                                                   | Aucune cascade                                                                                                    |
+| `details` obligatoire si `reason = 'other'`                                                                                                                 | Règle métier                                                                                                      |
+| Retrouver le fil existant ; `is_group = 0` ⇒ deux membres                                                                                                   | Les membres sont ailleurs                                                                                         |
+| Un message : texte **ou** une pièce jointe **[D36]**                                                                                                        | Les pièces jointes sont ailleurs                                                                                  |
+| Trier les identifiants avant d'insérer une amitié                                                                                                           | Le `CHECK` refuse, il ne corrige pas                                                                              |
+| Ne vider les commentaires que sur suppression par la modération **[D34]**                                                                                   | §5.1                                                                                                              |
+| Renseigner `deleted_by_id` à chaque suppression **[D32]**                                                                                                   | `NULL` signifiait deux choses                                                                                     |
+| Heartbeat conditionnel, arrêté avant l'écriture finale **[D23]**                                                                                            | Sinon la requête se déposséde elle-même                                                                           |
+| Ne pas purger une réservation au heartbeat récent **[D23]**                                                                                                 | Elle est en cours                                                                                                 |
+| Ouvrir la transaction de création après le traitement du fichier                                                                                            | Un traitement long bloque tout                                                                                    |
 
 ### Fichiers
 
-| Règle | Pourquoi |
-|---|---|
-| Inscrire dans `media_staging` **avant** l'écriture **[D22]** | Ordre d'opérations |
-| Supprimer la ligne de staging dans la transaction de rattachement | Sinon le balayeur efface un fichier rattaché |
-| Réinsérer en `orphaned` à la suppression et au remplacement **[D44]** | La ligne a disparu au rattachement |
-| Balayer `staged` > 1 h, `orphaned` sans condition d'âge | Sinon un effacement raté n'est jamais rattrapé |
-| Tolérer `ENOENT` des deux côtés | Balayeur et `unlink` peuvent viser le même fichier |
-| Effacer une seule fois si `display_path` = `sanitized_path` | Sinon second `unlink` en erreur |
-| Vérifier le format réel, et la taille **avant et après** traitement | Un ré-encodage peut faire grossir |
-| Appliquer la chaîne d'assainissement aux **pièces jointes et aux avatars** **[D43]** | EXIF et SVG, mêmes risques |
+| Règle                                                                                | Pourquoi                                           |
+| ------------------------------------------------------------------------------------ | -------------------------------------------------- |
+| Inscrire dans `media_staging` **avant** l'écriture **[D22]**                         | Ordre d'opérations                                 |
+| Supprimer la ligne de staging dans la transaction de rattachement                    | Sinon le balayeur efface un fichier rattaché       |
+| Réinsérer en `orphaned` à la suppression et au remplacement **[D44]**                | La ligne a disparu au rattachement                 |
+| Balayer `staged` > 1 h, `orphaned` sans condition d'âge                              | Sinon un effacement raté n'est jamais rattrapé     |
+| Tolérer `ENOENT` des deux côtés                                                      | Balayeur et `unlink` peuvent viser le même fichier |
+| Effacer une seule fois si `display_path` = `sanitized_path`                          | Sinon second `unlink` en erreur                    |
+| Vérifier le format réel, et la taille **avant et après** traitement                  | Un ré-encodage peut faire grossir                  |
+| Appliquer la chaîne d'assainissement aux **pièces jointes et aux avatars** **[D43]** | EXIF et SVG, mêmes risques                         |
 
 ### Requêtes à encapsuler
 
-| Requête | Piège |
-|---|---|
-| Liste d'amis, nombre d'amis | Regarder les **deux** colonnes, filtrer `accepted` |
-| Vérification de blocage | Les **deux** sens |
-| Non-lus d'une conversation | `COALESCE(last_read_at, added_at)`, exclure l'auteur |
-| Badge global | `COUNT(*)` **sans `GROUP BY`** |
-| **Compteurs de réactions** | **`COALESCE(SUM(…), 0)`** : `NULL` sur zéro ligne |
-| Fil global et fil de profil | `deleted_at IS NULL` littéral |
-| Commentaires d'un utilisateur | Joindre `posts`, filtrer `p.deleted_at` |
-| Purge des sessions | `json_extract` à l'identique, **et le bon type** |
-| Visibilité d'un repartage | Cadre, maillons, racine |
-| Compteur de repartages | `root_post_id`, exclure les supprimés |
-| Extraction et normalisation des hashtags | NFC, minuscules, originaux seulement |
-| Recalcul des tendances | `db.transaction()`, visibilité, suppression, repartages exclus |
+| Requête                                  | Piège                                                          |
+| ---------------------------------------- | -------------------------------------------------------------- |
+| Liste d'amis, nombre d'amis              | Regarder les **deux** colonnes, filtrer `accepted`             |
+| Vérification de blocage                  | Les **deux** sens                                              |
+| Non-lus d'une conversation               | `COALESCE(last_read_at, added_at)`, exclure l'auteur           |
+| Badge global                             | `COUNT(*)` **sans `GROUP BY`**                                 |
+| **Compteurs de réactions**               | **`COALESCE(SUM(…), 0)`** : `NULL` sur zéro ligne              |
+| Fil global et fil de profil              | `deleted_at IS NULL` littéral                                  |
+| Commentaires d'un utilisateur            | Joindre `posts`, filtrer `p.deleted_at`                        |
+| Purge des sessions                       | `json_extract` à l'identique, **et le bon type**               |
+| Visibilité d'un repartage                | Cadre, maillons, racine                                        |
+| Compteur de repartages                   | `root_post_id`, exclure les supprimés                          |
+| Extraction et normalisation des hashtags | NFC, minuscules, originaux seulement                           |
+| Recalcul des tendances                   | `db.transaction()`, visibilité, suppression, repartages exclus |
 
 ---
 
@@ -1731,31 +1731,31 @@ CHECK (<col> GLOB
 CHECK (<col> IS NULL OR <col> GLOB '…même motif…')
 ```
 
-| Table | Colonnes |
-|---|---|
-| `sessions` | `expires_at` |
-| `password_reset_tokens` | `expires_at`, `used_at`*, `created_at` |
-| `users` | `deleted_at`*, `created_at` |
-| `user_sanctions` | `lifted_at`*, `created_at` |
-| `blocks` | `created_at` |
-| `posts` | `published_at`, `updated_at`*, `deleted_at`* |
-| `media` | `created_at` |
-| `saved_posts` | `saved_at` |
-| `comments` | `created_at`, `updated_at`*, `deleted_at`* |
-| `idempotency_reservations` | `created_at`, `heartbeat_at`, `expires_at` |
-| `media_staging` | `created_at` |
-| `post_reactions`, `comment_reactions` | `created_at` (×2) |
-| `hashtags` | `created_at` |
-| `hashtag_trends` | `computed_at` |
-| `friendships` | `requested_at` |
-| `conversations` | `created_at` |
-| `conversation_members` | `added_at`, `last_read_at`* |
-| `messages` | `sent_at`, `deleted_at`* |
-| `message_attachments` | `created_at` |
-| `reports` | `reported_at`, `resolved_at`* |
-| `notifications` | `created_at` |
+| Table                                 | Colonnes                                     |
+| ------------------------------------- | -------------------------------------------- |
+| `sessions`                            | `expires_at`                                 |
+| `password_reset_tokens`               | `expires_at`, `used_at`*, `created_at`       |
+| `users`                               | `deleted_at`*, `created_at`                  |
+| `user_sanctions`                      | `lifted_at`*, `created_at`                   |
+| `blocks`                              | `created_at`                                 |
+| `posts`                               | `published_at`, `updated_at`_, `deleted_at`_ |
+| `media`                               | `created_at`                                 |
+| `saved_posts`                         | `saved_at`                                   |
+| `comments`                            | `created_at`, `updated_at`_, `deleted_at`_   |
+| `idempotency_reservations`            | `created_at`, `heartbeat_at`, `expires_at`   |
+| `media_staging`                       | `created_at`                                 |
+| `post_reactions`, `comment_reactions` | `created_at` (×2)                            |
+| `hashtags`                            | `created_at`                                 |
+| `hashtag_trends`                      | `computed_at`                                |
+| `friendships`                         | `requested_at`                               |
+| `conversations`                       | `created_at`                                 |
+| `conversation_members`                | `added_at`, `last_read_at`*                  |
+| `messages`                            | `sent_at`, `deleted_at`*                     |
+| `message_attachments`                 | `created_at`                                 |
+| `reports`                             | `reported_at`, `resolved_at`*                |
+| `notifications`                       | `created_at`                                 |
 
-*Les colonnes marquées prennent la seconde forme.* **Le `CHECK` valide la
+_Les colonnes marquées prennent la seconde forme._ **Le `CHECK` valide la
 forme, pas la validité de la date** (§3.7).
 
 ### 10.3 Cohérence entre colonnes
@@ -1881,7 +1881,7 @@ INSERT INTO post_reactions (user_id, post_id, reaction_type, created_at)
 VALUES (?, ?, ?, ?)
 ON CONFLICT (user_id, post_id) DO UPDATE SET reaction_type = excluded.reaction_type;
 
--- compteurs : COALESCE obligatoire, SUM vaut NULL sur zéro ligne 
+-- compteurs : COALESCE obligatoire, SUM vaut NULL sur zéro ligne
 SELECT COALESCE(SUM(reaction_type = 'like'),    0) AS likes,
        COALESCE(SUM(reaction_type = 'dislike'), 0) AS dislikes
 FROM post_reactions WHERE post_id = ?;

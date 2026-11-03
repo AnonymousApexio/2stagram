@@ -14,10 +14,10 @@ modifier**.
 
 ## Les fichiers
 
-| Fichier | Sections | Ce qu'il contient |
-|---|---|---|
-| [`tables-et-contraintes.md`](tables-et-contraintes.md) | §1 à §8, §10 | **La référence.** Les 23 tables, les contraintes, les pièges de SQLite, la sécurité, l'annexe SQL |
-| [`decisions-de-conception.md`](decisions-de-conception.md) | §0 | **Le pourquoi.** Les 64 décisions D1 à D64, l'état du récapitulatif, le journal des versions |
+| Fichier                                                    | Sections     | Ce qu'il contient                                                                                 |
+| ---------------------------------------------------------- | ------------ | ------------------------------------------------------------------------------------------------- |
+| [`tables-et-contraintes.md`](tables-et-contraintes.md)     | §1 à §8, §10 | **La référence.** Les 23 tables, les contraintes, les pièges de SQLite, la sécurité, l'annexe SQL |
+| [`decisions-de-conception.md`](decisions-de-conception.md) | §0           | **Le pourquoi.** Les 64 décisions D1 à D64, l'état du récapitulatif, le journal des versions      |
 
 ---
 
@@ -50,10 +50,10 @@ Les décisions se citent **[D1]** à **[D64]** et vivent dans `decisions-de-conc
 
 ## Ce qui fait foi
 
-| Question | Document |
-|---|---|
+| Question                                                      | Document                                   |
+| ------------------------------------------------------------- | ------------------------------------------ |
 | Une règle métier — qui voit quoi, ce qui se passe à tel geste | **Récapitulatif fonctionnel v2** (Kleiton) |
-| Le schéma — colonnes, types, contraintes, index | **`tables-et-contraintes.md`** |
+| Le schéma — colonnes, types, contraintes, index               | **`tables-et-contraintes.md`**             |
 
 En cas de contradiction avec un autre document du projet, **celui-ci l'emporte
 pour le schéma**, et le récapitulatif pour le métier.
@@ -64,19 +64,19 @@ pour le schéma**, et le récapitulatif pour le métier.
 
 Outils dont le schéma dépend, en plus de la stack du projet.
 
-| Dépendance | Pourquoi | Statut |
-|---|---|---|
-| `libphonenumber-js` (`/max`) | Numéros au format E.164, France par défaut | **Validé** |
-| Assainissement SVG | XSS stocké | À la charge du service média |
-| **exiftool** | Métadonnées vidéo, en remux | **Validé**, `libimage-exiftool-perl` |
-| Extension **JSON1** | `idx_sessions_user_id` | Active par défaut, à vérifier au démarrage |
-| Client SMTP, fournisseur SMS | Réinitialisation du mot de passe | Différés |
+| Dépendance                   | Pourquoi                                   | Statut                                     |
+| ---------------------------- | ------------------------------------------ | ------------------------------------------ |
+| `libphonenumber-js` (`/max`) | Numéros au format E.164, France par défaut | **Validé**                                 |
+| Assainissement SVG           | XSS stocké                                 | À la charge du service média               |
+| **exiftool**                 | Métadonnées vidéo, en remux                | **Validé**, `libimage-exiftool-perl`       |
+| Extension **JSON1**          | `idx_sessions_user_id`                     | Active par défaut, à vérifier au démarrage |
+| Client SMTP, fournisseur SMS | Réinitialisation du mot de passe           | Différés                                   |
 
 ---
 
 ## État
 
-| | |
-|---|---|
-| Décisions prises | 64 sur 64 |
-| Points ouverts | 1 — la réinitialisation du mot de passe par SMS (récapitulatif, « Décisions ouvertes ») |
+|                  |                                                                                         |
+| ---------------- | --------------------------------------------------------------------------------------- |
+| Décisions prises | 64 sur 64                                                                               |
+| Points ouverts   | 1 — la réinitialisation du mot de passe par SMS (récapitulatif, « Décisions ouvertes ») |
