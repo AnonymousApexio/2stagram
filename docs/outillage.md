@@ -130,7 +130,8 @@ peuvent être nécessaires pour une plateforme sans binaire précompilé.
 
 nginx transmet /api/ et /socket.io/ sans réécriture, avec Upgrade/Connection.
 Le volume media n'est pas servi publiquement par nginx : ses permissions seront
-définies avec les routes. Limite d'upload prévue 25 Mio, JSON limité à 100 Kio.
+définies avec les routes. Limite d'upload : 25 Mio par fichier et 26 Mio par
+requête, pour laisser la place à l'enveloppe multipart. JSON limité à 100 Kio.
 Le healthcheck actuel attend 404, aucune route de santé métier n'est inventée.
 Les utilisateurs finaux sont non-root. TLS et sauvegardes restent à préparer
 avant un déploiement, qui n'est pas effectué par ce squelette.
