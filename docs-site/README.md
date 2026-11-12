@@ -12,10 +12,11 @@ npm run docs:dev
 Le build produit `docs-site/build/`. La navigation inclut la référence TypeDoc,
 copiée depuis la sortie générée, et les pages rédigées dans `docs/`.
 Le site fonctionne pour rédiger et consulter la documentation localement.
-L'avis braces reste présent. `npm run audit:docs` applique
-l'acceptation limitée au 1er janvier 2027 à 00:00 (heure de Paris) exclu, avec rapport complet
-et blocage de toute autre alerte haute/critique. `npm run audit:docs:strict`
-conserve le contrôle sans exception. Utiliser uniquement les contenus revus
+L'avis braces a été retiré le 23 octobre 2026 et `npm run audit:docs:strict`
+passe. `npm run audit:docs` conserve le rapport complet et bloque toute alerte
+haute ou critique ; l'acceptation de l'amendement 0002 n'y est plus utilisée.
+Deux overrides de version majeure (`tinypool`, `postcss-selector-parser`)
+compensent l'absence de correctif dans Docusaurus 3.10.2. Utiliser uniquement les contenus revus
 du dépôt ; aucun upload de l'application n'alimente la documentation.
 La configuration TypeScript est conservée sans déclarer `type: module` dans
 ce manifeste, pour respecter le chargeur interne de Docusaurus.
