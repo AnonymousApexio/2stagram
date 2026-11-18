@@ -131,8 +131,10 @@ ils ne sont pas encore écrits. La messagerie reste contrôlée manuellement.
   enregistrer dans l'outil de suivi. Ce rapport ne signe pas au nom de l'équipe.
 - TLS, secrets de production, sauvegardes SQLite/WAL, restauration, politique
   d'accès et exploitation restent à préparer avec DevOps/BDD avant déploiement.
-- **Dépendances au 23 octobre 2026** : l'audit applicatif et les deux audits
-  documentaires, strict compris, ne signalent plus de vulnérabilité. Le site
+- **Dépendances au 12 novembre 2026** : l'audit applicatif ne signale plus
+  d'alerte haute ; 11 alertes modérées sur `minimatch` restent limitées aux
+  outils de développement, sans correctif compatible. Les deux audits
+  documentaires, strict compris, ne signalent plus d'alerte bloquante. Le site
   documentaire dépend de deux overrides de version majeure (`tinypool` et
   `postcss-selector-parser`), à retirer quand Docusaurus adoptera des versions
   corrigées. L'avis braces a été retiré par GitHub : l'exception de

@@ -63,6 +63,19 @@ L'audit applicatif ne signale plus de vulnérabilité. `npm run check`, le
 contrôle navigateur aux trois largeurs, la construction des images Docker et
 le chargement de sharp dans l'image backend passent.
 
+Contrôle du 12 novembre 2026 : de nouveaux avis de niveau haut touchaient
+`zod`, `multer`, `body-parser` (utilisé par Express), `fast-uri` (utilisé par
+ajv), `qs` et `undici` (utilisé par jsdom). Les correctifs publiés sont
+installés sans changement de version majeure : zod 4.6.7, multer 2.5.0,
+body-parser 2.4.0, fast-uri 3.1.9, qs 6.17.1 et undici 8.12.3. L'audit
+applicatif ne signale plus d'alerte haute. Restent 11 alertes modérées issues
+d'un seul avis sur `minimatch`
+([GHSA-g3hv-75wg-m249](https://github.com/advisories/GHSA-g3hv-75wg-m249)),
+utilisé uniquement par les outils de développement (ESLint, typescript-eslint,
+TypeDoc). Le correctif demande `minimatch` 11, que ces outils n'acceptent pas
+encore : à reprendre dès qu'ils l'adoptent. Le format, le lint, les types, les
+tests, le build et le site de documentation passent.
+
 Les deux paquets `@esbuild-kit` restent dépréciés en amont, mais leur copie
 d'esbuild vulnérable est remplacée. Retirer l'override lorsqu'une version stable
 de Drizzle Kit supprime cette chaîne ou adopte une version corrigée, puis refaire
@@ -112,6 +125,12 @@ overrides lorsque les dépendances amont adoptent les versions corrigées. Pour
 `tinypool` et `postcss-selector-parser`, retirer l'override dès qu'une version
 de Docusaurus adopte une version corrigée, puis refaire le build et vérifier
 les pages.
+
+Contrôle du 12 novembre 2026 : de nouveaux avis de niveau haut touchaient
+`body-parser`, `follow-redirects` et `joi`. Leurs correctifs, compatibles avec
+Docusaurus 3.10.2, sont installés : body-parser 1.20.9, follow-redirects 1.16.2
+et joi 17.13.9. Les deux audits documentaires, strict compris, et le build du
+site passent.
 
 ## Acceptation temporaire — amendement 0002
 
