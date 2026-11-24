@@ -27,4 +27,18 @@ describe('schema declaration', () => {
       expect(checks).toEqual(expect.arrayContaining(dateChecks));
     },
   );
+
+  it.each(TABLES.map((table) => [getTableConfig(table).name, table] as const))(
+    'should_declare_on_delete_explicitly_for_every_foreign_key_of_%s',
+    (name, table) => {
+      for (const foreignKey of getTableConfig(table).foreignKeys) {
+        const reference = foreignKey.reference();
+        expect(reference.foreignTable).toBeDefined();
+        expect(
+          foreignKey.onDelete,
+          `${name}.${reference.columns[0]?.name}`,
+        ).toBeDefined();
+      }
+    },
+  );
 });
