@@ -22,6 +22,8 @@
     "dev:frontend": "npm run build:shared && npm run dev -w @2stagram/frontend",
     "build": "npm run build:shared && npm run build -w @2stagram/frontend",
     "build:shared": "npm run build -w @2stagram/shared",
+    "db:generate": "drizzle-kit generate",
+    "db:seed": "node --env-file-if-exists=.env scripts/seed.ts",
     "typecheck": "npm run build:shared && npm run typecheck --workspaces && tsc -p tsconfig.tools.json",
     "lint": "eslint . --max-warnings=0",
     "lint:fix": "npm run lint -- --fix",
