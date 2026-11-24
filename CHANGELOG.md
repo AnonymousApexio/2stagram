@@ -12,6 +12,9 @@ Le format suit [Keep a Changelog](https://keepachangelog.com/fr/1.1.0/).
 - Points d'entrée minimaux React et Express.
 - Configurations Docker, nginx, CI, qualité et documentation.
 - Vérifications de démarrage HTTP et navigateur.
+- Schéma Drizzle du socle (`users`, `sessions`, `password_reset_tokens`,
+  `user_sanctions`), première migration, connexion SQLite avec ses pragmas,
+  purge synchrone des sessions d'un compte et seed de développement (#61).
 
 ### Modifié
 

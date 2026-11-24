@@ -22,3 +22,6 @@ test-results/
 package-lock.json
 docs-site/package-lock.json
 .husky/_/
+
+# drizzle-kit (généré)
+backend/drizzle/meta/
